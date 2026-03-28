@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Survivor Space Shooter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #gameCanvas {
+            border: 2px solid #0f0;
+            cursor: crosshair;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        #hud {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            text-shadow: 2px 2px 0 #000;
+            z-index: 10;
+        }
+        
+        #gameOver, #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border: 2px solid #0f0;
+            z-index: 20;
+        }
+        
+        #gameOver h2, #startScreen h2 {
+            color: #0f0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #0a0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="hud">
+            <div>Score: <span id="score">0</span></div>
+            <div>Weapon Level: <span id="weaponLevel">1</span></div>
+            <div>High Score: <span id="highScore">0</span></div>
+        </div>
+        
+        <div id="startScreen">
+            <h2>RETRO SURVIVOR SPACE SHOOTER</h2>
+            <p>Move mouse to control ship</p>
+            <p>Auto-fire enabled</p>
+            <p>Collect power-ups to upgrade weapons</p>
+            <button onclick="startGame()">START GAME</button>
+        </div>
+        
+        <div id="gameOver" class="hidden">
+            <h2>GAME OVER</h2>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <p id="newHighScore" class="hidden">NEW HIGH SCORE!</p>
+            <button onclick="restartGame()">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // ========== GAME CONFIGURATION ==========
+        
+        // Static weapon positions
+        const WEAPON_POSITIONS = {
+            MISSILES: [-20, 20],
+            RIFLES: [-15, 15]
+        };
+        
+        const GAME_CONFIG = {
+            // Enemy types configuration
+            ENEMY_TYPES: {
+                STANDARD: {
+                    hp: 1,
+                    speed: 2,
+                    score: 10,
+                    color: '#f00',
+                    size: 15,
+                    shootRate: 0
+                },
+                SNIPER: {
+                    hp: 2,
+                    speed: 0.3,
+                    score: 25,
+                    color: '#f80',
+                    size: 18,
+                    shootRate: 100
+                },
+                KAMIKAZE: {
+                    hp: 1,
+                    speed: 6,
+                    score: 15,
+                    color: '#f0f',
+                    size: 12,
+                    shootRate: 0
+                },
+                TANK: {
+                    hp: 5,
+                    speed: 1,
+                    score: 50,
+                    color: '#0f0',
+                    size: 25,
+                    shootRate: 0
+                },
+                SPECIAL: {
+                    hp: 3,
+                    speed: 3,
+                    score: 35,
+                    color: '#0ff',
+                    size: 20,
+                    shootRate: 60
+                }
+            },
+            
+            // Weapon configuration
+            WEAPON_CONFIG: {
+                FIRE_RATES: {
+                    1: 25,
+                    2: 25,
+                    3: 25,
+                    4: 20,
+                    5: 10,
+                    6: 10,
+                    7: 10,
+                    default: 10
+                },
+                MISSILE_FIRE_RATES: {
+                    7: 50,
+                    default: 50
+                },
+                RIFLE_FIRE_RATES: {
+                    2: 35,
+                    default: 35
+                },
+                PATTERNS: {
+                    1: [
+                        { x: 0, y: -10, vx: 0, vy: -10 }
+                    ],
+                    2: [
+                        { x: -5, y: -10, vx: 0, vy: -10 },
+                        { x: 5, y: -10, vx: 0, vy: -10 }
+                    ],
+                    3: [
+                        { x: -10, y: -10, vx: 0, vy: -10 },
+                        { x: 0, y: -10, vx: 0, vy: -10 },
+                        { x: 10, y: -10, vx: 0, vy: -10 }
+                    ],
+                    4: [
+                        { x: -10, y: -10, vx: 0, vy: -10 },
+                        { x: 0, y: -10, vx: 0, vy: -10 },
+                        { x: 10, y: -10, vx: 0, vy: -10 }
+                    ],
+                    5: [
+                        { x: -10, y: -10, vx: 0, vy: -10 },
+                        { x: 0, y: -10, vx: 0, vy: -10 },
+                        { x: 10, y: -10, vx: 0, vy: -10 }
+                    ],
+                    6: [
+                        { x: 0, y: -10, vx: 0, vy: -10 },
+                        { x: -10, y: -10, vx: 0, vy: -10 },
+                        { x: 10, y: -10, vx: 0, vy: -10 },
+                    ],
+                    7: [
+                        { x: 0, y: -10, vx: 0, vy: -10 },
+                        { x: -10, y: -10, vx: 0, vy: -10 },
+                        { x: 10, y: -10, vx: 0, vy: -10 },
+                    ],
+                    default: [
+                        { x: 0, y: -10, vx: 0, vy: -10 },
+                        { x: -10, y: -10, vx: 0, vy: -10 },
+                        { x: 10, y: -10, vx: 0, vy: -10 },
+                    ]
+                },
+                MISSILES: {
+                    levels: [7, 8, 9, 10, 11, 12],
+                    getPosition: () => WEAPON_POSITIONS.MISSILES
+                },
+                RIFLES: {
+                    levels: [4, 5, 6, 10, 11, 12],
+                    getPosition: () => WEAPON_POSITIONS.RIFLES
+                }
+            },
+            
+            // Drop configuration
+            DROP_CONFIG: {
+                POWER_UP_CHANCE: 0.9,
+                TANK_GUARANTEED: true
+            },
+            
+            // Missile configuration
+            MISSILE_CONFIG: {
+                MAX_SPEED: 25,
+                LIFE: 100,
+                HOMING_STRENGTH: 0.5,
+                INITIAL_SPEED: 8
+            },
+            
+            // Game settings
+            GAME_SETTINGS: {
+                SPAWN_RATE_BASE: 120,
+                SPAWN_RATE_DIFFICULTY_MULTIPLIER: 10,
+                DIFFICULTY_INCREASE_INTERVAL: 300,
+                DIFFICULTY_INCREASE_AMOUNT: 0.3,
+                CANVAS_WIDTH_MAX: 800,
+                CANVAS_HEIGHT_MAX: 600
+            }
+        };
+        // ==========================================
+        
+        // Responsive canvas
+        function resizeCanvas() {
+            canvas.width = Math.min(window.innerWidth - 20, GAME_CONFIG.GAME_SETTINGS.CANVAS_WIDTH_MAX);
+            canvas.height = Math.min(window.innerHeight - 20, GAME_CONFIG.GAME_SETTINGS.CANVAS_HEIGHT_MAX);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Game state
+        let gameRunning = false;
+        let score = 0;
+        let highScore = localStorage.getItem('spaceShooterHighScore') || 0;
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height - 100;
+        let gameTime = 0;
+        let difficulty = 1;
+        
+        // Update high score display
+        document.getElementById('highScore').textContent = highScore;
+        
+        // Particle system for explosions
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 8;
+                this.vy = (Math.random() - 0.5) * 8;
+                this.life = 1;
+                this.color = color;
+                this.size = Math.random() * 3 + 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+                this.life -= 0.02;
+                this.size *= 0.98;
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+        
+        let particles = [];
+        
+        function createExplosion(x, y, color = '#ff0', count = 20) {
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+        
+        // Player class
+        class Player {
+            constructor() {
+                this.x = canvas.width / 2;
+                this.y = canvas.height - 100;
+                this.width = 20;
+                this.height = 20;
+                this.weaponLevel = 1;
+                this.fireRate = 10;
+                this.fireCounter = 0;
+                this.missileFireCounter = 0;
+                this.rifleFireCounter = 0;
+                this.speed = 5;
+            }
+            
+            update() {
+                // Smooth movement towards mouse
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                this.x += dx * 0.1;
+                this.y += dy * 0.1;
+                
+                // Keep player in bounds
+                this.x = Math.max(this.width/2, Math.min(canvas.width - this.width/2, this.x));
+                this.y = Math.max(this.height/2, Math.min(canvas.height - this.height/2, this.y));
+                
+                // Auto-fire for basic bullets
+                this.fireCounter++;
+                const fireRate = GAME_CONFIG.WEAPON_CONFIG.FIRE_RATES[this.weaponLevel] || GAME_CONFIG.WEAPON_CONFIG.FIRE_RATES.default;
+                if (this.fireCounter >= fireRate) {
+                    this.shootBasicBullets();
+                    this.fireCounter = 0;
+                }
+                
+                // Auto-fire for missiles
+                if (GAME_CONFIG.WEAPON_CONFIG.MISSILES.levels.includes(this.weaponLevel)) {
+                    this.missileFireCounter++;
+                    const missileFireRate = GAME_CONFIG.WEAPON_CONFIG.MISSILE_FIRE_RATES[this.weaponLevel] || GAME_CONFIG.WEAPON_CONFIG.MISSILE_FIRE_RATES.default;
+                    if (this.missileFireCounter >= missileFireRate) {
+                        this.shootMissiles();
+                        this.missileFireCounter = 0;
+                    }
+                }
+                
+                // Auto-fire for rifles
+                if (GAME_CONFIG.WEAPON_CONFIG.RIFLES.levels.includes(this.weaponLevel)) {
+                    this.rifleFireCounter++;
+                    const rifleFireRate = GAME_CONFIG.WEAPON_CONFIG.RIFLE_FIRE_RATES[this.weaponLevel] || GAME_CONFIG.WEAPON_CONFIG.RIFLE_FIRE_RATES.default;
+                    if (this.rifleFireCounter >= rifleFireRate) {
+                        this.shootRifles();
+                        this.rifleFireCounter = 0;
+                    }
+                }
+            }
+            
+            shootBasicBullets() {
+                const pattern = GAME_CONFIG.WEAPON_CONFIG.PATTERNS[this.weaponLevel] || GAME_CONFIG.WEAPON_CONFIG.PATTERNS.default;
+                
+                pattern.forEach(bullet => {
+                    bullets.push(new Bullet(this.x + bullet.x, this.y + bullet.y, bullet.vx, bullet.vy));
+                });
+            }
+            
+            shootMissiles() {
+                const positions = GAME_CONFIG.WEAPON_CONFIG.MISSILES.getPosition();
+                positions.forEach(offset => {
+                    missiles.push(new Missile(this.x + offset, this.y - this.height/2));
+                });
+            }
+            
+            shootRifles() {
+                const positions = GAME_CONFIG.WEAPON_CONFIG.RIFLES.getPosition();
+                positions.forEach((offset, index) => {
+                    const direction = index === 0 ? 'left' : 'right';
+                    rifles.push(new Rifle(this.x + offset, this.y - this.height/2, direction));
+                });
+            }
+            
+            
+            takeDamage() {
+                this.weaponLevel--;
+                if (this.weaponLevel < 1) {
+                    this.weaponLevel = 1;
+                    return true; // Game over
+                }
+                createExplosion(this.x, this.y, '#f00', 30);
+                return false;
+            }
+            
+            upgradeWeapon() {
+                this.weaponLevel++;
+                createExplosion(this.x, this.y, '#0f0', 15);
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                // Draw ship as triangle
+                ctx.fillStyle = '#0f0';
+                ctx.beginPath();
+                ctx.moveTo(0, -this.height/2);
+                ctx.lineTo(-this.width/2, this.height/2);
+                ctx.lineTo(this.width/2, this.height/2);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Draw engine glow
+                ctx.fillStyle = '#0ff';
+                ctx.fillRect(-3, this.height/2, 2, 5);
+                ctx.fillRect(1, this.height/2, 2, 5);
+                
+                ctx.restore();
+            }
+        }
+        
+        // Bullet class
+        class Bullet {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.width = 4;
+                this.height = 8;
+                this.active = true;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.y < 0 || this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
+                    this.active = false;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = '#ff0';
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+            }
+        }
+        
+        // Missile class (homing)
+        class Missile {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = 4;
+                this.height = 8;
+                this.vx = 0;
+                this.vy = -GAME_CONFIG.MISSILE_CONFIG.INITIAL_SPEED;
+                this.target = null;
+                this.active = true;
+                this.life = GAME_CONFIG.MISSILE_CONFIG.LIFE;
+            }
+            
+            update() {
+                this.life--;
+                if (this.life <= 0) {
+                    this.active = false;
+                    return;
+                }
+                
+                // Find nearest enemy
+                if (!this.target || !this.target.active) {
+                    let minDist = Infinity;
+                    enemies.forEach(enemy => {
+                        if (enemy.active) {
+                            const dist = Math.hypot(enemy.x - this.x, enemy.y - this.y);
+                            if (dist < minDist) {
+                                minDist = dist;
+                                this.target = enemy;
+                            }
+                        }
+                    });
+                }
+                
+                // Home towards target
+                if (this.target && this.target.active) {
+                    const dx = this.target.x - this.x;
+                    const dy = this.target.y - this.y;
+                    const dist = Math.hypot(dx, dy);
+                    
+                    if (dist > 0) {
+                        this.vx += (dx / dist) * GAME_CONFIG.MISSILE_CONFIG.HOMING_STRENGTH;
+                        this.vy += (dy / dist) * GAME_CONFIG.MISSILE_CONFIG.HOMING_STRENGTH;
+                    }
+                }
+                
+                // Limit speed
+                const speed = Math.hypot(this.vx, this.vy);
+                if (speed > GAME_CONFIG.MISSILE_CONFIG.MAX_SPEED) {
+                    this.vx = (this.vx / speed) * GAME_CONFIG.MISSILE_CONFIG.MAX_SPEED;
+                    this.vy = (this.vy / speed) * GAME_CONFIG.MISSILE_CONFIG.MAX_SPEED;
+                }
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.y < 0 || this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
+                    this.active = false;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = '#f0f';
+                ctx.fillRect(this.x - 2, this.y - 4, 4, 8);
+            }
+        }
+        
+        // Rifle class (straight fast projectiles)
+        class Rifle {
+            constructor(x, y, direction) {
+                this.x = x;
+                this.y = y;
+                this.width = 3;
+                this.height = 10;
+                
+                // Set velocity based on direction
+                if (direction === 'left') {
+                    this.vx = -3;
+                    this.vy = -12;
+                } else if (direction === 'right') {
+                    this.vx = 3;
+                    this.vy = -12;
+                } else {
+                    this.vx = 0;
+                    this.vy = -15;
+                }
+                
+                this.active = true;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.y < 0 || this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
+                    this.active = false;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = '#0ff';
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+            }
+        }
+        
+        // Enemy class
+        class Enemy {
+            constructor(type, x, y) {
+                this.type = type;
+                this.x = x;
+                this.y = y;
+                this.config = GAME_CONFIG.ENEMY_TYPES[type];
+                this.hp = this.config.hp * difficulty;
+                this.maxHp = this.hp;
+                this.width = this.config.size;
+                this.height = this.config.size;
+                this.active = true;
+                this.shootCounter = 0;
+                this.pattern = Math.random() * Math.PI * 2;
+                this.kamikazeTimer = 0;
+                this.givingUp = false;
+            }
+            
+            update() {
+                // Movement patterns based on type
+                switch(this.type) {
+                    case 'STANDARD':
+                        this.y += this.config.speed;
+                        this.x += Math.sin(this.pattern) * 2;
+                        this.pattern += 0.1;
+                        break;
+                    case 'SNIPER':
+                        // Move horizontally across the screen
+                        this.x += Math.sin(this.pattern) * this.config.speed;
+                        this.pattern += 0.05;
+                        
+                        // Slowly move down
+                        this.y += this.config.speed * 0.3;
+                        break;
+                    case 'KAMIKAZE':
+                        this.kamikazeTimer++;
+                        
+                        // Give up after 3 seconds (180 frames at 60fps)
+                        if (this.kamikazeTimer > 180 && !this.givingUp) {
+                            this.givingUp = true;
+                        }
+                        
+                        if (this.givingUp) {
+                            // Fly away
+                            this.y += this.config.speed * 2;
+                            this.x += Math.sin(this.pattern) * 4;
+                            this.pattern += 0.1;
+                        } else {
+                            // Attack player
+                            const dx = player.x - this.x;
+                            const dy = player.y - this.y;
+                            const dist = Math.hypot(dx, dy);
+                            if (dist > 0) {
+                                this.x += (dx / dist) * this.config.speed;
+                                this.y += (dy / dist) * this.config.speed;
+                            }
+                        }
+                        break;
+                    case 'TANK':
+                        this.y += this.config.speed;
+                        break;
+                    case 'SPECIAL':
+                        this.y += this.config.speed;
+                        this.x += Math.cos(this.pattern) * 3;
+                        this.pattern += 0.05;
+                        break;
+                }
+                
+                // Shooting
+                if (this.config.shootRate > 0) {
+                    this.shootCounter++;
+                    if (this.shootCounter >= this.config.shootRate) {
+                        this.shoot();
+                        this.shootCounter = 0;
+                    }
+                }
+                
+                // Remove if off screen
+                if (this.y > canvas.height + 50 || this.x < -50 || this.x > canvas.width + 50) {
+                    this.active = false;
+                }
+            }
+            
+            shoot() {
+                if (this.type === 'SNIPER') {
+                    // Aim at player
+                    const dx = player.x - this.x;
+                    const dy = player.y - this.y;
+                    const dist = Math.hypot(dx, dy);
+                    enemyBullets.push(new EnemyBullet(this.x, this.y, (dx / dist) * 5, (dy / dist) * 5));
+                } else if (this.type === 'SPECIAL') {
+                    // Circular pattern
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (i / 8) * Math.PI * 2;
+                        enemyBullets.push(new EnemyBullet(this.x, this.y, Math.cos(angle) * 4, Math.sin(angle) * 4));
+                    }
+                }
+            }
+            
+            takeDamage(damage = 1) {
+                this.hp -= damage;
+                if (this.hp <= 0) {
+                    this.active = false;
+                    score += this.config.score;
+                    createExplosion(this.x, this.y, this.config.color, 15);
+                    
+                    // Drop power-up chance
+                    const dropChance = GAME_CONFIG.DROP_CONFIG.POWER_UP_CHANCE;
+                    const guaranteedDrop = GAME_CONFIG.DROP_CONFIG.TANK_GUARANTEED && this.type === 'TANK';
+                    
+                    if (Math.random() < dropChance || guaranteedDrop) {
+                        powerUps.push(new PowerUp(this.x, this.y));
+                    }
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                // Draw enemy based on type
+                ctx.fillStyle = this.config.color;
+                
+                if (this.type === 'STANDARD' || this.type === 'KAMIKAZE') {
+                    // Diamond shape
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.config.size/2);
+                    ctx.lineTo(this.config.size/2, 0);
+                    ctx.lineTo(0, this.config.size/2);
+                    ctx.lineTo(-this.config.size/2, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (this.type === 'SNIPER' || this.type === 'SPECIAL') {
+                    // Square
+                    ctx.fillRect(-this.config.size/2, -this.config.size/2, this.config.size, this.config.size);
+                } else if (this.type === 'TANK') {
+                    // Hexagon
+                    ctx.beginPath();
+                    for (let i = 0; i < 6; i++) {
+                        const angle = (i / 6) * Math.PI * 2;
+                        const x = Math.cos(angle) * this.config.size/2;
+                        const y = Math.sin(angle) * this.config.size/2;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                
+                // HP bar for tanks
+                if (this.type === 'TANK' && this.hp < this.maxHp) {
+                    ctx.fillStyle = '#f00';
+                    ctx.fillRect(-this.config.size/2, -this.config.size/2 - 10, this.config.size * (this.hp / this.maxHp), 3);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        // Enemy bullet class
+        class EnemyBullet {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.width = 4;
+                this.height = 4;
+                this.active = true;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.y < 0 || this.y > canvas.height || this.x < 0 || this.x > canvas.width) {
+                    this.active = false;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+            }
+        }
+        
+        // Power-up class
+        class PowerUp {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = 15;
+                this.height = 15;
+                this.active = true;
+                this.pulse = 0;
+            }
+            
+            update() {
+                this.y += 1;
+                this.pulse += 0.1;
+                
+                if (this.y > canvas.height) {
+                    this.active = false;
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.pulse);
+                
+                const scale = 1 + Math.sin(this.pulse * 2) * 0.2;
+                ctx.scale(scale, scale);
+                
+                ctx.fillStyle = '#0f0';
+                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(-2, -2, 4, 4);
+                
+                ctx.restore();
+            }
+        }
+        
+        // Game arrays
+        let player;
+        let bullets = [];
+        let missiles = [];
+        let rifles = [];
+        let enemies = [];
+        let enemyBullets = [];
+        let powerUps = [];
+        
+        // Collision detection
+        function checkCollision(obj1, obj2) {
+            return Math.abs(obj1.x - obj2.x) < (obj1.width + obj2.width) / 2 &&
+                   Math.abs(obj1.y - obj2.y) < (obj1.height + obj2.height) / 2;
+        }
+        
+        // Spawn enemies
+        function spawnEnemy() {
+            const types = Object.keys(GAME_CONFIG.ENEMY_TYPES);
+            let type;
+            
+            // Weighted spawning based on difficulty
+            const rand = Math.random();
+            if (difficulty < 1.5) {
+                type = rand < 0.6 ? 'STANDARD' : 'KAMIKAZE';
+            } else if (difficulty < 2.5) {
+                type = rand < 0.4 ? 'STANDARD' : rand < 0.6 ? 'KAMIKAZE' : 'SNIPER';
+            } else if (difficulty < 3.5) {
+                type = rand < 0.2 ? 'STANDARD' : rand < 0.4 ? 'KAMIKAZE' : rand < 0.6 ? 'SNIPER' : 'TANK';
+            } else {
+                type = types[Math.floor(Math.random() * types.length)];
+            }
+            
+            const x = Math.random() * (canvas.width - 40) + 20;
+            const y = -30;
+            enemies.push(new Enemy(type, x, y));
+        }
+        
+        // Game loop
+        function gameLoop() {
+            if (!gameRunning) return;
+            
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw stars background
+            ctx.fillStyle = '#fff';
+            for (let i = 0; i < 50; i++) {
+                const x = (i * 73 + gameTime * 0.1) % canvas.width;
+                const y = (i * 37) % canvas.height;
+                ctx.fillRect(x, y, 1, 1);
+            }
+            
+            // Update game time and difficulty
+            gameTime++;
+            if (gameTime % GAME_CONFIG.GAME_SETTINGS.DIFFICULTY_INCREASE_INTERVAL === 0) {
+                difficulty += GAME_CONFIG.GAME_SETTINGS.DIFFICULTY_INCREASE_AMOUNT;
+            }
+            
+            // Spawn enemies
+            const spawnRate = Math.max(30, GAME_CONFIG.GAME_SETTINGS.SPAWN_RATE_BASE - Math.floor(difficulty * GAME_CONFIG.GAME_SETTINGS.SPAWN_RATE_DIFFICULTY_MULTIPLIER));
+            if (gameTime % spawnRate === 0) {
+                spawnEnemy();
+            }
+            
+            // Update and draw particles
+            particles = particles.filter(particle => {
+                particle.update();
+                particle.draw();
+                return particle.life > 0;
+            });
+            
+            // Update and draw player
+            player.update();
+            player.draw();
+            
+            // Update and draw bullets
+            bullets = bullets.filter(bullet => {
+                bullet.update();
+                bullet.draw();
+                
+                // Check collision with enemies
+                enemies.forEach(enemy => {
+                    if (enemy.active && checkCollision(bullet, enemy)) {
+                        bullet.active = false;
+                        enemy.takeDamage();
+                    }
+                });
+                
+                return bullet.active;
+            });
+            
+            // Update and draw missiles
+            missiles = missiles.filter(missile => {
+                missile.update();
+                missile.draw();
+                
+                // Check collision with enemies
+                enemies.forEach(enemy => {
+                    if (enemy.active && checkCollision(missile, enemy)) {
+                        missile.active = false;
+                        enemy.takeDamage(2);
+                    }
+                });
+                
+                return missile.active;
+            });
+
+            // Update and draw rifles
+            rifles = rifles.filter(rifle => {
+                rifle.update();
+                rifle.draw();
+                
+                // Check collision with enemies
+                enemies.forEach(enemy => {
+                    if (enemy.active && checkCollision(rifle, enemy)) {
+                        rifle.active = false;
+                        enemy.takeDamage(1);
+                    }
+                });
+                
+                return rifle.active;
+            });
+            
+            // Update and draw enemies
+            enemies = enemies.filter(enemy => {
+                enemy.update();
+                enemy.draw();
+                
+                // Check collision with player
+                if (checkCollision(enemy, player)) {
+                    enemy.active = false;
+                    if (player.takeDamage()) {
+                        endGame();
+                    }
+                    createExplosion(enemy.x, enemy.y, enemy.config.color, 25);
+                }
+                
+                return enemy.active;
+            });
+            
+            // Update and draw enemy bullets
+            enemyBullets = enemyBullets.filter(bullet => {
+                bullet.update();
+                bullet.draw();
+                
+                // Check collision with player
+                if (checkCollision(bullet, player)) {
+                    bullet.active = false;
+                    if (player.takeDamage()) {
+                        endGame();
+                    }
+                    createExplosion(player.x, player.y, '#f00', 20);
+                }
+                
+                return bullet.active;
+            });
+            
+            // Update and draw power-ups
+            powerUps = powerUps.filter(powerUp => {
+                powerUp.update();
+                powerUp.draw();
+                
+                // Check collision with player
+                if (checkCollision(powerUp, player)) {
+                    powerUp.active = false;
+                    player.upgradeWeapon();
+                    score += 50;
+                }
+                
+                return powerUp.active;
+            });
+            
+            // Update HUD
+            document.getElementById('score').textContent = score;
+            document.getElementById('weaponLevel').textContent = player.weaponLevel;
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Mouse controls
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+        
+        // Game control functions
+        function startGame() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            
+            // Reset game state
+            gameRunning = true;
+            score = 0;
+            gameTime = 0;
+            difficulty = 1;
+            particles = [];
+            
+            // Create game objects
+            player = new Player();
+            bullets = [];
+            missiles = [];
+            rifles = [];
+            enemies = [];
+            enemyBullets = [];
+            powerUps = [];
+            
+            gameLoop();
+        }
+        
+        function endGame() {
+            gameRunning = false;
+            
+            // Check high score
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('spaceShooterHighScore', highScore);
+                document.getElementById('highScore').textContent = highScore;
+                document.getElementById('newHighScore').classList.remove('hidden');
+            } else {
+                document.getElementById('newHighScore').classList.add('hidden');
+            }
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOver').classList.remove('hidden');
+        }
+        
+        function restartGame() {
+            startGame();
+        }
+    </script>
+</body>
+</html>
