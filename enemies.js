@@ -279,7 +279,8 @@ class Enemy {
         } else if (this.type === 'BOSS_MINI') {
             // Mini boss - draw image or fallback rectangle
             if (this.bossImageLoaded) {
-                ctx.drawImage(this.bossImage, -40, -20); // 80x40 image, centered
+                ctx.rotate(Math.PI);
+                ctx.drawImage(this.bossImage, -this.config.size/2, -this.config.size/2); // 80x40 image, centered
             } else {
                 // Fallback horizontal rectangle (2x wider than tall)
                 ctx.fillRect(-this.config.size, -this.config.size/2, this.config.size * 2, this.config.size);
