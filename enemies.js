@@ -1,112 +1,55 @@
-// Shooting patterns - universal implementation using configuration
+// Universal shooting pattern implementation
 class ShootingPatterns {
-    static getPatternConfig(enemy) {
-        const patternName = enemy.config.shootingPattern;
-        if (!patternName) return null;
+    static getConfig(enemy) {
+        const presetName = enemy.config.shootingPattern;
+        if (!presetName) return null;
         
-        const baseConfig = GAME_CONFIG.SHOOTING_PATTERNS[patternName];
-        if (!baseConfig) return null;
+        // Get preset from config or use default UNIVERSAL_PATTERN
+        const preset = GAME_CONFIG.SHOOTING_PRESETS?.[presetName];
+        if (!preset) return null;
         
-        // Get variant for specific enemy type if exists
-        const variant = baseConfig.variants?.[enemy.type] || {};
-        const speedVariant = baseConfig.speedVariant?.[enemy.type];
-        
-        return {
-            ...baseConfig,
-            ...variant,
-            speed: speedVariant || variant.speed || baseConfig.speed
-        };
+        return { ...GAME_CONFIG.UNIVERSAL_PATTERN, ...preset };
     }
     
     static execute(enemy, player) {
-        const config = this.getPatternConfig(enemy);
+        const config = this.getConfig(enemy);
         if (!config) return;
         
-        switch (config.name) {
-            case 'aiming':
-                this.aiming(enemy, player, config);
-                break;
-            case 'direct':
-                this.direct(enemy, player, config);
-                break;
-            case 'spread':
-                this.spread(enemy, player, config);
-                break;
-            case 'burst':
-                this.burst(enemy, player, config);
-                break;
-        }
-    }
-    
-    static aiming(enemy, player, config) {
-        const dx = player.x - enemy.x;
-        const dy = player.y - enemy.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist > 0) {
-            enemy.game.enemyBullets.push(new EnemyBullet(
-                enemy.x, enemy.y, 
-                (dx / dist) * config.speed, 
-                (dy / dist) * config.speed
-            ));
-        }
-    }
-    
-    static direct(enemy, player, config) {
-        const dx = player.x - enemy.x;
-        const dy = player.y - enemy.y;
-        const dist = Math.hypot(dx, dy);
-        
         // Check if player must be below
-        if (config.requirePlayerBelow && dy <= 0) return;
+        if (config.requirePlayerBelow && player.y <= enemy.y) return;
         
-        if (dist > 0) {
-            enemy.game.enemyBullets.push(new EnemyBullet(
-                enemy.x, enemy.y, 
-                (dx / dist) * config.speed, 
-                (dy / dist) * config.speed
-            ));
+        // Calculate base angle
+        let baseAngle;
+        if (config.aimAtPlayer) {
+            const dx = player.x - enemy.x;
+            const dy = player.y - enemy.y;
+            baseAngle = Math.atan2(dy, dx);
+        } else {
+            baseAngle = -Math.PI / 2; // Default: shoot upward
         }
-    }
-    
-    static spread(enemy, player, config) {
-        const count = config.count;
-        const speed = config.speed;
         
+        // Apply offset to base angle
+        baseAngle += config.offsetAngle;
+        
+        const count = config.count;
+        const spread = config.spreadAngle;
+        
+        // Fire bullets
         for (let i = 0; i < count; i++) {
             let angle;
-            if (config.fullCircle) {
-                angle = (i / count) * Math.PI * 2;
+            if (spread === 0 || count === 1) {
+                angle = baseAngle;
             } else {
-                const angleStart = config.angleStart || 0;
-                const angleSpan = config.angleSpan || Math.PI * 2;
-                angle = angleStart + (i / count) * angleSpan;
+                // Distribute bullets evenly across spread arc
+                const startOffset = -spread / 2;
+                const step = count > 1 ? spread / (count - 1) : 0;
+                angle = baseAngle + startOffset + i * step;
             }
+            
             enemy.game.enemyBullets.push(new EnemyBullet(
-                enemy.x, enemy.y, 
-                Math.cos(angle) * speed, 
-                Math.sin(angle) * speed
-            ));
-        }
-    }
-    
-    static burst(enemy, player, config) {
-        const dx = player.x - enemy.x;
-        const dy = player.y - enemy.y;
-        
-        // Check if player must be below
-        if (config.requirePlayerBelow && dy <= 0) return;
-        
-        const baseAngle = Math.atan2(dy, dx);
-        const shots = config.shots;
-        const spread = config.spread;
-        const speed = config.speed;
-        
-        for (let i = 0; i < shots; i++) {
-            const angle = baseAngle + (i - (shots - 1) / 2) * spread;
-            enemy.game.enemyBullets.push(new EnemyBullet(
-                enemy.x, enemy.y, 
-                Math.cos(angle) * speed, 
-                Math.sin(angle) * speed
+                enemy.x, enemy.y,
+                Math.cos(angle) * config.speed,
+                Math.sin(angle) * config.speed
             ));
         }
     }
@@ -210,7 +153,6 @@ class Enemy {
     
     updateStandardMovement(canvas) {
         this.y += this.config.speed;
-        this.pattern += 0.1;
     }
     
     updateSniperMovement(canvas) {
@@ -259,8 +201,6 @@ class Enemy {
     
     updateEliteStandardMovement(canvas) {
         this.y += this.config.speed;
-        this.x += Math.sin(this.pattern * 1.5) * 4;
-        this.pattern += 0.12;
     }
     
     updateEliteSniperMovement(canvas) {
