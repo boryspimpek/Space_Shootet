@@ -4,6 +4,10 @@ class Game {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         
+        // Background image
+        this.backgroundImage = new Image();
+        this.backgroundImage.src = 'background.png';
+        
         // Game state
         this.gameRunning = false;
         this.score = 0;
@@ -131,12 +135,19 @@ class Game {
         this.ctx.fillStyle = '#000';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw stars background
-        this.ctx.fillStyle = '#fff';
-        for (let i = 0; i < 50; i++) {
-            const x = (i * 73 + this.gameTime * 0.1) % this.canvas.width;
-            const y = (i * 37) % this.canvas.height;
-            this.ctx.fillRect(x, y, 1, 1);
+        // Draw background image
+        if (this.backgroundImage.complete) {
+            // Scale image to fit canvas while maintaining aspect ratio
+            const scale = Math.min(
+                this.canvas.width / 800,
+                this.canvas.height / 600
+            );
+            const scaledWidth = 800 * scale;
+            const scaledHeight = 600 * scale;
+            const x = (this.canvas.width - scaledWidth) / 2;
+            const y = (this.canvas.height - scaledHeight) / 2;
+            
+            this.ctx.drawImage(this.backgroundImage, x, y, scaledWidth, scaledHeight);
         }
         
         // Update game time
