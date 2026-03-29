@@ -350,7 +350,7 @@ const GAME_CONFIG = {
         {
             name: "Wave 10: Boss Rush",
             enemies: [
-                { type: 'BOSS_MINI', count: 4, delay: 120 },
+                { type: 'BOSS_MINI', count: 4, delay: 120 }
             ],
             spawnInterval: 40
         },
