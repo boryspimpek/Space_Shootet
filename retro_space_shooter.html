@@ -91,6 +91,7 @@
         <div id="hud">
             <div>Score: <span id="score">0</span></div>
             <div>Weapon Level: <span id="weaponLevel">1</span></div>
+            <div>Shields: <span id="shields">0</span></div>
             <div>High Score: <span id="highScore">0</span></div>
         </div>
         
@@ -164,6 +165,31 @@
                     color: '#0ff',
                     size: 20,
                     shootRate: 60
+                },
+                SHIELDED: {
+                    hp: 8,
+                    speed: 1.5,
+                    score: 60,
+                    color: '#fff',
+                    size: 22,
+                    shootRate: 200,
+                    shield: true
+                },
+                SCOUT: {
+                    hp: 1,
+                    speed: 5,
+                    score: 20,
+                    color: '#ffeb3b',
+                    size: 10,
+                    shootRate: 30
+                },
+                BOSS_MINI: {
+                    hp: 20,
+                    speed: 0.5,
+                    score: 150,
+                    color: '#f44336',
+                    size: 40,
+                    shootRate: 45
                 }
             },
             
@@ -177,15 +203,22 @@
                     5: 10,
                     6: 10,
                     7: 10,
-                    default: 10
+                    8: 8,
+                    default: 8
                 },
                 MISSILE_FIRE_RATES: {
                     7: 50,
-                    default: 50
+                    10: 40,
+                    15: 30,
+                    20: 20,
+                    default: 20
                 },
                 RIFLE_FIRE_RATES: {
                     2: 35,
-                    default: 35
+                    10: 25,
+                    15: 15,
+                    20: 10,
+                    default: 10
                 },
                 PATTERNS: {
                     1: [
@@ -220,26 +253,42 @@
                         { x: -10, y: -10, vx: 0, vy: -10 },
                         { x: 10, y: -10, vx: 0, vy: -10 },
                     ],
+                    8: [
+                        { x: -15, y: -10, vx: 0, vy: -10 },
+                        { x: -5, y: -10, vx: 0, vy: -10 },
+                        { x: 5, y: -10, vx: 0, vy: -10 },
+                        { x: 15, y: -10, vx: 0, vy: -10 }
+                    ],
                     default: [
-                        { x: 0, y: -10, vx: 0, vy: -10 },
-                        { x: -10, y: -10, vx: 0, vy: -10 },
-                        { x: 10, y: -10, vx: 0, vy: -10 },
+                        { x: -15, y: -10, vx: 0, vy: -10 },
+                        { x: -5, y: -10, vx: 0, vy: -10 },
+                        { x: 5, y: -10, vx: 0, vy: -10 },
+                        { x: 15, y: -10, vx: 0, vy: -10 }
                     ]
                 },
                 MISSILES: {
-                    levels: [7, 8, 9, 10, 11, 12],
+                    levels: Array.from({length: 14}, (_, i) => i + 7), // 7-20
                     getPosition: () => WEAPON_POSITIONS.MISSILES
                 },
                 RIFLES: {
-                    levels: [4, 5, 6, 10, 11, 12],
+                    levels: Array.from({length: 17}, (_, i) => i + 4), // 4-20
                     getPosition: () => WEAPON_POSITIONS.RIFLES
                 }
             },
             
             // Drop configuration
             DROP_CONFIG: {
-                POWER_UP_CHANCE: 0.9,
+                POWER_UP_CHANCE: 0.4,
+                SHIELD_CHANCE: 0.15,
                 TANK_GUARANTEED: true
+            },
+            
+            // Shield configuration
+            SHIELD_CONFIG: {
+                DURATION: 300, // 5 seconds at 60fps
+                COLOR: 'rgba(0, 191, 255, 0.5)',
+                STROKE: '#00bfff',
+                RADIUS: 40
             },
             
             // Missile configuration
@@ -258,7 +307,146 @@
                 DIFFICULTY_INCREASE_AMOUNT: 0.3,
                 CANVAS_WIDTH_MAX: 800,
                 CANVAS_HEIGHT_MAX: 600
-            }
+            },
+
+            // Waves configuration
+            WAVES: [
+                {
+                    name: "Wave 1: The Beginning",
+                    enemies: [
+                        { type: 'STANDARD', count: 5, delay: 60 },
+                        { type: 'SCOUT', count: 2, delay: 120 }
+                    ],
+                    spawnInterval: 100
+                },
+                {
+                    name: "Wave 2: Fast & Furious",
+                    enemies: [
+                        { type: 'STANDARD', count: 8, delay: 60 },
+                        { type: 'SCOUT', count: 6, delay: 90 },
+                        { type: 'KAMIKAZE', count: 3, delay: 120 }
+                    ],
+                    spawnInterval: 80
+                },
+                {
+                    name: "Wave 3: Shielded Advance",
+                    enemies: [
+                        { type: 'SHIELDED', count: 4, delay: 150 },
+                        { type: 'STANDARD', count: 10, delay: 60 },
+                        { type: 'SNIPER', count: 3, delay: 180 }
+                    ],
+                    spawnInterval: 70
+                },
+                {
+                    name: "Wave 4: Tank Siege",
+                    enemies: [
+                        { type: 'TANK', count: 4, delay: 200 },
+                        { type: 'SHIELDED', count: 3, delay: 150 },
+                        { type: 'SPECIAL', count: 2, delay: 180 }
+                    ],
+                    spawnInterval: 65
+                },
+                {
+                    name: "Wave 5: Mini Boss Encounter",
+                    enemies: [
+                        { type: 'BOSS_MINI', count: 1, delay: 60 },
+                        { type: 'SCOUT', count: 10, delay: 120 },
+                        { type: 'KAMIKAZE', count: 5, delay: 180 }
+                    ],
+                    spawnInterval: 60
+                },
+                {
+                    name: "Wave 6: Elite Guard",
+                    enemies: [
+                        { type: 'SPECIAL', count: 5, delay: 150 },
+                        { type: 'SHIELDED', count: 6, delay: 120 },
+                        { type: 'SNIPER', count: 5, delay: 180 }
+                    ],
+                    spawnInterval: 55
+                },
+                {
+                    name: "Wave 7: The Swarm",
+                    enemies: [
+                        { type: 'SCOUT', count: 20, delay: 60 },
+                        { type: 'KAMIKAZE', count: 15, delay: 60 },
+                        { type: 'BOSS_MINI', count: 2, delay: 300 }
+                    ],
+                    spawnInterval: 40
+                },
+                {
+                    name: "Wave 8: Heavy Metal",
+                    enemies: [
+                        { type: 'TANK', count: 8, delay: 180 },
+                        { type: 'SHIELDED', count: 8, delay: 120 },
+                        { type: 'BOSS_MINI', count: 2, delay: 240 }
+                    ],
+                    spawnInterval: 45
+                },
+                {
+                    name: "Wave 9: Sniper Hell",
+                    enemies: [
+                        { type: 'SNIPER', count: 12, delay: 100 },
+                        { type: 'SPECIAL', count: 8, delay: 150 },
+                        { type: 'SCOUT', count: 15, delay: 80 }
+                    ],
+                    spawnInterval: 50
+                },
+                {
+                    name: "Wave 10: Boss Rush",
+                    enemies: [
+                        { type: 'BOSS_MINI', count: 4, delay: 120 },
+                        { type: 'TANK', count: 6, delay: 150 },
+                        { type: 'SHIELDED', count: 10, delay: 100 }
+                    ],
+                    spawnInterval: 40
+                },
+                {
+                    name: "Wave 11: Kamikaze Storm",
+                    enemies: [
+                        { type: 'KAMIKAZE', count: 30, delay: 40 },
+                        { type: 'SCOUT', count: 20, delay: 60 },
+                        { type: 'SPECIAL', count: 6, delay: 180 }
+                    ],
+                    spawnInterval: 35
+                },
+                {
+                    name: "Wave 12: Elite Assault",
+                    enemies: [
+                        { type: 'SHIELDED', count: 15, delay: 100 },
+                        { type: 'SPECIAL', count: 12, delay: 120 },
+                        { type: 'SNIPER', count: 10, delay: 140 }
+                    ],
+                    spawnInterval: 40
+                },
+                {
+                    name: "Wave 13: Tank Battalion",
+                    enemies: [
+                        { type: 'TANK', count: 15, delay: 120 },
+                        { type: 'BOSS_MINI', count: 5, delay: 200 },
+                        { type: 'SHIELDED', count: 8, delay: 100 }
+                    ],
+                    spawnInterval: 35
+                },
+                {
+                    name: "Wave 14: Ultimate Swarm",
+                    enemies: [
+                        { type: 'SCOUT', count: 40, delay: 40 },
+                        { type: 'KAMIKAZE', count: 35, delay: 40 },
+                        { type: 'SNIPER', count: 15, delay: 100 }
+                    ],
+                    spawnInterval: 30
+                },
+                {
+                    name: "Wave 15: Final Confrontation",
+                    enemies: [
+                        { type: 'BOSS_MINI', count: 8, delay: 100 },
+                        { type: 'TANK', count: 20, delay: 100 },
+                        { type: 'SHIELDED', count: 20, delay: 80 },
+                        { type: 'SPECIAL', count: 15, delay: 120 }
+                    ],
+                    spawnInterval: 30
+                }
+            ]
         };
         // ==========================================
         
@@ -278,6 +466,13 @@
         let mouseY = canvas.height - 100;
         let gameTime = 0;
         let difficulty = 1;
+        
+        // Wave state
+        let currentWave = 0;
+        let waveTimer = 0;
+        let waveEnemiesToSpawn = [];
+        let isWaveActive = false;
+        let waveMessageTimer = 0;
         
         // Update high score display
         document.getElementById('highScore').textContent = highScore;
@@ -333,6 +528,11 @@
                 this.missileFireCounter = 0;
                 this.rifleFireCounter = 0;
                 this.speed = 5;
+                
+                // Shield state
+                this.shieldCharges = 0;
+                this.shieldTimer = 0;
+                this.isShieldActive = false;
             }
             
             update() {
@@ -345,6 +545,14 @@
                 // Keep player in bounds
                 this.x = Math.max(this.width/2, Math.min(canvas.width - this.width/2, this.x));
                 this.y = Math.max(this.height/2, Math.min(canvas.height - this.height/2, this.y));
+                
+                // Shield logic
+                if (this.isShieldActive) {
+                    this.shieldTimer--;
+                    if (this.shieldTimer <= 0) {
+                        this.isShieldActive = false;
+                    }
+                }
                 
                 // Auto-fire for basic bullets
                 this.fireCounter++;
@@ -399,7 +607,18 @@
             }
             
             
+            activateShield() {
+                if (this.shieldCharges > 0 && !this.isShieldActive) {
+                    this.shieldCharges--;
+                    this.isShieldActive = true;
+                    this.shieldTimer = GAME_CONFIG.SHIELD_CONFIG.DURATION;
+                    createExplosion(this.x, this.y, GAME_CONFIG.SHIELD_CONFIG.STROKE, 15);
+                }
+            }
+            
             takeDamage() {
+                if (this.isShieldActive) return false;
+                
                 this.weaponLevel--;
                 if (this.weaponLevel < 1) {
                     this.weaponLevel = 1;
@@ -431,6 +650,28 @@
                 ctx.fillStyle = '#0ff';
                 ctx.fillRect(-3, this.height/2, 2, 5);
                 ctx.fillRect(1, this.height/2, 2, 5);
+                
+                // Draw active shield
+                if (this.isShieldActive) {
+                    ctx.restore(); // Exit relative translation to draw at absolute
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    
+                    ctx.beginPath();
+                    ctx.arc(0, 0, GAME_CONFIG.SHIELD_CONFIG.RADIUS, 0, Math.PI * 2);
+                    ctx.fillStyle = GAME_CONFIG.SHIELD_CONFIG.COLOR;
+                    ctx.fill();
+                    ctx.strokeStyle = GAME_CONFIG.SHIELD_CONFIG.STROKE;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Shield pulse effect
+                    const pulse = Math.sin(gameTime * 0.1) * 5;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, GAME_CONFIG.SHIELD_CONFIG.RADIUS + pulse, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.stroke();
+                }
                 
                 ctx.restore();
             }
@@ -526,7 +767,7 @@
             }
             
             draw() {
-                ctx.fillStyle = '#f0f';
+                ctx.fillStyle = '#0f0';
                 ctx.fillRect(this.x - 2, this.y - 4, 4, 8);
             }
         }
@@ -635,6 +876,28 @@
                         this.x += Math.cos(this.pattern) * 3;
                         this.pattern += 0.05;
                         break;
+                    case 'SHIELDED':
+                        this.y += this.config.speed;
+                        this.x += Math.sin(this.pattern * 0.5) * 1.5;
+                        this.pattern += 0.02;
+                        break;
+                    case 'SCOUT':
+                        this.y += this.config.speed;
+                        // Fast zig-zag
+                        this.x += Math.sin(this.pattern * 2) * 6;
+                        this.pattern += 0.15;
+                        break;
+                    case 'BOSS_MINI':
+                        // Slow approach then hover
+                        if (this.y < 100) {
+                            this.y += this.config.speed;
+                        } else {
+                            this.x += Math.sin(this.pattern * 0.3) * 2;
+                            this.pattern += 0.05;
+                            // Occasionally move slightly down
+                            if (Math.random() < 0.01) this.y += 5;
+                        }
+                        break;
                 }
                 
                 // Shooting
@@ -664,6 +927,21 @@
                     for (let i = 0; i < 8; i++) {
                         const angle = (i / 8) * Math.PI * 2;
                         enemyBullets.push(new EnemyBullet(this.x, this.y, Math.cos(angle) * 4, Math.sin(angle) * 4));
+                    }
+                } else if (this.type === 'SHIELDED' || this.type === 'SCOUT') {
+                    // Standard shot at player (only if player is below)
+                    const dx = player.x - this.x;
+                    const dy = player.y - this.y;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist > 0 && dy > 0) {  // Only shoot if player is below
+                        enemyBullets.push(new EnemyBullet(this.x, this.y, (dx / dist) * 4, (dy / dist) * 4));
+                    }
+                } else if (this.type === 'BOSS_MINI') {
+                    // Triple shot
+                    const baseAngle = Math.atan2(player.y - this.y, player.x - this.x);
+                    for (let i = -1; i <= 1; i++) {
+                        const angle = baseAngle + i * 0.2;
+                        enemyBullets.push(new EnemyBullet(this.x, this.y, Math.cos(angle) * 5, Math.sin(angle) * 5));
                     }
                 }
             }
@@ -716,9 +994,52 @@
                     }
                     ctx.closePath();
                     ctx.fill();
+                } else if (this.type === 'SHIELDED') {
+                    // Octagon with shield effect
+                    ctx.beginPath();
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (i / 8) * Math.PI * 2;
+                        ctx.lineTo(Math.cos(angle) * this.config.size/2, Math.sin(angle) * this.config.size/2);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Shield ring
+                    ctx.strokeStyle = '#0af';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.config.size * 0.8, 0, Math.PI * 2);
+                    ctx.stroke();
+                } else if (this.type === 'SCOUT') {
+                    // Small fast triangle
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.config.size/2);
+                    ctx.lineTo(this.config.size/2, this.config.size/2);
+                    ctx.lineTo(-this.config.size/2, this.config.size/2);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (this.type === 'BOSS_MINI') {
+                    // Large complex shape
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.config.size/2);
+                    ctx.lineTo(this.config.size/2, -this.config.size/4);
+                    ctx.lineTo(this.config.size/2, this.config.size/2);
+                    ctx.lineTo(this.config.size/4, this.config.size/2);
+                    ctx.lineTo(0, this.config.size/4);
+                    ctx.lineTo(-this.config.size/4, this.config.size/2);
+                    ctx.lineTo(-this.config.size/2, this.config.size/2);
+                    ctx.lineTo(-this.config.size/2, -this.config.size/4);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Core glow
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 5, 0, Math.PI * 2);
+                    ctx.fill();
                 }
                 
-                // HP bar for tanks
+                // HP bar for tanks and bosses
                 if (this.type === 'TANK' && this.hp < this.maxHp) {
                     ctx.fillStyle = '#f00';
                     ctx.fillRect(-this.config.size/2, -this.config.size/2 - 10, this.config.size * (this.hp / this.maxHp), 3);
@@ -764,6 +1085,10 @@
                 this.height = 15;
                 this.active = true;
                 this.pulse = 0;
+                
+                // Determine type
+                this.type = Math.random() < GAME_CONFIG.DROP_CONFIG.SHIELD_CHANCE ? 'SHIELD' : 'WEAPON';
+                this.color = this.type === 'SHIELD' ? GAME_CONFIG.SHIELD_CONFIG.STROKE : '#0f0';
             }
             
             update() {
@@ -783,11 +1108,22 @@
                 const scale = 1 + Math.sin(this.pulse * 2) * 0.2;
                 ctx.scale(scale, scale);
                 
-                ctx.fillStyle = '#0f0';
-                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                ctx.fillStyle = this.color;
                 
-                ctx.fillStyle = '#fff';
-                ctx.fillRect(-2, -2, 4, 4);
+                if (this.type === 'SHIELD') {
+                    // Shield icon (circle)
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.width/2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                } else {
+                    // Weapon icon (square)
+                    ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(-2, -2, 4, 4);
+                }
                 
                 ctx.restore();
             }
@@ -802,34 +1138,96 @@
         let enemyBullets = [];
         let powerUps = [];
         
+        
         // Collision detection
         function checkCollision(obj1, obj2) {
             return Math.abs(obj1.x - obj2.x) < (obj1.width + obj2.width) / 2 &&
                    Math.abs(obj1.y - obj2.y) < (obj1.height + obj2.height) / 2;
         }
         
-        // Spawn enemies
-        function spawnEnemy() {
-            const types = Object.keys(GAME_CONFIG.ENEMY_TYPES);
-            let type;
-            
-            // Weighted spawning based on difficulty
-            const rand = Math.random();
-            if (difficulty < 1.5) {
-                type = rand < 0.6 ? 'STANDARD' : 'KAMIKAZE';
-            } else if (difficulty < 2.5) {
-                type = rand < 0.4 ? 'STANDARD' : rand < 0.6 ? 'KAMIKAZE' : 'SNIPER';
-            } else if (difficulty < 3.5) {
-                type = rand < 0.2 ? 'STANDARD' : rand < 0.4 ? 'KAMIKAZE' : rand < 0.6 ? 'SNIPER' : 'TANK';
-            } else {
-                type = types[Math.floor(Math.random() * types.length)];
-            }
-            
+        // Spawn enemies from wave
+        function spawnWaveEnemy(type) {
             const x = Math.random() * (canvas.width - 40) + 20;
             const y = -30;
             enemies.push(new Enemy(type, x, y));
         }
-        
+
+        // Wave management logic
+        function updateWaves() {
+            if (!isWaveActive) {
+                if (currentWave < GAME_CONFIG.WAVES.length) {
+                    startWave(currentWave);
+                } else {
+                    // All predefined waves finished, generate infinite wave or stay at last
+                    startWave(GAME_CONFIG.WAVES.length - 1, true);
+                }
+            }
+
+            if (isWaveActive) {
+                waveTimer++;
+                
+                // Spawn enemies based on their delays
+                waveEnemiesToSpawn.forEach(item => {
+                    if (!item.spawned && waveTimer >= item.spawnTime) {
+                        spawnWaveEnemy(item.type);
+                        item.spawned = true;
+                    }
+                });
+
+                // Check if wave is cleared (all spawned and all enemies dead)
+                const allSpawned = waveEnemiesToSpawn.every(item => item.spawned);
+                if (allSpawned && enemies.length === 0) {
+                    isWaveActive = false;
+                    currentWave++;
+                    waveMessageTimer = 120; // Show "Wave Cleared" message for 2 seconds
+                }
+            }
+        }
+
+        function startWave(waveIndex, infinite = false) {
+            const waveConfig = GAME_CONFIG.WAVES[waveIndex];
+            waveEnemiesToSpawn = [];
+            
+            let totalDelay = 0;
+            waveConfig.enemies.forEach(group => {
+                for (let i = 0; i < group.count; i++) {
+                    waveEnemiesToSpawn.push({
+                        type: group.type,
+                        spawnTime: totalDelay + (i * (group.delay / group.count)),
+                        spawned: false
+                    });
+                }
+                totalDelay += group.delay;
+            });
+
+            isWaveActive = true;
+            waveTimer = 0;
+            waveMessageTimer = 120; // Show "Wave X" message
+            
+            // Increase difficulty slightly each wave
+            difficulty = 1 + (waveIndex * 0.2);
+        }
+
+        // Update HUD
+        function updateHUD() {
+            document.getElementById('score').textContent = Math.floor(score);
+            document.getElementById('weaponLevel').textContent = player.weaponLevel;
+            document.getElementById('shields').textContent = player.shieldCharges;
+            
+            // Draw wave message on canvas if needed
+            if (waveMessageTimer > 0) {
+                waveMessageTimer--;
+                ctx.save();
+                ctx.fillStyle = 'rgba(0, 255, 0, ' + (waveMessageTimer / 120) + ')';
+                ctx.font = 'bold 40px Courier New';
+                ctx.textAlign = 'center';
+                const waveName = currentWave < GAME_CONFIG.WAVES.length ? 
+                               GAME_CONFIG.WAVES[currentWave].name : "Infinite Chaos";
+                ctx.fillText(waveName, canvas.width / 2, canvas.height / 2);
+                ctx.restore();
+            }
+        }
+
         // Game loop
         function gameLoop() {
             if (!gameRunning) return;
@@ -846,17 +1244,30 @@
                 ctx.fillRect(x, y, 1, 1);
             }
             
-            // Update game time and difficulty
+            // Update game time
             gameTime++;
-            if (gameTime % GAME_CONFIG.GAME_SETTINGS.DIFFICULTY_INCREASE_INTERVAL === 0) {
-                difficulty += GAME_CONFIG.GAME_SETTINGS.DIFFICULTY_INCREASE_AMOUNT;
-            }
             
-            // Spawn enemies
-            const spawnRate = Math.max(30, GAME_CONFIG.GAME_SETTINGS.SPAWN_RATE_BASE - Math.floor(difficulty * GAME_CONFIG.GAME_SETTINGS.SPAWN_RATE_DIFFICULTY_MULTIPLIER));
-            if (gameTime % spawnRate === 0) {
-                spawnEnemy();
-            }
+            // Wave management
+            updateWaves();
+            
+            // Update and draw power-ups
+            powerUps = powerUps.filter(powerUp => {
+                powerUp.update();
+                powerUp.draw();
+                
+                if (checkCollision(player, powerUp)) {
+                    if (powerUp.type === 'SHIELD') {
+                        player.shieldCharges++;
+                    } else {
+                        player.upgradeWeapon();
+                    }
+                    return false;
+                }
+                return powerUp.active;
+            });
+
+            // Update HUD (including wave messages)
+            updateHUD();
             
             // Update and draw particles
             particles = particles.filter(particle => {
@@ -951,22 +1362,6 @@
                 return bullet.active;
             });
             
-            // Update and draw power-ups
-            powerUps = powerUps.filter(powerUp => {
-                powerUp.update();
-                powerUp.draw();
-                
-                // Check collision with player
-                if (checkCollision(powerUp, player)) {
-                    powerUp.active = false;
-                    player.upgradeWeapon();
-                    score += 50;
-                }
-                
-                return powerUp.active;
-            });
-            
-            // Update HUD
             document.getElementById('score').textContent = score;
             document.getElementById('weaponLevel').textContent = player.weaponLevel;
             
@@ -979,29 +1374,40 @@
             mouseX = e.clientX - rect.left;
             mouseY = e.clientY - rect.top;
         });
+
+        // Right click for shield
+        canvas.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            if (gameRunning && player) {
+                player.activateShield();
+            }
+        });
         
         // Game control functions
         function startGame() {
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameOver').classList.add('hidden');
-            
-            // Reset game state
             gameRunning = true;
             score = 0;
-            gameTime = 0;
-            difficulty = 1;
-            particles = [];
-            
-            // Create game objects
-            player = new Player();
+            currentWave = 0;
+            isWaveActive = false;
+            waveMessageTimer = 0;
+            enemies = [];
             bullets = [];
             missiles = [];
             rifles = [];
-            enemies = [];
             enemyBullets = [];
             powerUps = [];
-            
-            gameLoop();
+            particles = [];
+            player = new Player();
+            gameTime = 0;
+            difficulty = 1;
+            requestAnimationFrame(gameLoop);
+        }
+        
+        function restartGame() {
+            document.getElementById('gameOver').classList.add('hidden');
+            startGame();
         }
         
         function endGame() {
