@@ -5,7 +5,6 @@ const WAVES = [
         name: "Wave 1: The Beginning",
         enemies: [
             { type: 'STANDARD', count: 5, delay: 120 },
-            { type: 'SHIELDED_KAMIKAZE', count: 5, delay: 120 },
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
             { type: 'TANK', count: 1, delay: 400 }
@@ -46,7 +45,7 @@ const WAVES = [
             { type: 'KAMIKAZE', count: 16, delay: 400 },
             { type: 'STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
-            { type: 'KAMIKAZE', count: 3, delay: 300 },
+            { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
             { type: 'TANK', count: 1, delay: 200 },
             { type: 'BOMBER', count: 1, delay: 100 }
         ],
@@ -60,7 +59,7 @@ const WAVES = [
             { type: 'SCOUT', count: 10, delay: 120 },
             { type: 'SHIELDED_STANDARD', count: 5, delay: 60 },
             { type: 'SCOUT', count: 10, delay: 120 },
-            { type: 'KAMIKAZE', count: 3, delay: 300 },
+            { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
             { type: 'BOMBER', count: 3, delay: 100 },
         ],
     },
