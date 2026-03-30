@@ -280,7 +280,6 @@ const GAME_CONFIG = {
                 { type: 'ELITE_STANDARD', count: 3, delay: 60 },
                 { type: 'TANK', count: 2, delay: 150 }
             ],
-            spawnInterval: 100
         },
         {
             name: "Wave 2: Fast & Furious",
@@ -290,7 +289,6 @@ const GAME_CONFIG = {
                 { type: 'KAMIKAZE', count: 3, delay: 120 },
                 { type: 'TANK', count: 2, delay: 150 }
             ],
-            spawnInterval: 80
         },
         {
             name: "Wave 3: Shielded Advance",
@@ -300,7 +298,6 @@ const GAME_CONFIG = {
                 { type: 'SNIPER', count: 3, delay: 180 },
                 { type: 'BOMBER', count: 2, delay: 200 }
             ],
-            spawnInterval: 70
         },
         {
             name: "Wave 4: Tank Siege",
@@ -310,7 +307,6 @@ const GAME_CONFIG = {
                 { type: 'SHIELDED', count: 3, delay: 150 },
                 { type: 'SPECIAL', count: 2, delay: 180 }
             ],
-            spawnInterval: 65
         },
         {
             name: "Wave 5: Mini Boss Encounter",
@@ -320,7 +316,6 @@ const GAME_CONFIG = {
                 { type: 'KAMIKAZE', count: 5, delay: 180 },
                 { type: 'TANK', count: 2, delay: 240 }
             ],
-            spawnInterval: 60
         },
         {
             name: "Wave 6: Elite Guard",
@@ -330,7 +325,6 @@ const GAME_CONFIG = {
                 { type: 'ELITE_SNIPER', count: 3, delay: 180 },
                 { type: 'TANK', count: 2, delay: 240 }
             ],
-            spawnInterval: 55
         },
         {
             name: "Wave 7: The Swarm",
@@ -339,7 +333,6 @@ const GAME_CONFIG = {
                 { type: 'KAMIKAZE', count: 15, delay: 60 },
                 { type: 'BOSS_MINI', count: 2, delay: 300 }
             ],
-            spawnInterval: 40
         },
         {
             name: "Wave 8: Heavy Metal",
@@ -348,7 +341,6 @@ const GAME_CONFIG = {
                 { type: 'TANK', count: 8, delay: 180 },
                 { type: 'PHANTOM_SCOUT', count: 10, delay: 120 }
             ],
-            spawnInterval: 45
         },
         {
             name: "Wave 9: Sniper Hell",
@@ -357,14 +349,12 @@ const GAME_CONFIG = {
                 { type: 'SNIPER', count: 12, delay: 100 },
                 { type: 'PHANTOM_SCOUT', count: 15, delay: 80 }
             ],
-            spawnInterval: 50
         },
         {
             name: "Wave 10: Boss Rush",
             enemies: [
                 { type: 'BOSS_MINI', count: 4, delay: 120 }
-            ],
-            spawnInterval: 40
+            ]
         },
         {
             name: "Wave 11: Kamikaze Storm",
@@ -372,8 +362,7 @@ const GAME_CONFIG = {
                 { type: 'KAMIKAZE', count: 30, delay: 40 },
                 { type: 'PHANTOM_SCOUT', count: 20, delay: 60 },
                 { type: 'SPECIAL', count: 6, delay: 180 }
-            ],
-            spawnInterval: 35
+            ]
         },
         {
             name: "Wave 12: Elite Assault",
@@ -381,8 +370,7 @@ const GAME_CONFIG = {
                 { type: 'ELITE_STANDARD', count: 15, delay: 100 },
                 { type: 'ELITE_SNIPER', count: 10, delay: 140 },
                 { type: 'MEGA_TANK', count: 5, delay: 200 }
-            ],
-            spawnInterval: 40
+            ]
         },
         {
             name: "Wave 13: Tank Battalion",
@@ -390,8 +378,7 @@ const GAME_CONFIG = {
                 { type: 'MEGA_TANK', count: 8, delay: 150 },
                 { type: 'TANK', count: 15, delay: 120 },
                 { type: 'BOSS_MINI', count: 5, delay: 200 }
-            ],
-            spawnInterval: 35
+            ]
         },
         {
             name: "Wave 14: Ultimate Swarm",
@@ -399,8 +386,7 @@ const GAME_CONFIG = {
                 { type: 'PHANTOM_SCOUT', count: 40, delay: 40 },
                 { type: 'SCOUT', count: 35, delay: 40 },
                 { type: 'KAMIKAZE', count: 25, delay: 40 }
-            ],
-            spawnInterval: 30
+            ]
         },
         {
             name: "Wave 15: Final Confrontation",
@@ -409,8 +395,7 @@ const GAME_CONFIG = {
                 { type: 'MEGA_TANK', count: 10, delay: 150 },
                 { type: 'ELITE_STANDARD', count: 15, delay: 120 },
                 { type: 'SPECIAL', count: 10, delay: 120 }
-            ],
-            spawnInterval: 30
+            ]
         },
         {
             name: "Wave 16: Elite Nightmare",
@@ -418,8 +403,7 @@ const GAME_CONFIG = {
                 { type: 'ELITE_SNIPER', count: 15, delay: 120 },
                 { type: 'ELITE_STANDARD', count: 20, delay: 80 },
                 { type: 'MEGA_TANK', count: 6, delay: 180 }
-            ],
-            spawnInterval: 28
+            ]
         },
         {
             name: "Wave 17: Phantom Invasion",
@@ -427,8 +411,7 @@ const GAME_CONFIG = {
                 { type: 'PHANTOM_SCOUT', count: 50, delay: 35 },
                 { type: 'KAMIKAZE', count: 30, delay: 35 },
                 { type: 'BOSS_MINI', count: 6, delay: 250 }
-            ],
-            spawnInterval: 25
+            ]
         },
         {
             name: "Wave 18: Mega Fortress",
@@ -436,8 +419,7 @@ const GAME_CONFIG = {
                 { type: 'MEGA_TANK', count: 20, delay: 100 },
                 { type: 'SHIELDED', count: 25, delay: 80 },
                 { type: 'ELITE_SNIPER', count: 12, delay: 150 }
-            ],
-            spawnInterval: 25
+            ]
         },
         {
             name: "Wave 19: Death From Above",
@@ -445,8 +427,7 @@ const GAME_CONFIG = {
                 { type: 'BOSS_MINI', count: 12, delay: 80 },
                 { type: 'SPECIAL', count: 20, delay: 100 },
                 { type: 'ELITE_STANDARD', count: 25, delay: 60 }
-            ],
-            spawnInterval: 22
+            ]
         },
         {
             name: "Wave 20: The Final Stand",
@@ -455,8 +436,7 @@ const GAME_CONFIG = {
                 { type: 'BOSS_MINI', count: 15, delay: 100 },
                 { type: 'ELITE_SNIPER', count: 20, delay: 120 },
                 { type: 'PHANTOM_SCOUT', count: 30, delay: 40 }
-            ],
-            spawnInterval: 20
+            ]
         },
         {
             name: "Wave 21: Endless Nightmare",
@@ -464,8 +444,7 @@ const GAME_CONFIG = {
                 { type: 'ELITE_STANDARD', count: 30, delay: 50 },
                 { type: 'MEGA_TANK', count: 30, delay: 70 },
                 { type: 'BOSS_MINI', count: 20, delay: 90 }
-            ],
-            spawnInterval: 18
+            ]
         },
         {
             name: "Wave 22: Phantom Apocalypse",
@@ -473,8 +452,7 @@ const GAME_CONFIG = {
                 { type: 'PHANTOM_SCOUT', count: 60, delay: 30 },
                 { type: 'KAMIKAZE', count: 40, delay: 30 },
                 { type: 'SPECIAL', count: 25, delay: 80 }
-            ],
-            spawnInterval: 15
+            ]
         },
         {
             name: "Wave 23: Elite Dominion",
@@ -482,8 +460,7 @@ const GAME_CONFIG = {
                 { type: 'ELITE_SNIPER', count: 25, delay: 100 },
                 { type: 'ELITE_STANDARD', count: 35, delay: 50 },
                 { type: 'SHIELDED', count: 30, delay: 70 }
-            ],
-            spawnInterval: 15
+            ]
         },
         {
             name: "Wave 24: Ultimate Chaos",
@@ -491,8 +468,7 @@ const GAME_CONFIG = {
                 { type: 'MEGA_TANK', count: 35, delay: 60 },
                 { type: 'BOSS_MINI', count: 25, delay: 80 },
                 { type: 'PHANTOM_SCOUT', count: 40, delay: 35 }
-            ],
-            spawnInterval: 12
+            ]
         },
         {
             name: "Wave 25: The Final Frontier",
@@ -501,8 +477,7 @@ const GAME_CONFIG = {
                 { type: 'MEGA_TANK', count: 40, delay: 50 },
                 { type: 'ELITE_SNIPER', count: 30, delay: 100 },
                 { type: 'ELITE_STANDARD', count: 40, delay: 40 }
-            ],
-            spawnInterval: 10
+            ]
         }
     ]
 };
