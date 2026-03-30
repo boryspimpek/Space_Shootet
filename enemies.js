@@ -249,7 +249,7 @@ class Enemy {
     }
     
     updateShieldedStandardMovement(canvas) {
-        this.y += this.config.speed;
+        this.y += this.config.speed * 0.2;
         this.x += Math.sin(this.pattern * 0.5) * this.config.speed;
         this.pattern += 0.02;
     }
@@ -298,8 +298,23 @@ class Enemy {
     }
     
     checkBounds(canvas) {
-        // Remove if off screen
-        if (this.y > canvas.height + 50 || this.x < -50 || this.x > canvas.width + 50) {
+        // Bounce off screen edges instead of disappearing
+        const margin = 5; // small margin to keep enemy fully visible
+        
+        // Left/right edges
+        if (this.x < margin) {
+            this.x = margin;
+        } else if (this.x > canvas.width - margin) {
+            this.x = canvas.width - margin;
+        }
+        
+        // Top edge (prevent going above screen)
+        if (this.y < margin) {
+            this.y = margin;
+        }
+        
+        // Bottom edge - enemies can still exit at bottom with larger margin
+        if (this.y > canvas.height + 100) {
             this.active = false;
         }
     }

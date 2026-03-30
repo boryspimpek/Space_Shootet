@@ -295,9 +295,9 @@ const GAME_CONFIG = {
         {
             name: "Wave 3: Kamikaze Assault",
             enemies: [
-                { type: 'KAMIKAZE', count: 4, delay: 60, batch: true },
-                { type: 'KAMIKAZE', count: 8, delay: 150, batch: true },
-                { type: 'KAMIKAZE', count: 12, delay: 150, batch: true },
+                { type: 'KAMIKAZE', count: 4, delay: 200, batch: true },
+                { type: 'KAMIKAZE', count: 8, delay: 200, batch: true },
+                { type: 'KAMIKAZE', count: 12, delay: 200, batch: true },
                 { type: 'TANK', count: 1, delay: 400 }
             ],
         },
@@ -315,22 +315,29 @@ const GAME_CONFIG = {
             name: "Wave 5: Meet the Bomber",
             enemies: [
                 { type: 'STANDARD', count: 25, delay: 60 },
-                { type: 'KAMIKAZE', count: 8, delay: 200 },
-                { type: 'SCOUT', count: 10, delay: 300 },
+                { type: 'KAMIKAZE', count: 16, delay: 400 },
+                { type: 'STANDARD', count: 8, delay: 60 },
+                { type: 'SCOUT', count: 6, delay: 120 },
+                { type: 'KAMIKAZE', count: 3, delay: 300 },
+                { type: 'TANK', count: 1, delay: 200 },
                 { type: 'BOMBER', count: 1, delay: 100 }
             ],
         },
         {
             name: "Wave 6: Tank Siege",
             enemies: [
-                { type: 'SHIELDED_STANDARD', count: 25, delay: 300 },
+                { type: 'SHIELDED_STANDARD', count: 15, delay: 300 },
                 { type: 'STANDARD', count: 0, delay: 300 },
                 { type: 'KAMIKAZE', count: 16, delay: 500 },
+                { type: 'SCOUT', count: 10, delay: 120 },
+                { type: 'SHIELDED_STANDARD', count: 5, delay: 60 },
+                { type: 'SCOUT', count: 10, delay: 120 },
+                { type: 'KAMIKAZE', count: 3, delay: 300 },
                 { type: 'BOMBER', count: 3, delay: 100 },
             ],
         },
         {
-            name: "Wave 5: Mini Boss Encounter",
+            name: "Wave 7: Mini Boss Encounter",
             enemies: [
                 { type: 'BOSS_MINI', count: 1, delay: 60 },
                 { type: 'SCOUT', count: 10, delay: 120 },
@@ -339,7 +346,7 @@ const GAME_CONFIG = {
             ],
         },
         {
-            name: "Wave 6: Elite Guard",
+            name: "Wave 8: Elite Guard",
             enemies: [
                 { type: 'ELITE_STANDARD', count: 5, delay: 120 },
                 { type: 'SHIELDED_STANDARD', count: 6, delay: 120 },
@@ -347,7 +354,7 @@ const GAME_CONFIG = {
             ],
         },
         {
-            name: "Wave 7: The Swarm",
+            name: "Wave 9: The Swarm",
             enemies: [
                 { type: 'SCOUT', count: 20, delay: 60 },
                 { type: 'KAMIKAZE', count: 15, delay: 60 },
@@ -355,7 +362,7 @@ const GAME_CONFIG = {
             ],
         },
         {
-            name: "Wave 8: Heavy Metal",
+            name: "Wave 9: Heavy Metal",
             enemies: [
                 { type: 'MEGA_TANK', count: 4, delay: 200 },
                 { type: 'PHANTOM_SCOUT', count: 10, delay: 120 }
