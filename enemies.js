@@ -46,10 +46,15 @@ class ShootingPatterns {
                 angle = baseAngle + startOffset + i * step;
             }
             
+            // Get bullet size from config if specified
+            const bulletWidth = config.bulletSize?.width || 4;
+            const bulletHeight = config.bulletSize?.height || 4;
+            
             enemy.game.enemyBullets.push(new EnemyBullet(
                 enemy.x, enemy.y,
                 Math.cos(angle) * config.speed,
-                Math.sin(angle) * config.speed
+                Math.sin(angle) * config.speed,
+                bulletWidth, bulletHeight
             ));
         }
     }
@@ -492,13 +497,13 @@ class Enemy {
     }
     
     drawBomber(ctx) {
-        // Draw image or fallback rectangle
+        // Bomber - draw image centered without scaling, or fallback rectangle
         if (this.bomberImageLoaded) {
-            // Image is 40x80, center it without scaling
+            // Image is 40x80, center it on the enemy position
             ctx.drawImage(this.bomberImage, -20, -40);
         } else {
-            // Fallback vertical rectangle
-            ctx.fillRect(-this.config.size/2, -this.config.size/2, this.config.size, this.config.size * 2);
+            // Fallback vertical rectangle (2x taller than wide)
+            ctx.fillRect(-this.config.size/2, -this.config.size, this.config.size, this.config.size);
         }
     }
     
@@ -512,14 +517,29 @@ class Enemy {
 
 // Enemy bullet class
 class EnemyBullet {
-    constructor(x, y, vx, vy) {
+    static bomberBulletImage = null;
+    static bomberBulletImageLoaded = false;
+    
+    constructor(x, y, vx, vy, width = 4, height = 4) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.width = 4;
-        this.height = 4;
+        this.width = width;
+        this.height = height;
         this.active = true;
+        
+        // Load bomber bullet image statically (once for all bullets)
+        if (!EnemyBullet.bomberBulletImage && width === 20 && height === 20) {
+            EnemyBullet.bomberBulletImage = new Image();
+            EnemyBullet.bomberBulletImage.src = 'bomber_bullet.png';
+            EnemyBullet.bomberBulletImage.onload = () => {
+                EnemyBullet.bomberBulletImageLoaded = true;
+            };
+            EnemyBullet.bomberBulletImage.onerror = () => {
+                console.warn('Failed to load bomber_bullet.png');
+            };
+        }
     }
     
     update(canvas) {
@@ -532,7 +552,12 @@ class EnemyBullet {
     }
     
     draw(ctx) {
-        ctx.fillStyle = '#f00';
-        ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+        // Draw bomber bullet image for large bullets (20x20), fallback to red rectangle
+        if (EnemyBullet.bomberBulletImageLoaded && this.width === 20 && this.height === 20) {
+            ctx.drawImage(EnemyBullet.bomberBulletImage, this.x - this.width/2, this.y - this.height/2);
+        } else {
+            ctx.fillStyle = '#f00';
+            ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+        }
     }
 }
