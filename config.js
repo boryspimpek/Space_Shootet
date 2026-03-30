@@ -32,7 +32,8 @@ const GAME_CONFIG = {
         ELITE_SNIPER: { count: 1, speed: 8, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: 0,           offsetAngle: 0 },
         SPREAD_FULL:  { count: 8, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI*2,   offsetAngle: -Math.PI/2 },
         SPREAD_HALF:  { count: 5, speed: 4, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: Math.PI/2,  offsetAngle: 0 },
-        BURST:        { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: 0.4,        offsetAngle: -0.2 }
+        BURST:        { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: 0.4,        offsetAngle: -0.2 },
+        BOMB_DROP:    { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0,          offsetAngle: Math.PI }
     },
     
     // Enemy types configuration
@@ -142,6 +143,15 @@ const GAME_CONFIG = {
             size: 12,
             shootRate: 25,
             shootingPattern: 'NORMAL'
+        },
+        BOMBER: {
+            hp: 30,
+            speed: 0.4,
+            score: 80,
+            color: '#ff9800',
+            size: 40,
+            shootRate: 40,
+            shootingPattern: 'BOMB_DROP'
         }
     },
     
@@ -287,7 +297,8 @@ const GAME_CONFIG = {
             enemies: [
                 { type: 'SHIELDED', count: 20, delay: 150 },
                 { type: 'STANDARD', count: 10, delay: 60 },
-                { type: 'SNIPER', count: 3, delay: 180 }
+                { type: 'SNIPER', count: 3, delay: 180 },
+                { type: 'BOMBER', count: 2, delay: 200 }
             ],
             spawnInterval: 70
         },
@@ -295,6 +306,7 @@ const GAME_CONFIG = {
             name: "Wave 4: Tank Siege",
             enemies: [
                 { type: 'TANK', count: 4, delay: 200 },
+                { type: 'BOMBER', count: 3, delay: 180 },
                 { type: 'SHIELDED', count: 3, delay: 150 },
                 { type: 'SPECIAL', count: 2, delay: 180 }
             ],

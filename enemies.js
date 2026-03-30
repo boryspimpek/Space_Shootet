@@ -99,6 +99,19 @@ class Enemy {
             };
         }
         
+        // Load bomber image for BOMBER type
+        if (type === 'BOMBER') {
+            this.bomberImage = new Image();
+            this.bomberImage.src = 'bomber.png';
+            this.bomberImageLoaded = false;
+            this.bomberImage.onload = () => {
+                this.bomberImageLoaded = true;
+            };
+            this.bomberImage.onerror = () => {
+                console.warn('Failed to load bomber.png, falling back to shape');
+            };
+        }
+        
         // Assign shooting pattern from config
         this.shootingPattern = this.config.shootingPattern || null;
     }
@@ -147,6 +160,9 @@ class Enemy {
                 break;
             case 'BOSS_MINI':
                 this.updateBossMiniMovement(canvas);
+                break;
+            case 'BOMBER':
+                this.updateBomberMovement(canvas);
                 break;
         }
     }
@@ -246,6 +262,19 @@ class Enemy {
         }
     }
     
+    updateBomberMovement(canvas) {
+        // Horizontal movement at top of screen
+        this.x += Math.sin(this.pattern) * this.config.speed * 2;
+        this.pattern += 0.03;
+        
+        // Slowly descend to optimal bombing altitude
+        if (this.y < 80) {
+            this.y += this.config.speed;
+        } else if (this.y > 150) {
+            this.y -= this.config.speed * 0.5;
+        }
+    }
+    
     updateShooting(player) {
         // Shooting
         if (this.config.shootRate > 0) {
@@ -334,6 +363,9 @@ class Enemy {
                 break;
             case 'BOSS_MINI':
                 this.drawBossMini(ctx);
+                break;
+            case 'BOMBER':
+                this.drawBomber(ctx);
                 break;
         }
         
@@ -455,7 +487,18 @@ class Enemy {
             ctx.drawImage(this.bossImage, -this.config.size/2, -this.config.size/2);
         } else {
             // Fallback horizontal rectangle (2x wider than tall)
-            ctx.fillRect(-this.config.size, -this.config.size/2, this.config.size * 2, this.config.size);
+            ctx.fillRect(-this.config.size/2, -this.config.size/2, this.config.size * 2, this.config.size);
+        }
+    }
+    
+    drawBomber(ctx) {
+        // Draw image or fallback rectangle
+        if (this.bomberImageLoaded) {
+            // Image is 40x80, center it without scaling
+            ctx.drawImage(this.bomberImage, -20, -40);
+        } else {
+            // Fallback vertical rectangle
+            ctx.fillRect(-this.config.size/2, -this.config.size/2, this.config.size, this.config.size * 2);
         }
     }
     
