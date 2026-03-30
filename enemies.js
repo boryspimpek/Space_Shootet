@@ -46,9 +46,10 @@ class ShootingPatterns {
                 angle = baseAngle + startOffset + i * step;
             }
             
-            // Get bullet size from config if specified
-            const bulletWidth = config.bulletSize?.width || 4;
-            const bulletHeight = config.bulletSize?.height || 4;
+            // Get bullet size from enemy config first, then pattern config, then default to 4x4
+            const bulletSize = enemy.config.bulletSize || config.bulletSize;
+            const bulletWidth = bulletSize?.width || 4;
+            const bulletHeight = bulletSize?.height || 4;
             
             enemy.game.enemyBullets.push(new EnemyBullet(
                 enemy.x, enemy.y,

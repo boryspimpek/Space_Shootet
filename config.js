@@ -43,7 +43,8 @@ const GAME_CONFIG = {
             score: 10,
             color: '#f00',
             size: 20,
-            shootRate: 0
+            shootRate: 0,
+            bulletSize: { width: 4, height: 4 }
         },
         SHIELDED_STANDARD: {
             hp: 8,
@@ -53,7 +54,8 @@ const GAME_CONFIG = {
             size: 22,
             shootRate: 280,
             shield: true,
-            shootingPattern: 'NORMAL'
+            shootingPattern: 'NORMAL',
+            bulletSize: { width: 5, height: 5 }
         },
         SNIPER: {
             hp: 2,
@@ -62,7 +64,8 @@ const GAME_CONFIG = {
             color: '#f80',
             size: 18,
             shootRate: 100,
-            shootingPattern: 'SNIPER'
+            shootingPattern: 'SNIPER',
+            bulletSize: { width: 4, height: 4 }
         },
         KAMIKAZE: {
             hp: 1,
@@ -70,7 +73,8 @@ const GAME_CONFIG = {
             score: 15,
             color: '#f0f',
             size: 12,
-            shootRate: 0
+            shootRate: 0,
+            bulletSize: { width: 4, height: 4 }
         },
         TANK: {
             hp: 5,
@@ -78,7 +82,8 @@ const GAME_CONFIG = {
             score: 50,
             color: '#0f0',
             size: 25,
-            shootRate: 0
+            shootRate: 0,
+            bulletSize: { width: 6, height: 6 }
         },
         SPECIAL: {
             hp: 3,
@@ -87,7 +92,8 @@ const GAME_CONFIG = {
             color: '#0ff',
             size: 20,
             shootRate: 100,
-            shootingPattern: 'SPREAD_FULL'
+            shootingPattern: 'SPREAD_FULL',
+            bulletSize: { width: 5, height: 5 }
         },
         SCOUT: {
             hp: 1,
@@ -96,16 +102,18 @@ const GAME_CONFIG = {
             color: '#ffeb3b',
             size: 10,
             shootRate: 30,
-            shootingPattern: 'NORMAL'
+            shootingPattern: 'NORMAL',
+            bulletSize: { width: 3, height: 3 }
         },
         BOSS_MINI: {
-            hp: 20,
+            hp: 60,
             speed: 0.5,
             score: 150,
             color: '#f44336',
             size: 40,
             shootRate: 90,
-            shootingPattern: 'BOSS_MINI'
+            shootingPattern: 'BOSS_MINI',
+            bulletSize: { width: 10, height: 10 }
         },
         ELITE_STANDARD: {
             hp: 8,
@@ -114,7 +122,8 @@ const GAME_CONFIG = {
             color: '#ff5722',
             size: 20,
             shootRate: 50,
-            shootingPattern: 'NORMAL'
+            shootingPattern: 'NORMAL',
+            bulletSize: { width: 5, height: 5 }
         },
         ELITE_SNIPER: {
             hp: 6,
@@ -123,7 +132,8 @@ const GAME_CONFIG = {
             color: '#9c27b0',
             size: 22,
             shootRate: 120,
-            shootingPattern: 'ELITE_SNIPER'
+            shootingPattern: 'ELITE_SNIPER',
+            bulletSize: { width: 4, height: 4 }
         },
         MEGA_TANK: {
             hp: 25,
@@ -132,7 +142,8 @@ const GAME_CONFIG = {
             color: '#4caf50',
             size: 45,
             shootRate: 250,
-            shootingPattern: 'MEGA_TANK'
+            shootingPattern: 'MEGA_TANK',
+            bulletSize: { width: 8, height: 8 }
         },
         PHANTOM_SCOUT: {
             hp: 3,
@@ -141,7 +152,8 @@ const GAME_CONFIG = {
             color: '#607d8b',
             size: 12,
             shootRate: 25,
-            shootingPattern: 'NORMAL'
+            shootingPattern: 'NORMAL',
+            bulletSize: { width: 3, height: 3 }
         },
         BOMBER: {
             hp: 30,
@@ -150,7 +162,8 @@ const GAME_CONFIG = {
             color: '#ff9800',
             size: 40,
             shootRate: 80,
-            shootingPattern: 'BOMB_DROP'
+            shootingPattern: 'BOMB_DROP',
+            bulletSize: { width: 20, height: 20 }
         }
     },
     
@@ -339,26 +352,22 @@ const GAME_CONFIG = {
         {
             name: "Wave 7: Mini Boss Encounter",
             enemies: [
-                { type: 'BOSS_MINI', count: 1, delay: 60 },
                 { type: 'SCOUT', count: 10, delay: 120 },
                 { type: 'KAMIKAZE', count: 5, delay: 180 },
-                { type: 'TANK', count: 2, delay: 240 }
+                { type: 'STANDARD', count: 10, delay: 60 },
+                { type: 'SHIELDED_STANDARD', count: 5, delay: 300 },
+                { type: 'SCOUT', count: 6, delay: 120 },
+                { type: 'KAMIKAZE', count: 3, delay: 300 },
+                { type: 'TANK', count: 1, delay: 200 },
+                { type: 'BOSS_MINI', count: 1, delay: 60 },
             ],
         },
         {
-            name: "Wave 8: Elite Guard",
-            enemies: [
-                { type: 'ELITE_STANDARD', count: 5, delay: 120 },
-                { type: 'SHIELDED_STANDARD', count: 6, delay: 120 },
-                { type: 'ELITE_SNIPER', count: 3, delay: 180 },
-            ],
-        },
-        {
-            name: "Wave 9: The Swarm",
+            name: "Wave 8: The Swarm",
             enemies: [
                 { type: 'SCOUT', count: 20, delay: 60 },
                 { type: 'KAMIKAZE', count: 15, delay: 60 },
-                { type: 'BOSS_MINI', count: 2, delay: 300 }
+                { type: 'BOSS_MINI', count: 4, delay: 600 }
             ],
         },
         {
