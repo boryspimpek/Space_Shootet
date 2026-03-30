@@ -139,11 +139,11 @@ class Game {
         if (this.backgroundImage.complete) {
             // Scale image to fit canvas while maintaining aspect ratio
             const scale = Math.min(
-                this.canvas.width / 800,
-                this.canvas.height / 600
+                this.canvas.width / 450,
+                this.canvas.height / 800
             );
-            const scaledWidth = 800 * scale;
-            const scaledHeight = 600 * scale;
+            const scaledWidth = 450 * scale;
+            const scaledHeight = 800 * scale;
             const x = (this.canvas.width - scaledWidth) / 2;
             const y = (this.canvas.height - scaledHeight) / 2;
             

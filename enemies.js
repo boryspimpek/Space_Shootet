@@ -119,6 +119,12 @@ class Enemy {
         
         // Assign shooting pattern from config
         this.shootingPattern = this.config.shootingPattern || null;
+        
+        // Load explosion sound (shared instance to avoid reloading)
+        if (!Enemy.explosionSound) {
+            Enemy.explosionSound = new Audio('enemy_boom.wav');
+            Enemy.explosionSound.volume = 0.4;
+        }
     }
     
     update(canvas, player) {
@@ -157,8 +163,8 @@ class Enemy {
             case 'PHANTOM_SCOUT':
                 this.updatePhantomScoutMovement(canvas);
                 break;
-            case 'SHIELDED':
-                this.updateShieldedMovement(canvas);
+            case 'SHIELDED_STANDARD':
+                this.updateShieldedStandardMovement(canvas);
                 break;
             case 'SCOUT':
                 this.updateScoutMovement(canvas);
@@ -242,9 +248,9 @@ class Enemy {
         this.pattern += 0.2;
     }
     
-    updateShieldedMovement(canvas) {
+    updateShieldedStandardMovement(canvas) {
         this.y += this.config.speed;
-        this.x += Math.sin(this.pattern * 0.5) * 1.5;
+        this.x += Math.sin(this.pattern * 0.5) * this.config.speed;
         this.pattern += 0.02;
     }
     
@@ -269,7 +275,7 @@ class Enemy {
     
     updateBomberMovement(canvas) {
         // Horizontal movement at top of screen
-        this.x += Math.sin(this.pattern) * this.config.speed * 2;
+        this.x += Math.sin(this.pattern * 0.5) * this.config.speed;
         this.pattern += 0.03;
         
         // Slowly descend to optimal bombing altitude
@@ -315,6 +321,13 @@ class Enemy {
             this.active = false;
             this.game.score += this.config.score;
             this.game.particleSystem.createExplosion(this.x, this.y, this.config.color, 15);
+            
+            // Play explosion sound
+            if (Enemy.explosionSound) {
+                const sound = Enemy.explosionSound.cloneNode();
+                sound.volume = 0.4;
+                sound.play().catch(() => {});
+            }
             
             // Drop power-up chance
             const dropChance = GAME_CONFIG.DROP_CONFIG.POWER_UP_CHANCE;
@@ -363,8 +376,8 @@ class Enemy {
             case 'MEGA_TANK':
                 this.drawMegaTank(ctx);
                 break;
-            case 'SHIELDED':
-                this.drawShielded(ctx);
+            case 'SHIELDED_STANDARD':
+                this.drawShieldedStandard(ctx);
                 break;
             case 'BOSS_MINI':
                 this.drawBossMini(ctx);
@@ -478,8 +491,8 @@ class Enemy {
         ctx.fill();
     }
     
-    drawShielded(ctx) {
-        // Shielded enemy - draw as simple circle
+    drawShieldedStandard(ctx) {
+        // Shielded standard enemy - draw as simple circle
         ctx.beginPath();
         ctx.arc(0, 0, this.config.size/2, 0, Math.PI * 2);
         ctx.fill();

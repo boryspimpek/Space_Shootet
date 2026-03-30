@@ -29,6 +29,10 @@ class Player {
         this.playerImage.onerror = () => {
             console.warn('Failed to load player.png, falling back to triangle');
         };
+        
+        // Load shoot sound
+        this.shootSound = new Audio('shoot.wav');
+        this.shootSound.volume = 0.3;
     }
     
     update(mouseX, mouseY, gameTime) {
@@ -85,6 +89,10 @@ class Player {
         pattern.forEach(bullet => {
             this.game.bullets.push(new Bullet(this.x + bullet.x, this.y + bullet.y, bullet.vx, bullet.vy));
         });
+        
+        // Play shoot sound
+        this.shootSound.currentTime = 0;
+        this.shootSound.play().catch(() => {});
     }
     
     shootMissiles() {

@@ -36,7 +36,8 @@ class WaveManager {
             if (allSpawned && enemies.length === 0) {
                 this.isWaveActive = false;
                 this.currentWave++;
-                this.waveMessageTimer = 120; // Show "Wave Cleared" message for 2 seconds
+                this.waveMessageTimer = 120; 
+                this.waveTimer = 0;
             }
         }
     }
@@ -50,7 +51,7 @@ class WaveManager {
             for (let i = 0; i < group.count; i++) {
                 this.waveEnemiesToSpawn.push({
                     type: group.type,
-                    spawnTime: totalDelay + (i * (group.delay / group.count)),
+                    spawnTime: group.batch ? totalDelay : totalDelay + (i * (group.delay / group.count)),
                     spawned: false
                 });
             }
@@ -77,7 +78,7 @@ class WaveManager {
             this.waveMessageTimer--;
             ctx.save();
             ctx.fillStyle = 'rgba(0, 255, 0, ' + (this.waveMessageTimer / 120) + ')';
-            ctx.font = 'bold 40px Courier New';
+            ctx.font = 'bold 24px Courier New';
             ctx.textAlign = 'center';
             const waveName = this.currentWave < GAME_CONFIG.WAVES.length ? 
                            GAME_CONFIG.WAVES[this.currentWave].name : "Infinite Chaos";

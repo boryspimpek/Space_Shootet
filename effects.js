@@ -116,6 +116,8 @@ class PowerUpSystem {
     constructor(game) {
         this.game = game;
         this.powerUps = [];
+        this.collectSound = new Audio('power_up.wav');
+        this.collectSound.volume = 0.5;
     }
     
     update(canvas) {
@@ -139,6 +141,11 @@ class PowerUpSystem {
         this.powerUps = this.powerUps.filter(powerUp => {
             if (powerUp.active && this.game && this.game.checkCollision && this.game.checkCollision(player, powerUp)) {
                 console.log('Power-up collected:', powerUp.type);
+                
+                // Play collect sound
+                this.collectSound.currentTime = 0;
+                this.collectSound.play().catch(() => {});
+                
                 if (powerUp.type === 'SHIELD') {
                     player.shieldCharges++;
                     console.log('Shield added, total:', player.shieldCharges);

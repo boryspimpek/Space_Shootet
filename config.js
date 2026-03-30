@@ -27,12 +27,11 @@ const GAME_CONFIG = {
     // Preset configurations for common patterns
     SHOOTING_PRESETS: {
         NORMAL:       { count: 1, speed: 4, requirePlayerBelow: true, aimAtPlayer: false, spreadAngle: 0, offsetAngle: Math.PI },
-        ELITE_STANDARD: { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0, offsetAngle: Math.PI },
         SNIPER:       { count: 1, speed: 4, requirePlayerBelow: true, aimAtPlayer: true, spreadAngle: 0,           offsetAngle: 0 },
         ELITE_SNIPER: { count: 1, speed: 8, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: 0,           offsetAngle: 0 },
         SPREAD_FULL:  { count: 8, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI*2,   offsetAngle: 0 },
-        SPREAD_HALF:  { count: 5, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI/2,  offsetAngle: Math.PI },
-        BURST:        { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0.4,        offsetAngle: Math.PI },
+        BOSS_MINI:    { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0.2,        offsetAngle: Math.PI },
+        MEGA_TANK:    { count: 3, speed: 5, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0.2,        offsetAngle: Math.PI },
         BOMB_DROP:    { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0,          offsetAngle: Math.PI, bulletSize: { width: 20, height: 20 } }
     },
     
@@ -45,6 +44,16 @@ const GAME_CONFIG = {
             color: '#f00',
             size: 20,
             shootRate: 0
+        },
+        SHIELDED_STANDARD: {
+            hp: 8,
+            speed: 1,
+            score: 60,
+            color: '#fff',
+            size: 22,
+            shootRate: 280,
+            shield: true,
+            shootingPattern: 'NORMAL'
         },
         SNIPER: {
             hp: 2,
@@ -77,18 +86,8 @@ const GAME_CONFIG = {
             score: 35,
             color: '#0ff',
             size: 20,
-            shootRate: 60,
-            shootingPattern: 'SPREAD_FULL'
-        },
-        SHIELDED: {
-            hp: 8,
-            speed: 0.5,
-            score: 60,
-            color: '#fff',
-            size: 22,
             shootRate: 100,
-            shield: true,
-            shootingPattern: 'NORMAL'
+            shootingPattern: 'SPREAD_FULL'
         },
         SCOUT: {
             hp: 1,
@@ -105,17 +104,17 @@ const GAME_CONFIG = {
             score: 150,
             color: '#f44336',
             size: 40,
-            shootRate: 45,
-            shootingPattern: 'SPREAD_HALF'
+            shootRate: 90,
+            shootingPattern: 'BOSS_MINI'
         },
         ELITE_STANDARD: {
-            hp: 4,
+            hp: 8,
             speed: 1,
             score: 40,
             color: '#ff5722',
             size: 20,
             shootRate: 50,
-            shootingPattern: 'ELITE_STANDARD'
+            shootingPattern: 'NORMAL'
         },
         ELITE_SNIPER: {
             hp: 6,
@@ -123,7 +122,7 @@ const GAME_CONFIG = {
             score: 70,
             color: '#9c27b0',
             size: 22,
-            shootRate: 80,
+            shootRate: 120,
             shootingPattern: 'ELITE_SNIPER'
         },
         MEGA_TANK: {
@@ -132,8 +131,8 @@ const GAME_CONFIG = {
             score: 250,
             color: '#4caf50',
             size: 45,
-            shootRate: 150,
-            shootingPattern: 'BURST'
+            shootRate: 250,
+            shootingPattern: 'MEGA_TANK'
         },
         PHANTOM_SCOUT: {
             hp: 3,
@@ -146,11 +145,11 @@ const GAME_CONFIG = {
         },
         BOMBER: {
             hp: 30,
-            speed: 0.4,
+            speed: 1,
             score: 80,
             color: '#ff9800',
             size: 40,
-            shootRate: 40,
+            shootRate: 80,
             shootingPattern: 'BOMB_DROP'
         }
     },
@@ -158,22 +157,24 @@ const GAME_CONFIG = {
     // Weapon configuration
     WEAPON_CONFIG: {
         FIRE_RATES: {
-            1: 2,
-            2: 2,
-            3: 25,
-            4: 20,
+            1: 20,
+            2: 17,
+            3: 17,
+            4: 15,
             5: 10,
             6: 10,
             7: 10,
             8: 8,
-            default: 8
+            9: 5,
+            10:4,
+            default: 4
         },
         MISSILE_FIRE_RATES: {
             7: 50,
             10: 40,
             15: 30,
-            20: 20,
-            default: 20
+            20: 10,
+            default: 10
         },
         RIFLE_FIRE_RATES: {
             2: 35,
@@ -229,18 +230,18 @@ const GAME_CONFIG = {
             ]
         },
         MISSILES: {
-            levels: Array.from({length: 14}, (_, i) => i + 7), // 7-20
+            levels: Array.from({length: 24}, (_, i) => i + 7), // 7-30
             getPosition: () => WEAPON_POSITIONS.MISSILES
         },
         RIFLES: {
-            levels: Array.from({length: 17}, (_, i) => i + 4), // 4-20
+            levels: Array.from({length: 27}, (_, i) => i + 4), // 4-30
             getPosition: () => WEAPON_POSITIONS.RIFLES
         }
     },
     
     // Drop configuration
     DROP_CONFIG: {
-        POWER_UP_CHANCE: 0.1,
+        POWER_UP_CHANCE: 0.01,
         SHIELD_CHANCE: 0.15,
         TANK_GUARANTEED: true
     },
@@ -257,7 +258,7 @@ const GAME_CONFIG = {
     MISSILE_CONFIG: {
         MAX_SPEED: 25,
         LIFE: 100,
-        HOMING_STRENGTH: 0.5,
+        HOMING_STRENGTH: 1,
         INITIAL_SPEED: 8
     },
     
@@ -267,8 +268,8 @@ const GAME_CONFIG = {
         SPAWN_RATE_DIFFICULTY_MULTIPLIER: 10,
         DIFFICULTY_INCREASE_INTERVAL: 300,
         DIFFICULTY_INCREASE_AMOUNT: 0.3,
-        CANVAS_WIDTH_MAX: 800,
-        CANVAS_HEIGHT_MAX: 600
+        CANVAS_WIDTH_MAX: 450,
+        CANVAS_HEIGHT_MAX: 800
     },
 
     // Waves configuration
@@ -277,35 +278,55 @@ const GAME_CONFIG = {
             name: "Wave 1: The Beginning",
             enemies: [
                 { type: 'STANDARD', count: 5, delay: 120 },
-                { type: 'ELITE_STANDARD', count: 3, delay: 60 },
-                { type: 'TANK', count: 2, delay: 150 }
+                { type: 'SCOUT', count: 3, delay: 250 },
+                { type: 'STANDARD', count: 15, delay: 300 },
+                { type: 'TANK', count: 1, delay: 400 }
             ],
         },
         {
             name: "Wave 2: Fast & Furious",
             enemies: [
                 { type: 'STANDARD', count: 8, delay: 60 },
-                { type: 'SCOUT', count: 6, delay: 90 },
-                { type: 'KAMIKAZE', count: 3, delay: 120 },
-                { type: 'TANK', count: 2, delay: 150 }
+                { type: 'SCOUT', count: 6, delay: 120 },
+                { type: 'KAMIKAZE', count: 3, delay: 300 },
+                { type: 'TANK', count: 1, delay: 400 }
             ],
         },
         {
-            name: "Wave 3: Shielded Advance",
+            name: "Wave 3: Kamikaze Assault",
             enemies: [
-                { type: 'SHIELDED', count: 20, delay: 150 },
-                { type: 'STANDARD', count: 10, delay: 60 },
-                { type: 'SNIPER', count: 3, delay: 180 },
-                { type: 'BOMBER', count: 2, delay: 200 }
+                { type: 'KAMIKAZE', count: 4, delay: 60, batch: true },
+                { type: 'KAMIKAZE', count: 8, delay: 150, batch: true },
+                { type: 'KAMIKAZE', count: 12, delay: 150, batch: true },
+                { type: 'TANK', count: 1, delay: 400 }
             ],
         },
         {
-            name: "Wave 4: Tank Siege",
+            name: "Wave 4: Standard air strike",
             enemies: [
-                { type: 'TANK', count: 4, delay: 200 },
-                { type: 'BOMBER', count: 3, delay: 180 },
-                { type: 'SHIELDED', count: 3, delay: 150 },
-                { type: 'SPECIAL', count: 2, delay: 180 }
+                { type: 'STANDARD', count: 25, delay: 150 },
+                { type: 'SHIELDED_STANDARD', count: 10, delay: 300 },
+                { type: 'TANK', count: 1, delay: 400, batch: true },
+                { type: 'STANDARD', count: 25, delay: 60 },
+                { type: 'SHIELDED_STANDARD', count: 10, delay: 300, batch: true },
+            ],
+        },
+        {
+            name: "Wave 5: Meet the Bomber",
+            enemies: [
+                { type: 'STANDARD', count: 25, delay: 60 },
+                { type: 'KAMIKAZE', count: 8, delay: 200 },
+                { type: 'SCOUT', count: 10, delay: 300 },
+                { type: 'BOMBER', count: 1, delay: 100 }
+            ],
+        },
+        {
+            name: "Wave 6: Tank Siege",
+            enemies: [
+                { type: 'SHIELDED_STANDARD', count: 25, delay: 300 },
+                { type: 'STANDARD', count: 0, delay: 300 },
+                { type: 'KAMIKAZE', count: 16, delay: 500 },
+                { type: 'BOMBER', count: 3, delay: 100 },
             ],
         },
         {
@@ -321,9 +342,8 @@ const GAME_CONFIG = {
             name: "Wave 6: Elite Guard",
             enemies: [
                 { type: 'ELITE_STANDARD', count: 5, delay: 120 },
-                { type: 'SHIELDED', count: 6, delay: 120 },
+                { type: 'SHIELDED_STANDARD', count: 6, delay: 120 },
                 { type: 'ELITE_SNIPER', count: 3, delay: 180 },
-                { type: 'TANK', count: 2, delay: 240 }
             ],
         },
         {
@@ -338,7 +358,6 @@ const GAME_CONFIG = {
             name: "Wave 8: Heavy Metal",
             enemies: [
                 { type: 'MEGA_TANK', count: 4, delay: 200 },
-                { type: 'TANK', count: 8, delay: 180 },
                 { type: 'PHANTOM_SCOUT', count: 10, delay: 120 }
             ],
         },
@@ -368,7 +387,6 @@ const GAME_CONFIG = {
             name: "Wave 12: Elite Assault",
             enemies: [
                 { type: 'ELITE_STANDARD', count: 15, delay: 100 },
-                { type: 'ELITE_SNIPER', count: 10, delay: 140 },
                 { type: 'MEGA_TANK', count: 5, delay: 200 }
             ]
         },
@@ -401,7 +419,7 @@ const GAME_CONFIG = {
             name: "Wave 16: Elite Nightmare",
             enemies: [
                 { type: 'ELITE_SNIPER', count: 15, delay: 120 },
-                { type: 'ELITE_STANDARD', count: 20, delay: 80 },
+                { type: 'ELITE_STANDARD', count: 5, delay: 80 },
                 { type: 'MEGA_TANK', count: 6, delay: 180 }
             ]
         },
@@ -417,7 +435,7 @@ const GAME_CONFIG = {
             name: "Wave 18: Mega Fortress",
             enemies: [
                 { type: 'MEGA_TANK', count: 20, delay: 100 },
-                { type: 'SHIELDED', count: 25, delay: 80 },
+                { type: 'SHIELDED_STANDARD', count: 25, delay: 80 },
                 { type: 'ELITE_SNIPER', count: 12, delay: 150 }
             ]
         },
@@ -459,7 +477,7 @@ const GAME_CONFIG = {
             enemies: [
                 { type: 'ELITE_SNIPER', count: 25, delay: 100 },
                 { type: 'ELITE_STANDARD', count: 35, delay: 50 },
-                { type: 'SHIELDED', count: 30, delay: 70 }
+                { type: 'SHIELDED_STANDARD', count: 30, delay: 70 }
             ]
         },
         {
