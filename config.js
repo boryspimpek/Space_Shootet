@@ -30,9 +30,9 @@ const GAME_CONFIG = {
         ELITE_STANDARD: { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0, offsetAngle: Math.PI },
         SNIPER:       { count: 1, speed: 4, requirePlayerBelow: true, aimAtPlayer: true, spreadAngle: 0,           offsetAngle: 0 },
         ELITE_SNIPER: { count: 1, speed: 8, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: 0,           offsetAngle: 0 },
-        SPREAD_FULL:  { count: 8, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI*2,   offsetAngle: -Math.PI/2 },
-        SPREAD_HALF:  { count: 5, speed: 4, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: Math.PI/2,  offsetAngle: 0 },
-        BURST:        { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: true, spreadAngle: 0.4,        offsetAngle: -0.2 },
+        SPREAD_FULL:  { count: 8, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI*2,   offsetAngle: 0 },
+        SPREAD_HALF:  { count: 5, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI/2,  offsetAngle: Math.PI },
+        BURST:        { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0.4,        offsetAngle: Math.PI },
         BOMB_DROP:    { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0,          offsetAngle: Math.PI, bulletSize: { width: 20, height: 20 } }
     },
     
@@ -278,7 +278,6 @@ const GAME_CONFIG = {
             enemies: [
                 { type: 'STANDARD', count: 5, delay: 120 },
                 { type: 'ELITE_STANDARD', count: 3, delay: 60 },
-                { type: 'BOMBER', count: 1, delay: 180 },
                 { type: 'TANK', count: 2, delay: 150 }
             ],
             spawnInterval: 100
