@@ -77,6 +77,7 @@ class Enemy {
         this.shootCounter = 0;
         this.pattern = Math.random() * Math.PI * 2;
         this.kamikazeTimer = 0;
+        this.shieldedKamikazeTimer = 0;
         this.givingUp = false;
         
         // Load enemy image for STANDARD type
@@ -145,6 +146,9 @@ class Enemy {
                 break;
             case 'KAMIKAZE':
                 this.updateKamikazeMovement(player);
+                break;
+            case 'SHIELDED_KAMIKAZE':
+                this.updateShieldedKamikazeMovement(player);
                 break;
             case 'TANK':
                 this.updateTankMovement(canvas);
@@ -216,6 +220,33 @@ class Enemy {
             }
         }
     }
+
+    updateShieldedKamikazeMovement(player) {
+        this.shieldedKamikazeTimer++;
+        
+        // Give up after 3 seconds (180 frames at 60fps)
+        if (this.shieldedKamikazeTimer > 180 && !this.givingUp) {
+            this.givingUp = true;
+        }
+        
+        if (this.givingUp) {
+            // Fly away
+            this.y += this.config.speed * 2;
+            this.x += Math.sin(this.pattern) * 4;
+            this.pattern += 0.1;
+        } else {
+            // Attack player
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist > 0) {
+                this.x += (dx / dist) * this.config.speed;
+                this.y += (dy / dist) * this.config.speed;
+            }
+        }
+    }
+
+
     
     updateTankMovement(canvas) {
         this.y += this.config.speed;
@@ -368,6 +399,9 @@ class Enemy {
             case 'KAMIKAZE':
                 this.drawKamikaze(ctx);
                 break;
+            case 'SHIELDED_KAMIKAZE':
+                this.drawShieldedKamikaze(ctx);
+                break;
             case 'SCOUT':
                 this.drawScout(ctx);
                 break;
@@ -434,7 +468,26 @@ class Enemy {
         ctx.closePath();
         ctx.fill();
     }
-    
+
+    drawShieldedKamikaze(ctx) {
+        // Diamond shape with shield ring around it
+        // Draw shield first (outer circle)
+        ctx.beginPath();
+        ctx.arc(0, 0, this.config.size * 0.7, 0, Math.PI * 2);
+        ctx.strokeStyle = '#0ff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw diamond body
+        ctx.beginPath();
+        ctx.moveTo(0, -this.config.size/2);
+        ctx.lineTo(this.config.size/2, 0);
+        ctx.lineTo(0, this.config.size/2);
+        ctx.lineTo(-this.config.size/2, 0);
+        ctx.closePath();
+        ctx.fill();
+    }
+
     drawScout(ctx) {
         // Small fast triangle
         ctx.beginPath();

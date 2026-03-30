@@ -69,6 +69,15 @@ const ENEMY_TYPES = {
         shootRate: 0,
         bulletSize: { width: 4, height: 4 }
     },
+    SHIELDED_KAMIKAZE: {
+        hp: 5,
+        speed: 6,
+        score: 15,
+        color: '#f0f',
+        size: 12,
+        shootRate: 0,
+        bulletSize: { width: 4, height: 4 }
+    },
     TANK: {
         hp: 5,
         speed: 1,
