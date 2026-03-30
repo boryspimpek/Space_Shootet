@@ -139,25 +139,13 @@ class CircleRender extends RenderStrategy {
 
 class BossMiniRender extends ImageRenderStrategy {
     constructor() {
-        super('boss_mini.png', Math.PI);
-    }
-    
-    drawFallback(ctx, enemy) {
-        ctx.fillRect(-enemy.config.size/2, -enemy.config.size/2, enemy.config.size * 2, enemy.config.size);
+        super('boss_mini.png', Math.PI, 80, 40);
     }
 }
 
 class BomberRender extends ImageRenderStrategy {
     constructor() {
-        super('bomber.png', 0, 40, 80);
-    }
-    
-    draw(ctx, enemy) {
-        if (this.imageEntry.loaded) {
-            ctx.drawImage(this.imageEntry.image, -20, -40);
-        } else {
-            ctx.fillRect(-enemy.config.size/2, -enemy.config.size, enemy.config.size, enemy.config.size * 2);
-        }
+        super('bomber.png', 0);
     }
 }
 

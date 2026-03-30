@@ -1,13 +1,4 @@
 // ========== ENEMY CONFIGURATION ==========
-
-// Universal shooting pattern - one pattern to rule them all
-// Parameters:
-// - count: number of bullets (1, 3, 5, 8, etc.)
-// - speed: bullet speed in pixels per frame
-// - requirePlayerBelow: only shoot if player is below enemy
-// - aimAtPlayer: true = aim at player, false = shoot upward/around
-// - spreadAngle: arc of fire (0 = single direction, Math.PI = 180°, Math.PI*2 = full circle)
-// - offsetAngle: rotates the firing arc (for full circle around enemy: -Math.PI/2)
 const UNIVERSAL_PATTERN = {
     count: 1,
     speed: 5,
