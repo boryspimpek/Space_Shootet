@@ -266,6 +266,10 @@ class Enemy {
     
     shoot(player) {
         if (this.shootingPattern) {
+            // Play shoot sound for ELITE_STANDARD
+            if (this.type === 'ELITE_STANDARD') {
+                new Audio('shoot.wav').play();
+            }
             ShootingPatterns.execute(this, player);
         }
     }
