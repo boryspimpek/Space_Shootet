@@ -36,7 +36,7 @@ class WaveManager {
             if (allSpawned && enemies.length === 0) {
                 this.isWaveActive = false;
                 this.currentWave++;
-                this.waveMessageTimer = 120; 
+                this.waveMessageTimer = 300; 
                 this.waveTimer = 0;
             }
         }
@@ -60,7 +60,7 @@ class WaveManager {
 
         this.isWaveActive = true;
         this.waveTimer = 0;
-        this.waveMessageTimer = 120; // Show "Wave X" message
+        this.waveMessageTimer = 300; // Show "Wave X" message
         
         // Increase difficulty slightly each wave
         difficulty = 1 + (waveIndex * 0.2);
