@@ -112,7 +112,7 @@ class Game {
         
         // Margins: small on sides, larger on bottom for mobile navigation bar
         const sideMargin = 10;
-        const bottomMargin = isMobile ? 80 : 10;
+        const bottomMargin = isMobile ? 100 : 10;
         const topMargin = 10;
         
         const availableWidth = window.innerWidth - (sideMargin * 2);
