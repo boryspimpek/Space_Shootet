@@ -30,6 +30,11 @@ class Game {
         this.enemies = [];
         this.enemyBullets = [];
         
+        // Background music
+        this.backgroundMusic = new Audio('galactic_run.mp3');
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.5;
+        
         // Initialize
         this.init();
     }
@@ -103,6 +108,10 @@ class Game {
         setParticleSystem(this.particleSystem);
         setPowerUpSystem(this.powerUpSystem);
         
+        // Start background music
+        this.backgroundMusic.currentTime = 0;
+        this.backgroundMusic.play().catch(() => {});
+        
         this.gameLoop();
     }
     
@@ -113,6 +122,9 @@ class Game {
     
     endGame() {
         this.gameRunning = false;
+        
+        // Stop background music
+        this.backgroundMusic.pause();
         
         // Check high score
         if (this.score > this.highScore) {
