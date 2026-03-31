@@ -39,7 +39,8 @@ const ENEMY_TYPES = {
         shootRate: 280,
         shield: true,
         shootingPattern: 'NORMAL',
-        bulletSize: { width: 5, height: 5 }
+        bulletSize: { width: 9, height: 9 },
+        bulletImage: 'blue_bullet.png'
     },
     SNIPER: {
         hp: 2,
@@ -96,7 +97,8 @@ const ENEMY_TYPES = {
         size: 10,
         shootRate: 30,
         shootingPattern: 'NORMAL',
-        bulletSize: { width: 3, height: 3 }
+        bulletSize: { width: 6, height: 6 },
+        bulletImage: 'yellow_bullet.png'
     },
     BOSS_MINI: {
         hp: 60,
@@ -156,7 +158,8 @@ const ENEMY_TYPES = {
         size: 40,
         shootRate: 80,
         shootingPattern: 'BOMB_DROP',
-        bulletSize: { width: 20, height: 20 }
+        bulletSize: { width: 20, height: 20 },
+        bulletImage: 'bomber_bullet.png'
     }
 };
 // ==========================================

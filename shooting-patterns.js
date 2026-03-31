@@ -42,12 +42,14 @@ class ShootingPatterns {
             const bulletSize = enemy.config.bulletSize || config.bulletSize;
             const bulletWidth = bulletSize?.width || 4;
             const bulletHeight = bulletSize?.height || 4;
+            const bulletImage = enemy.config.bulletImage || null;
             
             enemy.game.enemyBullets.push(new EnemyBullet(
                 enemy.x, enemy.y,
                 Math.cos(angle) * config.speed,
                 Math.sin(angle) * config.speed,
-                bulletWidth, bulletHeight
+                bulletWidth, bulletHeight,
+                bulletImage
             ));
         }
     }
