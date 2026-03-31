@@ -107,8 +107,23 @@ class Game {
     }
     
     resizeCanvas() {
-        this.canvas.width = Math.min(window.innerWidth - 20, GAME_CONFIG.GAME_SETTINGS.CANVAS_WIDTH_MAX);
-        this.canvas.height = Math.min(window.innerHeight - 20, GAME_CONFIG.GAME_SETTINGS.CANVAS_HEIGHT_MAX);
+        // Available space with small margin
+        const availableWidth = window.innerWidth - 20;
+        const availableHeight = window.innerHeight - 20;
+        
+        // Target aspect ratio 9:16 (vertical/portrait for mobile)
+        const targetRatio = 9 / 16;
+        const availableRatio = availableWidth / availableHeight;
+        
+        if (availableRatio > targetRatio) {
+            // Screen is wider than 9:16, limit by height
+            this.canvas.height = availableHeight;
+            this.canvas.width = availableHeight * targetRatio;
+        } else {
+            // Screen is narrower than 9:16, limit by width
+            this.canvas.width = availableWidth;
+            this.canvas.height = availableWidth / targetRatio;
+        }
     }
     
     startGame() {
