@@ -17,6 +17,13 @@ class Game {
         this.gameTime = 0;
         this.difficulty = 1;
         
+        // Touch drag tracking
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.playerOffsetX = 0;
+        this.playerOffsetY = 0;
+        this.isTouching = false;
+        
         // Game objects
         this.player = null;
         this.waveManager = null;
@@ -54,27 +61,39 @@ class Game {
             this.mouseY = e.clientY - rect.top;
         });
 
-        // Touch controls for mobile
+        // Touch controls for mobile (drag mode)
         this.canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            if (e.touches.length === 1) {
+            if (e.touches.length === 1 && this.player) {
                 const rect = this.canvas.getBoundingClientRect();
-                this.mouseX = e.touches[0].clientX - rect.left;
-                this.mouseY = e.touches[0].clientY - rect.top;
+                const touchX = e.touches[0].clientX - rect.left;
+                const touchY = e.touches[0].clientY - rect.top;
+                
+                // Store touch start position and player offset
+                this.touchStartX = touchX;
+                this.touchStartY = touchY;
+                this.playerOffsetX = this.player.x - touchX;
+                this.playerOffsetY = this.player.y - touchY;
+                this.isTouching = true;
             }
         }, { passive: false });
 
         this.canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
-            if (e.touches.length === 1) {
+            if (e.touches.length === 1 && this.isTouching && this.player) {
                 const rect = this.canvas.getBoundingClientRect();
-                this.mouseX = e.touches[0].clientX - rect.left;
-                this.mouseY = e.touches[0].clientY - rect.top;
+                const touchX = e.touches[0].clientX - rect.left;
+                const touchY = e.touches[0].clientY - rect.top;
+                
+                // Calculate new position: player follows finger movement, not finger position
+                this.mouseX = touchX + this.playerOffsetX;
+                this.mouseY = touchY + this.playerOffsetY;
             }
         }, { passive: false });
 
         this.canvas.addEventListener('touchend', (e) => {
             e.preventDefault();
+            this.isTouching = false;
         }, { passive: false });
 
         // Right click for shield (desktop)
