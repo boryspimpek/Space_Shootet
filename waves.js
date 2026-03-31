@@ -1,6 +1,8 @@
 // ==================== WAVE MANAGEMENT SYSTEM ====================
 // Klasa zarządzająca falami przeciwników w grze
 
+const WAVE_MESSAGE_DURATION = 180; // frames (~3 sekundy przy 60 FPS)
+
 class WaveManager {
     // ==================== CONSTRUCTOR ====================
     constructor(canvas, game) {
@@ -53,7 +55,7 @@ class WaveManager {
 
         this.isWaveActive = true;
         this.waveTimer = 0;
-        this.waveMessageTimer = 180;
+        this.waveMessageTimer = WAVE_MESSAGE_DURATION;
         
         this._applyDifficulty(waveIndex);
     }
@@ -92,7 +94,7 @@ class WaveManager {
         if (allSpawned && enemies.length === 0) {
             this.isWaveActive = false;
             this.currentWave++;
-            this.waveMessageTimer = 180;
+            this.waveMessageTimer = WAVE_MESSAGE_DURATION;
             this.waveTimer = 0;
         }
     }
