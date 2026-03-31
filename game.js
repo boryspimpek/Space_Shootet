@@ -107,9 +107,16 @@ class Game {
     }
     
     resizeCanvas() {
-        // Available space with small margin
-        const availableWidth = window.innerWidth - 5;
-        const availableHeight = window.innerHeight - 5;
+        // Check if mobile (has touch support and coarse pointer)
+        const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        
+        // Margins: small on sides, larger on bottom for mobile navigation bar
+        const sideMargin = 10;
+        const bottomMargin = isMobile ? 80 : 10;
+        const topMargin = 10;
+        
+        const availableWidth = window.innerWidth - (sideMargin * 2);
+        const availableHeight = window.innerHeight - topMargin - bottomMargin;
         
         // Target aspect ratio 9:16 (vertical/portrait for mobile)
         const targetRatio = 9 / 16;
