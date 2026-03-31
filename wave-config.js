@@ -55,7 +55,7 @@ const WAVES = [
         enemies: [
             { type: 'SHIELDED_STANDARD', count: 15, delay: 300 },
             { type: 'STANDARD', count: 0, delay: 300 },
-            { type: 'KAMIKAZE', count: 16, delay: 500 },
+            { type: 'SHIELDED_KAMIKAZE', count: 4, delay: 400 },
             { type: 'SCOUT', count: 10, delay: 120 },
             { type: 'SHIELDED_STANDARD', count: 5, delay: 60 },
             { type: 'SCOUT', count: 10, delay: 120 },

@@ -16,7 +16,7 @@ const SHOOTING_PRESETS = {
     SPREAD_FULL:  { count: 8, speed: 4, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: Math.PI*2,   offsetAngle: 0 },
     BOSS_MINI:    { count: 8, speed: 5, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0.2,        offsetAngle: Math.PI },
     MEGA_TANK:    { count: 3, speed: 5, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0.2,        offsetAngle: Math.PI },
-    BOMB_DROP:    { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0,          offsetAngle: Math.PI, bulletSize: { width: 20, height: 20 } }
+    BOMB_DROP:    { count: 1, speed: 6, requirePlayerBelow: false, aimAtPlayer: false, spreadAngle: 0,          offsetAngle: Math.PI }
 };
 
 // Enemy types configuration

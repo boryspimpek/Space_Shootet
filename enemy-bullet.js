@@ -11,7 +11,7 @@ class EnemyBullet {
         this.active = true;
         
         if (width === EnemyBullet.BOMBER_BULLET_SIZE && height === EnemyBullet.BOMBER_BULLET_SIZE) {
-            this.imageEntry = ImageLoader.load('bomber_bullet.png');
+            this.imageEntry = ImageLoader.load('bomber_bullet.png', 0, 5, 5);
         }
     }
     

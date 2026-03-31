@@ -33,14 +33,18 @@ class Player {
         // Load shoot sound
         this.shootSound = new Audio('shoot.wav');
         this.shootSound.volume = 0.3;
+        
+        // Load player death sound
+        this.deathSound = new Audio('player_dead.wav');
+        this.deathSound.volume = 0.5;
     }
     
     update(mouseX, mouseY, gameTime) {
         // Smooth movement towards mouse
         const dx = mouseX - this.x;
         const dy = mouseY - this.y;
-        this.x += dx * 0.1;
-        this.y += dy * 0.1;
+        this.x += dx * 0.5;
+        this.y += dy * 0.5;
         
         // Keep player in bounds
         this.x = Math.max(this.width/2, Math.min(this.canvas.width - this.width/2, this.x));
@@ -121,6 +125,10 @@ class Player {
     
     takeDamage() {
         if (this.isShieldActive) return false;
+        
+        // Play death sound for each life lost
+        this.deathSound.currentTime = 0;
+        this.deathSound.play().catch(() => {});
         
         this.weaponLevel--;
         if (this.weaponLevel < 1) {

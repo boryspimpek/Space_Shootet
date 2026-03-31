@@ -149,19 +149,43 @@ class BomberRender extends ImageRenderStrategy {
     }
 }
 
+class ShieldedStandardRender extends ImageRenderStrategy {
+    constructor() {
+        super('shielded_standard.png', 0, 22, 38);
+    }
+}
+
+class KamikazeRender extends ImageRenderStrategy {
+    constructor() {
+        super('kamikaze.png', 0, 18, 29);
+    }
+}
+
+class ShieldedKamikazeRender extends ImageRenderStrategy {
+    constructor() {
+        super('shielded_kamikaze.png', 0, 18, 32);
+    }
+}
+
+class TankRender extends ImageRenderStrategy {
+    constructor() {
+        super('tank.png', 0, 25, 25);
+    }
+}
+
 const RENDER_STRATEGIES = {
     STANDARD: () => new StandardRender(),
-    KAMIKAZE: () => new DiamondRender(),
-    SHIELDED_KAMIKAZE: () => new ShieldedDiamondRender(),
+    SHIELDED_STANDARD: () => new ShieldedStandardRender(),
+    KAMIKAZE: () => new KamikazeRender(),
+    SHIELDED_KAMIKAZE: () => new ShieldedKamikazeRender(),
     SCOUT: () => new TriangleRender(),
     PHANTOM_SCOUT: () => new OutlinedTriangleRender(),
     SNIPER: () => new SquareRender(),
     ELITE_SNIPER: () => new SquareRender(),
     SPECIAL: () => new SquareRender(),
     ELITE_STANDARD: () => new RotatedSquareRender(),
-    TANK: () => new HexagonRender(1),
-    MEGA_TANK: () => new HexagonRender(1.2),
-    SHIELDED_STANDARD: () => new CircleRender(),
+    TANK: () => new TankRender(),
+    MEGA_TANK: () => new HexagonRender(),
     BOSS_MINI: () => new BossMiniRender(),
     BOMBER: () => new BomberRender()
 };
