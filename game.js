@@ -118,16 +118,19 @@ class Game {
         const availableWidth = window.innerWidth - (sideMargin * 2);
         const availableHeight = window.innerHeight - topMargin - bottomMargin;
         
-        // Target aspect ratio 9:16 (vertical/portrait for mobile)
-        const targetRatio = 9 / 16;
         const availableRatio = availableWidth / availableHeight;
         
+        // Dynamic aspect ratio based on screen proportions
+        // Tablets (wider): use 10:16 (0.625) - more horizontal space
+        // Phones (narrower): use 9:16 (0.5625) - classic mobile ratio
+        const targetRatio = availableRatio > 0.65 ? (10 / 16) : (9 / 16);
+        
         if (availableRatio > targetRatio) {
-            // Screen is wider than 9:16, limit by height
+            // Screen is wider than target, limit by height
             this.canvas.height = availableHeight;
             this.canvas.width = availableHeight * targetRatio;
         } else {
-            // Screen is narrower than 9:16, limit by width
+            // Screen is narrower than target, limit by width
             this.canvas.width = availableWidth;
             this.canvas.height = availableWidth / targetRatio;
         }
