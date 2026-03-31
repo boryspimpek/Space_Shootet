@@ -126,30 +126,13 @@ class Game {
     }
     
     resizeCanvas() {
-        // Check if mobile (has touch support and coarse pointer)
-        const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        // Canvas fills the entire viewport
+        const sideMargin = 0;
+        const bottomMargin = 0;
+        const topMargin = 0;
         
-        // Margins: small on sides, larger on bottom for mobile navigation bar
-        const sideMargin = 10;
-        const bottomMargin = isMobile ? 100 : 10;
-        const topMargin = 10;
-        
-        const availableWidth = window.innerWidth - (sideMargin * 2);
-        const availableHeight = window.innerHeight - topMargin - bottomMargin;
-        
-        // Target aspect ratio 9:16 (vertical/portrait for mobile)
-        const targetRatio = 9 / 16;
-        const availableRatio = availableWidth / availableHeight;
-        
-        if (availableRatio > targetRatio) {
-            // Screen is wider than 9:16, limit by height
-            this.canvas.height = availableHeight;
-            this.canvas.width = availableHeight * targetRatio;
-        } else {
-            // Screen is narrower than 9:16, limit by width
-            this.canvas.width = availableWidth;
-            this.canvas.height = availableWidth / targetRatio;
-        }
+        this.canvas.width = window.innerWidth - (sideMargin * 2);
+        this.canvas.height = window.innerHeight - topMargin - bottomMargin;
     }
     
     startGame() {
