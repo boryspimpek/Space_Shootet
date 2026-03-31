@@ -37,6 +37,9 @@ class Game {
         
         // Initialize
         this.init();
+        
+        // Shield button reference
+        this.shieldBtn = document.getElementById('shieldBtn');
     }
     
     init() {
@@ -51,13 +54,53 @@ class Game {
             this.mouseY = e.clientY - rect.top;
         });
 
-        // Right click for shield
+        // Touch controls for mobile
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouseX = e.touches[0].clientX - rect.left;
+                this.mouseY = e.touches[0].clientY - rect.top;
+            }
+        }, { passive: false });
+
+        this.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (e.touches.length === 1) {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouseX = e.touches[0].clientX - rect.left;
+                this.mouseY = e.touches[0].clientY - rect.top;
+            }
+        }, { passive: false });
+
+        this.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Right click for shield (desktop)
         this.canvas.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             if (this.gameRunning && this.player) {
                 this.player.activateShield();
             }
         });
+
+        // Shield button for mobile
+        const shieldBtn = document.getElementById('shieldBtn');
+        if (shieldBtn) {
+            shieldBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (this.gameRunning && this.player) {
+                    this.player.activateShield();
+                }
+            }, { passive: false });
+            shieldBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (this.gameRunning && this.player) {
+                    this.player.activateShield();
+                }
+            });
+        }
         
         // Update high score display
         document.getElementById('highScore').textContent = this.highScore;
@@ -104,6 +147,11 @@ class Game {
         waveManager = this.waveManager;
         game = this;
         
+        // Show shield button on mobile
+        if (this.shieldBtn) {
+            this.shieldBtn.classList.remove('hidden');
+        }
+        
         // Set global system references
         setParticleSystem(this.particleSystem);
         setPowerUpSystem(this.powerUpSystem);
@@ -134,6 +182,11 @@ class Game {
             document.getElementById('newHighScore').classList.remove('hidden');
         } else {
             document.getElementById('newHighScore').classList.add('hidden');
+        }
+        
+        // Hide shield button
+        if (this.shieldBtn) {
+            this.shieldBtn.classList.add('hidden');
         }
         
         document.getElementById('finalScore').textContent = this.score;

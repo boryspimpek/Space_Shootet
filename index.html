@@ -36,15 +36,25 @@
             cursor: crosshair;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         #hud {
             position: absolute;
             top: 10px;
             left: 10px;
-            font-size: 16px;
+            font-size: 14px;
             text-shadow: 2px 2px 0 #000;
             z-index: 10;
+        }
+
+        @media (min-width: 768px) {
+            #hud {
+                font-size: 16px;
+            }
         }
         
         #gameOver, #startScreen {
@@ -77,19 +87,50 @@
             background: #0f0;
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
             margin: 10px 0 0 0;
+            touch-action: manipulation;
         }
         
-        button:hover {
-            background: #0a0;
+        #shieldBtn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(0, 255, 0, 0.3);
+            border: 3px solid #0f0;
+            color: #0f0;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 15;
+            display: none;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #shieldBtn.active {
+            display: block;
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            #shieldBtn.active {
+                display: block;
+            }
+        }
+
+        #shieldBtn:active {
+            background: rgba(0, 255, 0, 0.6);
         }
         
         .hidden {
-            display: none;
+            display: none !important;
         }
     </style>
 </head>
@@ -105,10 +146,10 @@
         
         <div id="startScreen">
             <h2>RETRO SURVIVOR SPACE SHOOTER</h2>
-            <p>Move mouse to control ship</p>
+            <p>Touch and drag to control ship</p>
             <p>Auto-fire enabled</p>
             <p>Collect power-ups to upgrade weapons</p>
-            <p>Right-click to activate shield</p>
+            <p>Right-click or tap shield button to activate</p>
             <button onclick="startGame()">START GAME</button>
         </div>
         
@@ -118,6 +159,7 @@
             <p id="newHighScore" class="hidden">NEW HIGH SCORE!</p>
             <button onclick="restartGame()">PLAY AGAIN</button>
         </div>
+        <button id="shieldBtn" class="hidden">SHIELD</button>
     </div>
 
     <!-- Load all game modules -->
