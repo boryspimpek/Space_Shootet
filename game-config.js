@@ -9,7 +9,7 @@ const DROP_CONFIG = {
 
 // Game settings
 const GAME_SETTINGS = {
-    CANVAS_WIDTH_MAX: 450,
-    CANVAS_HEIGHT_MAX: 800
+    CANVAS_WIDTH_MAX: 600,
+    CANVAS_HEIGHT_MAX: 1000
 };
 // ==========================================
