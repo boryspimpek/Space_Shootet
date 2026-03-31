@@ -108,8 +108,8 @@ class Game {
     
     resizeCanvas() {
         // Available space with small margin
-        const availableWidth = window.innerWidth - 20;
-        const availableHeight = window.innerHeight - 20;
+        const availableWidth = window.innerWidth - 5;
+        const availableHeight = window.innerHeight - 5;
         
         // Target aspect ratio 9:16 (vertical/portrait for mobile)
         const targetRatio = 9 / 16;
