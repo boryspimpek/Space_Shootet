@@ -226,17 +226,27 @@ class Game {
         
         // Draw background image
         if (this.backgroundImage.complete) {
-            // Scale image to fit canvas while maintaining aspect ratio
-            const scale = Math.min(
-                this.canvas.width / 450,
-                this.canvas.height / 800
-            );
-            const scaledWidth = 450 * scale;
-            const scaledHeight = 800 * scale;
-            const x = (this.canvas.width - scaledWidth) / 2;
-            const y = (this.canvas.height - scaledHeight) / 2;
+            // Scale image to cover entire canvas (fill screen, crop if needed)
+            const imgAspect = this.backgroundImage.width / this.backgroundImage.height;
+            const canvasAspect = this.canvas.width / this.canvas.height;
             
-            this.ctx.drawImage(this.backgroundImage, x, y, scaledWidth, scaledHeight);
+            let drawWidth, drawHeight, x, y;
+            
+            if (canvasAspect > imgAspect) {
+                // Canvas is wider than image - scale to width, crop top/bottom
+                drawWidth = this.canvas.width;
+                drawHeight = drawWidth / imgAspect;
+                x = 0;
+                y = (this.canvas.height - drawHeight) / 2;
+            } else {
+                // Canvas is taller than image - scale to height, crop left/right
+                drawHeight = this.canvas.height;
+                drawWidth = drawHeight * imgAspect;
+                x = (this.canvas.width - drawWidth) / 2;
+                y = 0;
+            }
+            
+            this.ctx.drawImage(this.backgroundImage, x, y, drawWidth, drawHeight);
         }
         
         // Update game time
