@@ -8,6 +8,12 @@ class StandardMovement extends MovementStrategy {
     }
 }
 
+class ShootingStandardMovement extends MovementStrategy {
+    update(enemy, canvas, player) {
+        enemy.y += enemy.config.speed;
+    }
+}
+
 class SniperMovement extends MovementStrategy {
     update(enemy, canvas, player) {
         enemy.x += Math.sin(enemy.pattern) * enemy.config.speed;

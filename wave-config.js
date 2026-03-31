@@ -34,16 +34,16 @@ const WAVES = [
             { type: 'STANDARD', count: 25, delay: 150 },
             { type: 'SHIELDED_STANDARD', count: 10, delay: 300 },
             { type: 'TANK', count: 1, delay: 400, batch: true },
-            { type: 'STANDARD', count: 25, delay: 60 },
+            { type: 'SHOOTING_STANDARD', count: 25, delay: 60 },
             { type: 'SHIELDED_STANDARD', count: 10, delay: 300, batch: true },
         ],
     },
     {
         name: "Wave 5: Meet the Bomber",
         enemies: [
-            { type: 'STANDARD', count: 25, delay: 60 },
+            { type: 'SHOOTING_STANDARD', count: 25, delay: 60 },
             { type: 'KAMIKAZE', count: 16, delay: 400 },
-            { type: 'STANDARD', count: 8, delay: 60 },
+            { type: 'SHOOTING_STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
             { type: 'TANK', count: 1, delay: 200 },
@@ -68,7 +68,7 @@ const WAVES = [
         enemies: [
             { type: 'SCOUT', count: 10, delay: 120 },
             { type: 'KAMIKAZE', count: 5, delay: 180 },
-            { type: 'STANDARD', count: 10, delay: 60 },
+            { type: 'SHOOTING_STANDARD', count: 10, delay: 60 },
             { type: 'SHIELDED_STANDARD', count: 5, delay: 300 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'KAMIKAZE', count: 3, delay: 300 },

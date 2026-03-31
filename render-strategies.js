@@ -41,6 +41,22 @@ class StandardRender extends ImageRenderStrategy {
     }
 }
 
+class ShootingStandardRender extends ImageRenderStrategy {
+    constructor() {
+        super('standard.png', Math.PI);
+    }
+    
+    drawFallback(ctx, enemy) {
+        ctx.beginPath();
+        ctx.moveTo(0, -enemy.config.size/2);
+        ctx.lineTo(enemy.config.size/2, 0);
+        ctx.lineTo(0, enemy.config.size/2);
+        ctx.lineTo(-enemy.config.size/2, 0);
+        ctx.closePath();
+        ctx.fill();
+    }
+}
+
 class DiamondRender extends RenderStrategy {
     draw(ctx, enemy) {
         ctx.beginPath();
@@ -175,6 +191,7 @@ class TankRender extends ImageRenderStrategy {
 
 const RENDER_STRATEGIES = {
     STANDARD: () => new StandardRender(),
+    SHOOTING_STANDARD: () => new ShootingStandardRender(),
     SHIELDED_STANDARD: () => new ShieldedStandardRender(),
     KAMIKAZE: () => new KamikazeRender(),
     SHIELDED_KAMIKAZE: () => new ShieldedKamikazeRender(),

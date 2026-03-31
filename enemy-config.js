@@ -30,6 +30,17 @@ const ENEMY_TYPES = {
         shootRate: 0,
         bulletSize: { width: 4, height: 4 }
     },
+    SHOOTING_STANDARD: {
+        hp: 1,
+        speed: 2,
+        score: 10,
+        color: '#f00',
+        size: 20,
+        shootRate: 100,
+        shootingPattern: 'NORMAL',
+        bulletSize: { width: 9, height: 9 },
+        bulletImage: 'green_bullet.png'
+    },
     SHIELDED_STANDARD: {
         hp: 8,
         speed: 1,
