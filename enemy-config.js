@@ -66,18 +66,18 @@ const ENEMY_TYPES = {
     KAMIKAZE: {
         hp: 1,
         speed: 6,
-        score: 15,
+        score: 25,
         color: '#f0f',
-        size: 12,
+        size: 25,
         shootRate: 0,
         bulletSize: { width: 4, height: 4 }
     },
     SHIELDED_KAMIKAZE: {
         hp: 3,
         speed: 6,
-        score: 15,
+        score: 25,
         color: '#f0f',
-        size: 12,
+        size: 25,
         shootRate: 0,
         bulletSize: { width: 4, height: 4 }
     },

@@ -51,7 +51,7 @@ class KamikazeRender extends ImageRenderStrategy {
 
 class ShieldedKamikazeRender extends ImageRenderStrategy {
     constructor() {
-        super('shielded_kamikaze.png', 0, 18, 32);
+        super('enemy_shielded_kamikaze.png', 0, 30, 47);
     }
 }
 
@@ -159,7 +159,7 @@ class BossMiniRender extends ImageRenderStrategy {
 
 class BomberRender extends ImageRenderStrategy {
     constructor() {
-        super('bomber.png', 0);
+        super('enemy_bomber.png', 0, 50, 50);
     }    
 }    
 
