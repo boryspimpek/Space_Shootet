@@ -39,7 +39,7 @@ const ENEMY_TYPES = {
         shootRate: 100,
         shootingPattern: 'NORMAL',
         bulletSize: { width: 9, height: 9 },
-        bulletImage: 'green_bullet.png'
+        bulletImage: 'assets/green_bullet.png'
     },
     SHIELDED_STANDARD: {
         hp: 8,
@@ -51,7 +51,7 @@ const ENEMY_TYPES = {
         shield: true,
         shootingPattern: 'NORMAL',
         bulletSize: { width: 9, height: 9 },
-        bulletImage: 'blue_bullet.png'
+        bulletImage: 'assets/blue_bullet.png'
     },
     SNIPER: {
         hp: 2,
@@ -109,7 +109,7 @@ const ENEMY_TYPES = {
         shootRate: 30,
         shootingPattern: 'NORMAL',
         bulletSize: { width: 6, height: 6 },
-        bulletImage: 'yellow_bullet.png'
+        bulletImage: 'assets/yellow_bullet.png'
     },
     BOSS_MINI: {
         hp: 60,
@@ -170,7 +170,7 @@ const ENEMY_TYPES = {
         shootRate: 80,
         shootingPattern: 'BOMB_DROP',
         bulletSize: { width: 20, height: 20 },
-        bulletImage: 'bomber_bullet.png'
+        bulletImage: 'assets/bomber_bullet.png'
     }
 };
 // ==========================================

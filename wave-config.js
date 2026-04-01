@@ -4,7 +4,7 @@ const WAVES = [
     {
         name: "Wave 1: The Beginning",
         enemies: [
-            { type: 'BOMBER', count: 5, delay: 120 },
+            { type: 'STANDARD', count: 5, delay: 120 },
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
             { type: 'TANK', count: 1, delay: 400 }

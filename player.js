@@ -20,7 +20,7 @@ class Player {
         this.isShieldActive = false;
         
         // Load player image with specific dimensions (like enemy render strategies)
-        this.playerImageEntry = ImageLoader.load('player.png');
+        this.playerImageEntry = ImageLoader.load('assets/player.png');
         this.playerWidth = 40;  // docelowy width
         this.playerHeight = 58; // docelowy height
         

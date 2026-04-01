@@ -27,31 +27,31 @@ class ImageRenderStrategy extends RenderStrategy {
 
 class StandardRender extends ImageRenderStrategy {
     constructor() {
-        super('enemy_standard.png', 0, 30, 30);
+        super('assets/enemy_standard.png', 0, 30, 30);
     }
 }
 
 class ShootingStandardRender extends ImageRenderStrategy {
     constructor() {
-        super('enemy_standard.png');
+        super('assets/enemy_standard.png');
     }
 }
 
 class ShieldedStandardRender extends ImageRenderStrategy {
     constructor() {
-        super('enemy_shielded_standard.png', 0, 60, 40);
+        super('assets/enemy_shielded_standard.png', 0, 60, 40);
     }
 }
 
 class KamikazeRender extends ImageRenderStrategy {
     constructor() {
-        super('enemy_kamikaze.png', 0, 30, 47);
+        super('assets/enemy_kamikaze.png', 0, 30, 47);
     }
 }
 
 class ShieldedKamikazeRender extends ImageRenderStrategy {
     constructor() {
-        super('enemy_shielded_kamikaze.png', 0, 30, 47);
+        super('assets/enemy_shielded_kamikaze.png', 0, 30, 47);
     }
 }
 
@@ -153,19 +153,19 @@ class CircleRender extends RenderStrategy {
 
 class BossMiniRender extends ImageRenderStrategy {
     constructor() {
-        super('boss_mini.png', Math.PI, 80, 40);
+        super('assets/boss_mini.png', Math.PI, 80, 40);
     }    
 }    
 
 class BomberRender extends ImageRenderStrategy {
     constructor() {
-        super('enemy_bomber.png', 0, 50, 50);
+        super('assets/bomber.png', 0, 50, 50);
     }    
 }    
 
 class TankRender extends ImageRenderStrategy {
     constructor() {
-        super('tank.png', 0, 25, 25);
+        super('assets/tank.png', 0, 25, 25);
     }
 }
 

@@ -6,7 +6,7 @@ class Game {
         
         // Background image
         this.backgroundImage = new Image();
-        this.backgroundImage.src = 'background.png';
+        this.backgroundImage.src = 'assets/background.png';
         
         // Game state
         this.gameRunning = false;
