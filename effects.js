@@ -63,10 +63,11 @@ class PowerUp {
     constructor(x, y, forcedType = null) {
         this.x = x;
         this.y = y;
-        this.width = 15;
-        this.height = 15;
+        this.width = 40;
+        this.height = 40;
         this.active = true;
         this.pulse = 0;
+        this.rotation = 0;
         
         // Determine type (forced or random)
         if (forcedType) {
@@ -84,17 +85,21 @@ class PowerUp {
         
         // Set color based on type
         if (this.type === 'SHIELD') {
-            this.color = GAME_CONFIG.SHIELD_CONFIG.STROKE;
+            this.color = '#2196f3';
+            this.glowColor = '#64b5f6';
         } else if (this.type === 'SUPER_LASER') {
-            this.color = '#0ff';
+            this.color = '#00e5ff';
+            this.glowColor = '#18ffff';
         } else {
-            this.color = '#0f0';
+            this.color = '#76ff03';
+            this.glowColor = '#b2ff59';
         }
     }
     
     update(canvas) {
         this.y += 1;
-        this.pulse += 0.1;
+        this.pulse += 0.15;
+        this.rotation += 0.05;
         
         if (this.y > canvas.height) {
             this.active = false;
@@ -104,34 +109,150 @@ class PowerUp {
     draw(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate(this.pulse);
         
-        const scale = 1 + Math.sin(this.pulse * 2) * 0.2;
-        ctx.scale(scale, scale);
+        // Enhanced pulsing scale
+        const scale = 1 + Math.sin(this.pulse * 3) * 0.15;
+        const glowIntensity = 0.4 + Math.sin(this.pulse * 4) * 0.2;
         
-        ctx.fillStyle = this.color;
+        // Outer glow layers
+        ctx.shadowBlur = 30 * glowIntensity;
+        ctx.shadowColor = this.glowColor;
+        
+        // Outer ring pulse
+        ctx.strokeStyle = this.glowColor;
+        ctx.lineWidth = 3;
+        ctx.globalAlpha = 0.6 * glowIntensity;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.width/2 * scale * 1.3, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Middle glow ring
+        ctx.fillStyle = this.glowColor;
+        ctx.globalAlpha = 0.3 * glowIntensity;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.width/2 * scale * 1.1, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Reset shadow for main body
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color;
+        ctx.globalAlpha = 1;
         
         if (this.type === 'SHIELD') {
-            // Shield icon (circle)
-            ctx.beginPath();
-            ctx.arc(0, 0, this.width/2, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            this.drawShield(ctx, scale);
         } else if (this.type === 'SUPER_LASER') {
-            // Laser icon (vertical beam)
-            ctx.fillRect(-3, -this.height/2, 6, this.height);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(-1, -this.height/2, 2, this.height);
+            this.drawLaser(ctx, scale);
         } else {
-            // Weapon icon (square)
-            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(-2, -2, 4, 4);
+            this.drawWeapon(ctx, scale);
         }
         
         ctx.restore();
+    }
+    
+    drawShield(ctx, scale) {
+        const size = this.width * scale;
+        
+        // Main shield circle
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(0, 0, size/2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Inner shield symbol
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = '#fff';
+        
+        // Shield cross shape
+        const crossSize = size * 0.25;
+        ctx.fillRect(-crossSize/2, -size * 0.35, crossSize, size * 0.7);
+        ctx.fillRect(-size * 0.35, -crossSize/2, size * 0.7, crossSize);
+        
+        // Corner decorations
+        ctx.fillStyle = this.glowColor;
+        const cornerSize = size * 0.12;
+        ctx.fillRect(-size * 0.4, -size * 0.4, cornerSize, cornerSize);
+        ctx.fillRect(size * 0.28, -size * 0.4, cornerSize, cornerSize);
+        ctx.fillRect(-size * 0.4, size * 0.28, cornerSize, cornerSize);
+        ctx.fillRect(size * 0.28, size * 0.28, cornerSize, cornerSize);
+    }
+    
+    drawLaser(ctx, scale) {
+        const size = this.width * scale;
+        
+        // Main laser body (vertical rounded rectangle)
+        ctx.fillStyle = this.color;
+        
+        // Glow around laser
+        ctx.shadowBlur = 25;
+        ctx.shadowColor = this.glowColor;
+        
+        // Vertical beam
+        const beamWidth = size * 0.3;
+        const beamHeight = size * 0.85;
+        
+        ctx.beginPath();
+        ctx.roundRect(-beamWidth/2, -beamHeight/2, beamWidth, beamHeight, 8);
+        ctx.fill();
+        
+        // Energy core (white center)
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#fff';
+        ctx.fillRect(-beamWidth/4, -beamHeight/2 + 4, beamWidth/2, beamHeight - 8);
+        
+        // Rotating energy rings
+        ctx.save();
+        ctx.rotate(this.rotation);
+        ctx.strokeStyle = this.glowColor;
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = 0.8;
+        
+        for (let i = 0; i < 4; i++) {
+            ctx.save();
+            ctx.rotate((Math.PI / 2) * i + this.rotation * 0.5);
+            ctx.beginPath();
+            ctx.arc(0, -size * 0.5, size * 0.08, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+        }
+        ctx.restore();
+    }
+    
+    drawWeapon(ctx, scale) {
+        const size = this.width * scale;
+        
+        // Main square with rounded corners
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = this.glowColor;
+        
+        ctx.beginPath();
+        ctx.roundRect(-size/2, -size/2, size, size, 10);
+        ctx.fill();
+        
+        // Inner weapon symbol (W shape or bullet)
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#fff';
+        
+        // Bullet/arrow pointing up
+        const bulletWidth = size * 0.25;
+        const bulletHeight = size * 0.5;
+        
+        ctx.beginPath();
+        ctx.moveTo(0, -bulletHeight/2);
+        ctx.lineTo(-bulletWidth/2, bulletHeight/2);
+        ctx.lineTo(bulletWidth/2, bulletHeight/2);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Side accents
+        ctx.fillStyle = this.glowColor;
+        ctx.shadowBlur = 0;
+        const accentSize = size * 0.1;
+        ctx.fillRect(-size * 0.35, -size * 0.15, accentSize, accentSize * 2);
+        ctx.fillRect(size * 0.25, -size * 0.15, accentSize, accentSize * 2);
     }
 }
 
