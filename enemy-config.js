@@ -82,7 +82,7 @@ const ENEMY_TYPES = {
         bulletSize: { width: 4, height: 4 }
     },
     TANK: {
-        hp: 5,
+        hp: 1,
         speed: 1,
         score: 50,
         color: '#0f0',

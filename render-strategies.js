@@ -165,7 +165,7 @@ class BomberRender extends ImageRenderStrategy {
 
 class TankRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/tank.png', 0, 25, 25);
+        super('assets/powerup.png', 0, 40, 52);
     }
 }
 
