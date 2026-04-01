@@ -375,6 +375,7 @@ class Game {
         document.getElementById('score').textContent = Math.floor(this.score);
         document.getElementById('weaponLevel').textContent = this.player.weaponLevel;
         document.getElementById('shields').textContent = this.player.shieldCharges;
+        document.getElementById('wave').textContent = this.waveManager.currentWave + 1;
     }
     
     checkCollision(obj1, obj2) {

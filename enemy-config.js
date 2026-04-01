@@ -73,7 +73,7 @@ const ENEMY_TYPES = {
         bulletSize: { width: 4, height: 4 }
     },
     SHIELDED_KAMIKAZE: {
-        hp: 5,
+        hp: 3,
         speed: 6,
         score: 15,
         color: '#f0f',
