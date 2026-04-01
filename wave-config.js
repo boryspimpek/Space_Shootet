@@ -8,7 +8,6 @@ const WAVES = [
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
             { type: 'TANK', count: 1, delay: 60 },
-            { type: 'MEGA_TANK', count: 1, delay: 60 }
         ],
     },
     {
@@ -34,6 +33,7 @@ const WAVES = [
         name: "Wave 4: Air strike",
         enemies: [
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
+            { type: 'MEGA_TANK', count: 1, delay: 60 },
             { type: 'SHIELDED_STANDARD', count: 10, delay: 200 },
             { type: 'TANK', count: 1, delay: 400, batch: true },
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },

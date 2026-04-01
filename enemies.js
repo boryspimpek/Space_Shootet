@@ -84,10 +84,11 @@ class Enemy {
             }
             
             const dropChance = GAME_CONFIG.DROP_CONFIG.POWER_UP_CHANCE;
-            const tankDrop = this.type === 'TANK' && Math.random() < GAME_CONFIG.DROP_CONFIG.TANK_DROP_CHANCE;
             
-            if (Math.random() < dropChance || tankDrop) {
-                this.game.powerUpSystem.addPowerUp(this.x, this.y);
+            // TANK drops only SHIELD or WEAPON (no laser)
+            if (this.type === 'TANK' && Math.random() < GAME_CONFIG.DROP_CONFIG.TANK_DROP_CHANCE) {
+                const tankDropType = Math.random() < 0.2 ? 'SHIELD' : 'WEAPON';
+                this.game.powerUpSystem.addPowerUp(this.x, this.y, tankDropType);
             }
             
             // MEGA_TANK always drops SUPER_LASER
