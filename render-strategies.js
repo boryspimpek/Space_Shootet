@@ -59,7 +59,7 @@ class ShootingStandardRender extends ImageRenderStrategy {
 
 class ShieldedStandardRender extends ImageRenderStrategy {
     constructor() {
-        super('shielded_standard.png', 0, 22, 38);
+        super('enemy_shielded_standard.png', 0, 60, 40);
     }
 }
 

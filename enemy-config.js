@@ -46,7 +46,7 @@ const ENEMY_TYPES = {
         speed: 1,
         score: 60,
         color: '#fff',
-        size: 22,
+        size: 40,
         shootRate: 100,
         shield: true,
         shootingPattern: 'NORMAL',
