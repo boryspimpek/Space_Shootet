@@ -29,31 +29,11 @@ class StandardRender extends ImageRenderStrategy {
     constructor() {
         super('enemy_standard.png', 0, 30, 30);
     }
-    
-    drawFallback(ctx, enemy) {
-        ctx.beginPath();
-        ctx.moveTo(0, -enemy.config.size/2);
-        ctx.lineTo(enemy.config.size/2, 0);
-        ctx.lineTo(0, enemy.config.size/2);
-        ctx.lineTo(-enemy.config.size/2, 0);
-        ctx.closePath();
-        ctx.fill();
-    }
 }
 
 class ShootingStandardRender extends ImageRenderStrategy {
     constructor() {
         super('enemy_standard.png');
-    }
-    
-    drawFallback(ctx, enemy) {
-        ctx.beginPath();
-        ctx.moveTo(0, -enemy.config.size/2);
-        ctx.lineTo(enemy.config.size/2, 0);
-        ctx.lineTo(0, enemy.config.size/2);
-        ctx.lineTo(-enemy.config.size/2, 0);
-        ctx.closePath();
-        ctx.fill();
     }
 }
 
