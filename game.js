@@ -359,8 +359,23 @@ class Game {
                 this.particleSystem.createExplosion(this.player.x, this.player.y, '#f00', 20);
             }
             
+            // Check collision with laser
+            if (this.player.laserActive && this.checkLaserCollision(bullet)) {
+                bullet.active = false;
+                this.particleSystem.createExplosion(bullet.x, bullet.y, '#0ff', 5);
+            }
+            
             return bullet.active;
         });
+        
+        // Check laser collision with enemies
+        if (this.player.laserActive) {
+            this.enemies.forEach(enemy => {
+                if (enemy.active && this.checkLaserCollision(enemy)) {
+                    enemy.takeDamage(5); // Massive damage from laser
+                }
+            });
+        }
         
         // Update HUD
         this.updateHUD();
@@ -381,6 +396,13 @@ class Game {
     checkCollision(obj1, obj2) {
         return Math.abs(obj1.x - obj2.x) < (obj1.width + obj2.width) / 2 &&
                Math.abs(obj1.y - obj2.y) < (obj1.height + obj2.height) / 2;
+    }
+    
+    checkLaserCollision(obj) {
+        const laserWidth = GAME_CONFIG.LASER_CONFIG.WIDTH;
+        const playerX = this.player.x;
+        // Check if object is within laser's horizontal range
+        return Math.abs(obj.x - playerX) < (laserWidth + obj.width) / 2;
     }
 }
 

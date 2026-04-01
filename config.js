@@ -18,6 +18,9 @@ const GAME_CONFIG = {
     // Missile configuration
     MISSILE_CONFIG,
     
+    // Laser configuration
+    LASER_CONFIG,
+    
     // Game settings
     DROP_CONFIG,
     GAME_SETTINGS,

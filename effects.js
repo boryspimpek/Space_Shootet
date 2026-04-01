@@ -60,7 +60,7 @@ class ParticleSystem {
 
 // Power-up class
 class PowerUp {
-    constructor(x, y) {
+    constructor(x, y, forcedType = null) {
         this.x = x;
         this.y = y;
         this.width = 15;
@@ -68,9 +68,28 @@ class PowerUp {
         this.active = true;
         this.pulse = 0;
         
-        // Determine type
-        this.type = Math.random() < GAME_CONFIG.DROP_CONFIG.SHIELD_CHANCE ? 'SHIELD' : 'WEAPON';
-        this.color = this.type === 'SHIELD' ? GAME_CONFIG.SHIELD_CONFIG.STROKE : '#0f0';
+        // Determine type (forced or random)
+        if (forcedType) {
+            this.type = forcedType;
+        } else {
+            const rand = Math.random();
+            if (rand < GAME_CONFIG.DROP_CONFIG.SHIELD_CHANCE) {
+                this.type = 'SHIELD';
+            } else if (rand < GAME_CONFIG.DROP_CONFIG.SHIELD_CHANCE + GAME_CONFIG.DROP_CONFIG.LASER_CHANCE) {
+                this.type = 'SUPER_LASER';
+            } else {
+                this.type = 'WEAPON';
+            }
+        }
+        
+        // Set color based on type
+        if (this.type === 'SHIELD') {
+            this.color = GAME_CONFIG.SHIELD_CONFIG.STROKE;
+        } else if (this.type === 'SUPER_LASER') {
+            this.color = '#0ff';
+        } else {
+            this.color = '#0f0';
+        }
     }
     
     update(canvas) {
@@ -100,6 +119,11 @@ class PowerUp {
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 2;
             ctx.stroke();
+        } else if (this.type === 'SUPER_LASER') {
+            // Laser icon (vertical beam)
+            ctx.fillRect(-3, -this.height/2, 6, this.height);
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(-1, -this.height/2, 2, this.height);
         } else {
             // Weapon icon (square)
             ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
@@ -133,8 +157,9 @@ class PowerUpSystem {
         });
     }
     
-    addPowerUp(x, y) {
-        this.powerUps.push(new PowerUp(x, y));
+    addPowerUp(x, y, type = null) {
+        const powerUp = new PowerUp(x, y, type);
+        this.powerUps.push(powerUp);
     }
     
     checkCollisions(player) {
@@ -149,6 +174,9 @@ class PowerUpSystem {
                 if (powerUp.type === 'SHIELD') {
                     player.shieldCharges++;
                     console.log('Shield added, total:', player.shieldCharges);
+                } else if (powerUp.type === 'SUPER_LASER') {
+                    player.activateSuperLaser();
+                    console.log('Super Laser activated');
                 } else {
                     player.upgradeWeapon();
                     console.log('Weapon upgraded to level:', player.weaponLevel);

@@ -4,7 +4,9 @@
 const DROP_CONFIG = {
     POWER_UP_CHANCE: 0.01,
     SHIELD_CHANCE: 0.15,
-    TANK_GUARANTEED: true
+    LASER_CHANCE: 0.10,
+    TANK_DROP_CHANCE: 1.0,      
+    MEGA_TANK_DROP_CHANCE: 1.0  
 };
 
 // Game settings

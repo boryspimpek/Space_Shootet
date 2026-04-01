@@ -142,14 +142,13 @@ const ENEMY_TYPES = {
         bulletSize: { width: 4, height: 4 }
     },
     MEGA_TANK: {
-        hp: 25,
-        speed: 0.7,
-        score: 250,
-        color: '#4caf50',
-        size: 45,
-        shootRate: 250,
-        shootingPattern: 'MEGA_TANK',
-        bulletSize: { width: 8, height: 8 }
+        hp: 1,
+        speed: 1,
+        score: 50,
+        color: '#0f0',
+        size: 25,
+        shootRate: 0,
+        bulletSize: { width: 6, height: 6 }
     },
     PHANTOM_SCOUT: {
         hp: 3,

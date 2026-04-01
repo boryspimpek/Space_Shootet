@@ -7,7 +7,8 @@ const WAVES = [
             { type: 'STANDARD', count: 5, delay: 120 },
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
-            { type: 'TANK', count: 1, delay: 400 }
+            { type: 'TANK', count: 1, delay: 60 },
+            { type: 'MEGA_TANK', count: 1, delay: 60 }
         ],
     },
     {

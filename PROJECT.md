@@ -85,13 +85,25 @@ GAME_CONFIG = {
 | PHANTOM_SCOUT | 3 | 6 | 100 | Very fast |
 | BOMBER | 30 | 1 | 80 | Drops bombs |
 
+## Power-Up System (`effects.js`)
+
+### Types
+- **WEAPON** (green square) - Upgrades weapon level
+- **SHIELD** (blue circle) - Adds shield charge
+- **SUPER_LASER** (cyan vertical bar) - 5-second laser beam that destroys enemies and enemy bullets
+
+### Drop Chances
+- Shield: 15%
+- Super Laser: 10%
+- Weapon: 75% (remaining)
+
 ## Weapon System
 
 Player weapon level (1-8) determines available weapons:
 - Level 1-2: Basic bullets only
 - Level 3+: Adds missiles (homing)
 - Level 5+: Adds rifles (diagonal)
-- Patterns defined in `weapon-config.js` under `PATTERNS`
+- **Super Laser** (power-up): Replaces all weapons for 5 seconds, continuous vertical beam
 
 ## Wave System
 

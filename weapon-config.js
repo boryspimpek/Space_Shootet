@@ -98,4 +98,12 @@ const MISSILE_CONFIG = {
     HOMING_STRENGTH: 1,
     INITIAL_SPEED: 8
 };
+
+// Laser configuration
+const LASER_CONFIG = {
+    DURATION: 300, // 5 seconds at 60 FPS
+    WIDTH: 40,
+    COLOR: '#0ff',
+    GLOW_COLOR: '#0aa'
+};
 // ==========================================

@@ -7,7 +7,7 @@ class Player {
         this.y = canvas.height - 100;
         this.width = 20;
         this.height = 58;
-        this.weaponLevel = 1;
+        this.weaponLevel = 10;
         this.fireRate = 10;
         this.fireCounter = 0;
         this.missileFireCounter = 0;
@@ -18,6 +18,10 @@ class Player {
         this.shieldCharges = 0;
         this.shieldTimer = 0;
         this.isShieldActive = false;
+        
+        // Super laser state
+        this.laserActive = false;
+        this.laserTimer = 0;
         
         // Load player image with specific dimensions (like enemy render strategies)
         this.playerImageEntry = ImageLoader.load('assets/player.png');
@@ -52,7 +56,16 @@ class Player {
             }
         }
         
-        // Auto-fire for basic bullets
+        // Super laser logic
+        if (this.laserActive) {
+            this.laserTimer--;
+            if (this.laserTimer <= 0) {
+                this.laserActive = false;
+            }
+        }
+        
+        // Auto-fire for basic bullets (disabled when laser is active)
+        if (!this.laserActive) {
         this.fireCounter++;
         const fireRate = GAME_CONFIG.WEAPON_CONFIG.FIRE_RATES[this.weaponLevel] || GAME_CONFIG.WEAPON_CONFIG.FIRE_RATES.default;
         if (this.fireCounter >= fireRate) {
@@ -78,6 +91,7 @@ class Player {
                 this.shootRifles();
                 this.rifleFireCounter = 0;
             }
+        }
         }
     }
     
@@ -115,6 +129,12 @@ class Player {
             this.shieldTimer = GAME_CONFIG.SHIELD_CONFIG.DURATION;
             this.game.particleSystem.createExplosion(this.x, this.y, GAME_CONFIG.SHIELD_CONFIG.STROKE, 15);
         }
+    }
+    
+    activateSuperLaser() {
+        this.laserActive = true;
+        this.laserTimer = GAME_CONFIG.LASER_CONFIG.DURATION;
+        this.game.particleSystem.createExplosion(this.x, this.y, GAME_CONFIG.LASER_CONFIG.COLOR, 20);
     }
     
     takeDamage() {
@@ -181,6 +201,31 @@ class Player {
             ctx.arc(0, 0, GAME_CONFIG.SHIELD_CONFIG.RADIUS + pulse, 0, Math.PI * 2);
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
             ctx.stroke();
+        }
+        
+        // Draw active laser beam
+        if (this.laserActive) {
+            ctx.restore(); // Exit relative translation
+            ctx.save();
+            
+            const laserWidth = GAME_CONFIG.LASER_CONFIG.WIDTH;
+            const glowWidth = laserWidth + 20;
+            
+            // Glow effect
+            ctx.fillStyle = 'rgba(0, 170, 170, 0.3)';
+            ctx.fillRect(this.x - glowWidth/2, 0, glowWidth, this.canvas.height);
+            
+            // Main beam
+            ctx.fillStyle = GAME_CONFIG.LASER_CONFIG.COLOR;
+            ctx.fillRect(this.x - laserWidth/2, 0, laserWidth, this.canvas.height);
+            
+            // Core
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(this.x - laserWidth/4, 0, laserWidth/2, this.canvas.height);
+            
+            ctx.restore();
+            ctx.save();
+            ctx.translate(this.x, this.y);
         }
         
         ctx.restore();

@@ -169,6 +169,12 @@ class TankRender extends ImageRenderStrategy {
     }
 }
 
+class MegaTankRender extends ImageRenderStrategy {
+    constructor() {
+        super('assets/laser.png', 0, 40, 52);
+    }
+}
+
 const RENDER_STRATEGIES = {
     STANDARD: () => new StandardRender(),
     SHOOTING_STANDARD: () => new ShootingStandardRender(),
@@ -182,7 +188,7 @@ const RENDER_STRATEGIES = {
     SPECIAL: () => new SquareRender(),
     ELITE_STANDARD: () => new RotatedSquareRender(),
     TANK: () => new TankRender(),
-    MEGA_TANK: () => new HexagonRender(),
+    MEGA_TANK: () => new MegaTankRender(),
     BOSS_MINI: () => new BossMiniRender(),
     BOMBER: () => new BomberRender()
 };
