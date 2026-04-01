@@ -27,7 +27,7 @@ class ImageRenderStrategy extends RenderStrategy {
 
 class StandardRender extends ImageRenderStrategy {
     constructor() {
-        super('standard.png', Math.PI);
+        super('enemy_standard.png', 0, 30, 30);
     }
     
     drawFallback(ctx, enemy) {
@@ -43,7 +43,7 @@ class StandardRender extends ImageRenderStrategy {
 
 class ShootingStandardRender extends ImageRenderStrategy {
     constructor() {
-        super('standard.png', Math.PI);
+        super('enemy_standard.png');
     }
     
     drawFallback(ctx, enemy) {
@@ -57,6 +57,24 @@ class ShootingStandardRender extends ImageRenderStrategy {
     }
 }
 
+class ShieldedStandardRender extends ImageRenderStrategy {
+    constructor() {
+        super('shielded_standard.png', 0, 22, 38);
+    }
+}
+
+class KamikazeRender extends ImageRenderStrategy {
+    constructor() {
+        super('enemy_kamikaze.png', 0, 30, 47);
+    }
+}
+
+class ShieldedKamikazeRender extends ImageRenderStrategy {
+    constructor() {
+        super('shielded_kamikaze.png', 0, 18, 32);
+    }
+}
+
 class DiamondRender extends RenderStrategy {
     draw(ctx, enemy) {
         ctx.beginPath();
@@ -66,8 +84,8 @@ class DiamondRender extends RenderStrategy {
         ctx.lineTo(-enemy.config.size/2, 0);
         ctx.closePath();
         ctx.fill();
-    }
-}
+    }    
+}    
 
 class ShieldedDiamondRender extends RenderStrategy {
     draw(ctx, enemy) {
@@ -84,8 +102,8 @@ class ShieldedDiamondRender extends RenderStrategy {
         ctx.lineTo(-enemy.config.size/2, 0);
         ctx.closePath();
         ctx.fill();
-    }
-}
+    }    
+}    
 
 class TriangleRender extends RenderStrategy {
     draw(ctx, enemy) {
@@ -95,8 +113,8 @@ class TriangleRender extends RenderStrategy {
         ctx.lineTo(-enemy.config.size/2, enemy.config.size/2);
         ctx.closePath();
         ctx.fill();
-    }
-}
+    }    
+}    
 
 class OutlinedTriangleRender extends RenderStrategy {
     draw(ctx, enemy) {
@@ -108,27 +126,27 @@ class OutlinedTriangleRender extends RenderStrategy {
         ctx.fill();
         ctx.strokeStyle = '#0ff';
         ctx.stroke();
-    }
-}
+    }    
+}    
 
 class SquareRender extends RenderStrategy {
     draw(ctx, enemy) {
         ctx.fillRect(-enemy.config.size/2, -enemy.config.size/2, enemy.config.size, enemy.config.size);
-    }
-}
+    }    
+}    
 
 class RotatedSquareRender extends RenderStrategy {
     draw(ctx, enemy) {
         ctx.rotate(Math.PI / 4);
         ctx.fillRect(-enemy.config.size/2, -enemy.config.size/2, enemy.config.size, enemy.config.size);
-    }
-}
+    }    
+}    
 
 class HexagonRender extends RenderStrategy {
     constructor(sizeMultiplier = 1) {
         super();
         this.sizeMultiplier = sizeMultiplier;
-    }
+    }    
     
     draw(ctx, enemy) {
         ctx.beginPath();
@@ -139,49 +157,31 @@ class HexagonRender extends RenderStrategy {
             const y = Math.sin(angle) * size;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
-        }
+        }    
         ctx.closePath();
         ctx.fill();
-    }
-}
+    }    
+}    
 
 class CircleRender extends RenderStrategy {
     draw(ctx, enemy) {
         ctx.beginPath();
         ctx.arc(0, 0, enemy.config.size/2, 0, Math.PI * 2);
         ctx.fill();
-    }
-}
+    }    
+}    
 
 class BossMiniRender extends ImageRenderStrategy {
     constructor() {
         super('boss_mini.png', Math.PI, 80, 40);
-    }
-}
+    }    
+}    
 
 class BomberRender extends ImageRenderStrategy {
     constructor() {
         super('bomber.png', 0);
-    }
-}
-
-class ShieldedStandardRender extends ImageRenderStrategy {
-    constructor() {
-        super('shielded_standard.png', 0, 22, 38);
-    }
-}
-
-class KamikazeRender extends ImageRenderStrategy {
-    constructor() {
-        super('kamikaze.png', 0, 18, 29);
-    }
-}
-
-class ShieldedKamikazeRender extends ImageRenderStrategy {
-    constructor() {
-        super('shielded_kamikaze.png', 0, 18, 32);
-    }
-}
+    }    
+}    
 
 class TankRender extends ImageRenderStrategy {
     constructor() {

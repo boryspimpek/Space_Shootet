@@ -11,11 +11,11 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 2: Fast & Furious",
+        name: "Wave 2: Small Air Strike",
         enemies: [
             { type: 'STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
-            { type: 'KAMIKAZE', count: 3, delay: 300 },
+            { type: 'KAMIKAZE', count: 3, delay: 180 },
             { type: 'TANK', count: 1, delay: 400 }
         ],
     },
@@ -25,17 +25,18 @@ const WAVES = [
             { type: 'KAMIKAZE', count: 4, delay: 200, batch: true },
             { type: 'KAMIKAZE', count: 8, delay: 200, batch: true },
             { type: 'KAMIKAZE', count: 12, delay: 200, batch: true },
+            { type: 'KAMIKAZE', count: 6, delay: 300 },
             { type: 'TANK', count: 1, delay: 400 }
         ],
     },
     {
-        name: "Wave 4: Standard air strike",
+        name: "Wave 4: Air strike",
         enemies: [
-            { type: 'STANDARD', count: 25, delay: 150 },
-            { type: 'SHIELDED_STANDARD', count: 10, delay: 300 },
+            { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
+            { type: 'SHIELDED_STANDARD', count: 10, delay: 200 },
             { type: 'TANK', count: 1, delay: 400, batch: true },
-            { type: 'SHOOTING_STANDARD', count: 25, delay: 60 },
-            { type: 'SHIELDED_STANDARD', count: 10, delay: 300, batch: true },
+            { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
+            { type: 'SHIELDED_STANDARD', count: 10, delay: 200, batch: true },
         ],
     },
     {

@@ -6,7 +6,7 @@ class Player {
         this.x = canvas.width / 2;
         this.y = canvas.height - 100;
         this.width = 20;
-        this.height = 20;
+        this.height = 58;
         this.weaponLevel = 1;
         this.fireRate = 10;
         this.fireCounter = 0;
@@ -19,16 +19,10 @@ class Player {
         this.shieldTimer = 0;
         this.isShieldActive = false;
         
-        // Load player image
-        this.playerImage = new Image();
-        this.playerImage.src = 'player.png';
-        this.imageLoaded = false;
-        this.playerImage.onload = () => {
-            this.imageLoaded = true;
-        };
-        this.playerImage.onerror = () => {
-            console.warn('Failed to load player.png, falling back to triangle');
-        };
+        // Load player image with specific dimensions (like enemy render strategies)
+        this.playerImageEntry = ImageLoader.load('player.png');
+        this.playerWidth = 40;  // docelowy width
+        this.playerHeight = 58; // docelowy height
         
         // Load shoot sound
         this.shootSound = new Audio('shoot.wav');
@@ -36,7 +30,7 @@ class Player {
         
         // Load player death sound
         this.deathSound = new Audio('player_dead.wav');
-        this.deathSound.volume = 0.5;
+        this.deathSound.volume = 0.8;
     }
     
     update(mouseX, mouseY, gameTime) {
@@ -149,9 +143,8 @@ class Player {
         ctx.translate(this.x, this.y);
         
         // Draw player image or fallback triangle
-        if (this.imageLoaded) {
-            // Draw image at natural 40x40 size, centered on player position
-            ctx.drawImage(this.playerImage, -20, -20); // Natural size, no scaling
+        if (this.playerImageEntry.loaded) {
+            ctx.drawImage(this.playerImageEntry.image, -this.playerWidth/2, -this.playerHeight/2, this.playerWidth, this.playerHeight);
         } else {
             // Fallback to original triangle
             ctx.fillStyle = '#0f0';
