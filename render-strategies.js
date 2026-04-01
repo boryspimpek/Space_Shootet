@@ -33,13 +33,13 @@ class StandardRender extends ImageRenderStrategy {
 
 class ShootingStandardRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/enemy_standard.png');
+        super('assets/enemy_shooting_standard.png', 0, 30, 30);
     }
 }
 
 class ShieldedStandardRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/enemy_shielded_standard.png', 0, 60, 40);
+        super('assets/enemy_shielded_standard.png', Math.PI, 60, 40);
     }
 }
 
@@ -175,6 +175,12 @@ class MegaTankRender extends ImageRenderStrategy {
     }
 }
 
+class SpecialRender extends ImageRenderStrategy {
+    constructor() {
+        super('assets/shield.png', 0, 40, 52);
+    }
+}
+
 const RENDER_STRATEGIES = {
     STANDARD: () => new StandardRender(),
     SHOOTING_STANDARD: () => new ShootingStandardRender(),
@@ -185,7 +191,7 @@ const RENDER_STRATEGIES = {
     PHANTOM_SCOUT: () => new OutlinedTriangleRender(),
     SNIPER: () => new SquareRender(),
     ELITE_SNIPER: () => new SquareRender(),
-    SPECIAL: () => new SquareRender(),
+    SPECIAL: () => new SpecialRender(),
     ELITE_STANDARD: () => new RotatedSquareRender(),
     TANK: () => new TankRender(),
     MEGA_TANK: () => new MegaTankRender(),

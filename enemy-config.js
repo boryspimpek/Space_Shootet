@@ -91,14 +91,13 @@ const ENEMY_TYPES = {
         bulletSize: { width: 6, height: 6 }
     },
     SPECIAL: {
-        hp: 3,
-        speed: 3,
-        score: 35,
-        color: '#0ff',
-        size: 20,
-        shootRate: 100,
-        shootingPattern: 'SPREAD_FULL',
-        bulletSize: { width: 5, height: 5 }
+        hp: 1,
+        speed: 1,
+        score: 50,
+        color: '#0f0',
+        size: 25,
+        shootRate: 0,
+        bulletSize: { width: 6, height: 6 }
     },
     SCOUT: {
         hp: 1,

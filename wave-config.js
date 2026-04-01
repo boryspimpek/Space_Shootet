@@ -8,6 +8,7 @@ const WAVES = [
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
             { type: 'TANK', count: 1, delay: 60 },
+            { type: 'SPECIAL', count: 1, delay: 60 }
         ],
     },
     {
@@ -16,7 +17,7 @@ const WAVES = [
             { type: 'STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'KAMIKAZE', count: 3, delay: 180 },
-            { type: 'TANK', count: 1, delay: 400 }
+            { type: 'TANK', count: 2, delay: 400 },
         ],
     },
     {
