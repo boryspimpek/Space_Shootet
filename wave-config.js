@@ -36,6 +36,7 @@ const WAVES = [
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
             { type: 'TANK', count: 10, delay: 200 },
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
+            { type: 'SPECIAL', count: 1, delay: 100 },
             { type: 'TANK', count: 10, delay: 200, batch: true },
             { type: 'SCOUT', count: 10, delay: 120 },
             // { type: 'SHIELD_DROP', count: 1, delay: 60 },
