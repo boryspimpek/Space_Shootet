@@ -7,8 +7,8 @@ const WAVES = [
             { type: 'STANDARD', count: 5, delay: 120 },
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
-            { type: 'WEAPON_DROP', count: 1, delay: 60 },
-            { type: 'SHIELD_DROP', count: 1, delay: 60 }
+            // { type: 'WEAPON_DROP', count: 1, delay: 60 },
+            // { type: 'SHIELD_DROP', count: 1, delay: 60 }
         ],
     },
     {
@@ -17,7 +17,7 @@ const WAVES = [
             { type: 'STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'KAMIKAZE', count: 3, delay: 180 },
-            { type: 'WEAPON_DROP', count: 2, delay: 400 },
+            // { type: 'WEAPON_DROP', count: 2, delay: 400 },
         ],
     },
     {
@@ -27,7 +27,7 @@ const WAVES = [
             { type: 'KAMIKAZE', count: 8, delay: 120, batch: true },
             { type: 'KAMIKAZE', count: 12, delay: 120, batch: true },
             { type: 'KAMIKAZE', count: 6, delay: 250 },
-            { type: 'WEAPON_DROP', count: 1, delay: 400 }
+            // { type: 'WEAPON_DROP', count: 1, delay: 400 }
         ],
     },
     {
@@ -38,8 +38,8 @@ const WAVES = [
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
             { type: 'TANK', count: 10, delay: 200, batch: true },
             { type: 'SCOUT', count: 10, delay: 120 },
-            { type: 'SHIELD_DROP', count: 1, delay: 60 },
-            { type: 'WEAPON_DROP', count: 1, delay: 400, batch: true },
+            // { type: 'SHIELD_DROP', count: 1, delay: 60 },
+            // { type: 'WEAPON_DROP', count: 1, delay: 400, batch: true },
         ],
     },
     {
@@ -51,7 +51,7 @@ const WAVES = [
             { type: 'SHOOTING_STANDARD', count: 8, delay: 120 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
-            { type: 'WEAPON_DROP', count: 1, delay: 200 },
+            // { type: 'WEAPON_DROP', count: 1, delay: 200 },
             { type: 'BOMBER', count: 1, delay: 100 }
         ],
     },
@@ -64,7 +64,7 @@ const WAVES = [
             { type: 'BOMBER', count: 5, delay: 60 },
             { type: 'SHOOTING_STANDARD', count: 10, delay: 340 },
             { type: 'KAMIKAZE', count: 3, delay: 180 },
-            { type: 'WEAPON_DROP', count: 1, delay: 400 },
+            // { type: 'WEAPON_DROP', count: 1, delay: 400 },
         ],
     },
     {
@@ -78,7 +78,7 @@ const WAVES = [
             { type: 'SCOUT', count: 20, delay: 360 },
             { type: 'KAMIKAZE', count: 5, delay: 180 },
             { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
-            { type: 'WEAPON_DROP', count: 1, delay: 200 },
+            // { type: 'WEAPON_DROP', count: 1, delay: 200 },
             { type: 'BOSS_MINI', count: 1, delay: 60 },
         ],
     },
@@ -88,8 +88,8 @@ const WAVES = [
             { type: 'SCOUT', count: 20, delay: 60 },
             { type: 'KAMIKAZE', count: 15, delay: 60 },
             { type: 'BOSS_MINI', count: 4, delay: 600 },
-            { type: 'WEAPON_DROP', count: 1, delay: 60 },
-            { type: 'SHIELD_DROP', count: 1, delay: 60 }
+            // { type: 'WEAPON_DROP', count: 1, delay: 60 },
+            // { type: 'SHIELD_DROP', count: 1, delay: 60 }
 
         ],
     },
@@ -99,8 +99,8 @@ const WAVES = [
             { type: 'SHIELDED_STANDARD', count: 25, delay: 600 },
             { type: 'BOMBER', count: 4, delay: 60 },
             { type: 'BOSS_MINI', count: 3, delay: 60 },
-            { type: 'WEAPON_DROP', count: 1, delay: 60 },
-            { type: 'SHIELD_DROP', count: 1, delay: 60 }
+            // { type: 'WEAPON_DROP', count: 1, delay: 60 },
+            // { type: 'SHIELD_DROP', count: 1, delay: 60 }
         ],
     },
     {

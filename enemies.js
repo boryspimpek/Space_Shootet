@@ -83,7 +83,8 @@ class Enemy {
                 sound.play().catch(() => {});
             }
             
-            const dropChance = GAME_CONFIG.DROP_CONFIG.POWER_UP_CHANCE;
+            // Calculate dynamic power-up chance based on player weapon level vs wave level
+            const dropChance = getDynamicPowerUpChance(this.game.player.weaponLevel, this.game.waveManager.currentWave);
             
             // WEAPON_DROP drops only WEAPON
             if (this.type === 'WEAPON_DROP' && Math.random() < GAME_CONFIG.DROP_CONFIG.WEAPON_DROP_CHANCE) {
@@ -91,13 +92,25 @@ class Enemy {
             }
             
             // SHIELD_DROP drops only SHIELD
-            if (this.type === 'SHIELD_DROP' && Math.random() < GAME_CONFIG.DROP_CONFIG.SPECIAL_DROP_CHANCE) {
+            else if (this.type === 'SHIELD_DROP' && Math.random() < GAME_CONFIG.DROP_CONFIG.SPECIAL_DROP_CHANCE) {
                 this.game.powerUpSystem.addPowerUp(this.x, this.y, 'SHIELD');
             }
             
             // SPECIAL drops only SUPER_LASER
-            if (this.type === 'SPECIAL' && Math.random() < GAME_CONFIG.DROP_CONFIG.SHIELD_DROP_CHANCE) {
+            else if (this.type === 'SPECIAL' && Math.random() < GAME_CONFIG.DROP_CONFIG.SHIELD_DROP_CHANCE) {
                 this.game.powerUpSystem.addPowerUp(this.x, this.y, 'SUPER_LASER');
+            }
+            
+            // Regular enemies have a chance to drop random power-ups
+            else if (Math.random() < dropChance) {
+                const rand = Math.random();
+                if (rand < GAME_CONFIG.DROP_CONFIG.SHIELD_CHANCE) {
+                    this.game.powerUpSystem.addPowerUp(this.x, this.y, 'SHIELD');
+                } else if (rand < GAME_CONFIG.DROP_CONFIG.SHIELD_CHANCE + GAME_CONFIG.DROP_CONFIG.LASER_CHANCE) {
+                    this.game.powerUpSystem.addPowerUp(this.x, this.y, 'SUPER_LASER');
+                } else {
+                    this.game.powerUpSystem.addPowerUp(this.x, this.y, 'WEAPON');
+                }
             }
         }
     }

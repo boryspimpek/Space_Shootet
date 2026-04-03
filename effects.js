@@ -279,6 +279,14 @@ class PowerUpSystem {
     }
     
     addPowerUp(x, y, type = null) {
+        // Check if we've reached the maximum power-ups limit
+        const maxPowerUps = getMaxPowerUpsOnScreen(this.game.player.weaponLevel, this.game.waveManager.currentWave);
+        
+        if (this.powerUps.length >= maxPowerUps) {
+            // Don't add new power-up if limit reached
+            return;
+        }
+        
         const powerUp = new PowerUp(x, y, type);
         this.powerUps.push(powerUp);
     }
