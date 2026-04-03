@@ -7,7 +7,7 @@ class Player {
         this.y = canvas.height - 100;
         this.width = 20;
         this.height = 58;
-        this.weaponLevel = 6;
+        this.weaponLevel = 8;
         this.fireRate = 10;
         this.fireCounter = 0;
         this.missileFireCounter = 0;
