@@ -4,7 +4,7 @@
 const WAVE_MESSAGE_DURATION = 240; // frames (~3 sekundy przy 60 FPS)
 
 // Ustawienie początkowej fali dla testów (0 = normalny start, 5 = wave 6, itd.)
-const STARTING_WAVE = 0;
+const STARTING_WAVE = 5;
 
 class WaveManager {
     // ==================== CONSTRUCTOR ====================

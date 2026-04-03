@@ -159,13 +159,13 @@ class CircleRender extends RenderStrategy {
 
 class BossMiniRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/boss_mini.png', Math.PI, 100, 50);
+        super('assets/enemy_boss_mini.png', Math.PI, 100, 50);
     }    
 }    
 
 class BomberRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/bomber.png', 0, 60, 60);
+        super('assets/bomber.png', Math.PI, 60, 60);
     }    
 }    
 
