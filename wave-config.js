@@ -68,8 +68,11 @@ const WAVES = [
     {
         name: "Wave 7: Mini Boss Encounter",
         enemies: [
+            { type: 'TANK', count: 5, delay: 60 },
             { type: 'SHOOTING_STANDARD', count: 20, delay: 600 },
-            { type: 'SHIELDED_STANDARD', count: 20, delay: 120 },
+            { type: 'SCOUT', count: 5, delay: 100 },
+            { type: 'TANK', count: 10, delay: 600 },
+            { type: 'SHIELDED_STANDARD', count: 10, delay: 120 },
             { type: 'SCOUT', count: 20, delay: 360 },
             { type: 'KAMIKAZE', count: 5, delay: 180 },
             { type: 'TANK', count: 5, delay: 300 },
