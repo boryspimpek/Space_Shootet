@@ -1,14 +1,17 @@
 // ==================== WAVE MANAGEMENT SYSTEM ====================
 // Klasa zarządzająca falami przeciwników w grze
 
-const WAVE_MESSAGE_DURATION = 180; // frames (~3 sekundy przy 60 FPS)
+const WAVE_MESSAGE_DURATION = 240; // frames (~3 sekundy przy 60 FPS)
+
+// Ustawienie początkowej fali dla testów (0 = normalny start, 5 = wave 6, itd.)
+const STARTING_WAVE = 6;
 
 class WaveManager {
     // ==================== CONSTRUCTOR ====================
     constructor(canvas, game) {
         this.canvas = canvas;
         this.game = game;
-        this.currentWave = 0;
+        this.currentWave = STARTING_WAVE;
         this.waveTimer = 0;
         this.waveEnemiesToSpawn = [];
         this.isWaveActive = false;
@@ -30,7 +33,7 @@ class WaveManager {
     }
 
     reset() {
-        this.currentWave = 0;
+        this.currentWave = STARTING_WAVE;
         this.isWaveActive = false;
         this.waveMessageTimer = 0;
         this.waveEnemiesToSpawn = [];

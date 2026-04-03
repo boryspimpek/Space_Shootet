@@ -7,7 +7,7 @@ class Player {
         this.y = canvas.height - 100;
         this.width = 20;
         this.height = 58;
-        this.weaponLevel = 1;
+        this.weaponLevel = 6;
         this.fireRate = 10;
         this.fireCounter = 0;
         this.missileFireCounter = 0;
@@ -25,8 +25,8 @@ class Player {
         
         // Load player image with specific dimensions (like enemy render strategies)
         this.playerImageEntry = ImageLoader.load('assets/player.png');
-        this.playerWidth = 40;  // docelowy width
-        this.playerHeight = 58; // docelowy height
+        this.playerWidth = 60;  // docelowy width
+        this.playerHeight = 80; // docelowy height
         
         // Load shoot sound
         this.shootSound = new Audio('shoot.wav');

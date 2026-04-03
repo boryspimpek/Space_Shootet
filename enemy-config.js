@@ -30,6 +30,15 @@ const ENEMY_TYPES = {
         shootRate: 0,
         bulletSize: { width: 4, height: 4 }
     },
+    SHIELDED_STANDARD: {
+        hp: 3,
+        speed: 1,
+        score: 10,
+        color: '#f00',
+        size: 30,
+        shootRate: 0,
+        bulletSize: { width: 4, height: 4 }
+    },
     SHOOTING_STANDARD: {
         hp: 3,
         speed: 1,
@@ -41,7 +50,7 @@ const ENEMY_TYPES = {
         bulletSize: { width: 9, height: 9 },
         bulletImage: 'assets/green_bullet.png'
     },
-    SHIELDED_STANDARD: {
+    TANK: {
         hp: 8,
         speed: 1,
         score: 60,
@@ -81,7 +90,7 @@ const ENEMY_TYPES = {
         shootRate: 0,
         bulletSize: { width: 4, height: 4 }
     },
-    TANK: {
+    WEAPON_DROP: {
         hp: 1,
         speed: 1,
         score: 50,
@@ -140,7 +149,7 @@ const ENEMY_TYPES = {
         shootingPattern: 'ELITE_SNIPER',
         bulletSize: { width: 4, height: 4 }
     },
-    MEGA_TANK: {
+    SHIELD_DROP: {
         hp: 1,
         speed: 1,
         score: 50,

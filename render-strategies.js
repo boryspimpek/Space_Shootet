@@ -31,15 +31,21 @@ class StandardRender extends ImageRenderStrategy {
     }
 }
 
+class ShieldedStandardRender extends ImageRenderStrategy {
+    constructor() {
+        super('assets/enemy_shielded_standard.png', 0, 30, 30);
+    }
+}
+
 class ShootingStandardRender extends ImageRenderStrategy {
     constructor() {
         super('assets/enemy_shooting_standard.png', 0, 30, 30);
     }
 }
 
-class ShieldedStandardRender extends ImageRenderStrategy {
+class TankRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/enemy_shielded_standard.png', Math.PI, 60, 40);
+        super('assets/enemy_tank.png', Math.PI, 60, 40);
     }
 }
 
@@ -153,29 +159,29 @@ class CircleRender extends RenderStrategy {
 
 class BossMiniRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/boss_mini.png', Math.PI, 80, 40);
+        super('assets/boss_mini.png', Math.PI, 100, 50);
     }    
 }    
 
 class BomberRender extends ImageRenderStrategy {
     constructor() {
-        super('assets/bomber.png', 0, 50, 50);
+        super('assets/bomber.png', 0, 60, 60);
     }    
 }    
 
-class TankRender extends ImageRenderStrategy {
+class WeaponDropRender extends ImageRenderStrategy {
     constructor() {
         super('assets/powerup.png', 0, 40, 52);
     }
 }
 
-class MegaTankRender extends ImageRenderStrategy {
+class SpecialRender extends ImageRenderStrategy {
     constructor() {
         super('assets/laser.png', 0, 40, 52);
     }
 }
 
-class SpecialRender extends ImageRenderStrategy {
+class ShieldDropRender extends ImageRenderStrategy {
     constructor() {
         super('assets/shield.png', 0, 40, 52);
     }
@@ -185,16 +191,17 @@ const RENDER_STRATEGIES = {
     STANDARD: () => new StandardRender(),
     SHOOTING_STANDARD: () => new ShootingStandardRender(),
     SHIELDED_STANDARD: () => new ShieldedStandardRender(),
+    TANK: () => new TankRender(),
     KAMIKAZE: () => new KamikazeRender(),
     SHIELDED_KAMIKAZE: () => new ShieldedKamikazeRender(),
     SCOUT: () => new TriangleRender(),
     PHANTOM_SCOUT: () => new OutlinedTriangleRender(),
     SNIPER: () => new SquareRender(),
     ELITE_SNIPER: () => new SquareRender(),
-    SPECIAL: () => new SpecialRender(),
+    SHIELD_DROP: () => new ShieldDropRender(),
     ELITE_STANDARD: () => new RotatedSquareRender(),
-    TANK: () => new TankRender(),
-    MEGA_TANK: () => new MegaTankRender(),
+    WEAPON_DROP: () => new WeaponDropRender(),
+    SPECIAL: () => new SpecialRender(),
     BOSS_MINI: () => new BossMiniRender(),
     BOMBER: () => new BomberRender()
 };

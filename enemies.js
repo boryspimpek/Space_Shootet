@@ -85,18 +85,18 @@ class Enemy {
             
             const dropChance = GAME_CONFIG.DROP_CONFIG.POWER_UP_CHANCE;
             
-            // TANK drops only WEAPON
-            if (this.type === 'TANK' && Math.random() < GAME_CONFIG.DROP_CONFIG.TANK_DROP_CHANCE) {
+            // WEAPON_DROP drops only WEAPON
+            if (this.type === 'WEAPON_DROP' && Math.random() < GAME_CONFIG.DROP_CONFIG.WEAPON_DROP_CHANCE) {
                 this.game.powerUpSystem.addPowerUp(this.x, this.y, 'WEAPON');
             }
             
-            // SPECIAL drops only SHIELD
-            if (this.type === 'SPECIAL' && Math.random() < GAME_CONFIG.DROP_CONFIG.SPECIAL_DROP_CHANCE) {
+            // SHIELD_DROP drops only SHIELD
+            if (this.type === 'SHIELD_DROP' && Math.random() < GAME_CONFIG.DROP_CONFIG.SPECIAL_DROP_CHANCE) {
                 this.game.powerUpSystem.addPowerUp(this.x, this.y, 'SHIELD');
             }
             
-            // MEGA_TANK drops only SUPER_LASER
-            if (this.type === 'MEGA_TANK' && Math.random() < GAME_CONFIG.DROP_CONFIG.MEGA_TANK_DROP_CHANCE) {
+            // SPECIAL drops only SUPER_LASER
+            if (this.type === 'SPECIAL' && Math.random() < GAME_CONFIG.DROP_CONFIG.SHIELD_DROP_CHANCE) {
                 this.game.powerUpSystem.addPowerUp(this.x, this.y, 'SUPER_LASER');
             }
         }
@@ -114,7 +114,7 @@ class Enemy {
     }
     
     drawHealthBar(ctx) {
-        if ((this.type === 'TANK' || this.type === 'MEGA_TANK') && this.hp < this.maxHp) {
+        if ((this.type === 'WEAPON_DROP' || this.type === 'SHIELD_DROP') && this.hp < this.maxHp) {
             ctx.fillStyle = '#f00';
             ctx.fillRect(-this.config.size/2, -this.config.size/2 - 10, this.config.size * (this.hp / this.maxHp), 3);
         }

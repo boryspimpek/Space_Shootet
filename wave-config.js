@@ -7,17 +7,17 @@ const WAVES = [
             { type: 'STANDARD', count: 5, delay: 120 },
             { type: 'SCOUT', count: 3, delay: 250 },
             { type: 'STANDARD', count: 15, delay: 300 },
-            { type: 'TANK', count: 1, delay: 60 },
-            { type: 'SPECIAL', count: 1, delay: 60 }
+            { type: 'WEAPON_DROP', count: 1, delay: 60 },
+            { type: 'SHIELD_DROP', count: 1, delay: 60 }
         ],
     },
     {
         name: "Wave 2: Small Air Strike",
         enemies: [
-            { type: 'STANDARD', count: 8, delay: 60 },
+            { type: 'SHIELDED_STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'KAMIKAZE', count: 3, delay: 180 },
-            { type: 'TANK', count: 2, delay: 400 },
+            { type: 'WEAPON_DROP', count: 2, delay: 400 },
         ],
     },
     {
@@ -27,18 +27,18 @@ const WAVES = [
             { type: 'KAMIKAZE', count: 8, delay: 200, batch: true },
             { type: 'KAMIKAZE', count: 12, delay: 200, batch: true },
             { type: 'KAMIKAZE', count: 6, delay: 300 },
-            { type: 'TANK', count: 1, delay: 400 }
+            { type: 'WEAPON_DROP', count: 1, delay: 400 }
         ],
     },
     {
         name: "Wave 4: Air strike",
         enemies: [
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
-            { type: 'MEGA_TANK', count: 1, delay: 60 },
-            { type: 'SHIELDED_STANDARD', count: 10, delay: 200 },
-            { type: 'TANK', count: 1, delay: 400, batch: true },
+            { type: 'SHIELD_DROP', count: 1, delay: 60 },
+            { type: 'TANK', count: 10, delay: 200 },
+            { type: 'WEAPON_DROP', count: 1, delay: 400, batch: true },
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
-            { type: 'SHIELDED_STANDARD', count: 10, delay: 200, batch: true },
+            { type: 'TANK', count: 10, delay: 200, batch: true },
         ],
     },
     {
@@ -49,33 +49,33 @@ const WAVES = [
             { type: 'SHOOTING_STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
-            { type: 'TANK', count: 1, delay: 200 },
+            { type: 'WEAPON_DROP', count: 1, delay: 200 },
             { type: 'BOMBER', count: 1, delay: 100 }
         ],
     },
     {
         name: "Wave 6: Tank Siege",
         enemies: [
-            { type: 'SHIELDED_STANDARD', count: 15, delay: 300 },
-            { type: 'STANDARD', count: 0, delay: 300 },
+            { type: 'TANK', count: 15, delay: 300 },
             { type: 'SHIELDED_KAMIKAZE', count: 4, delay: 400 },
-            { type: 'SCOUT', count: 10, delay: 120 },
-            { type: 'SHIELDED_STANDARD', count: 5, delay: 60 },
-            { type: 'SCOUT', count: 10, delay: 120 },
-            { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
-            { type: 'BOMBER', count: 3, delay: 100 },
+            { type: 'SCOUT', count: 30, delay: 360 },
+            { type: 'BOMBER', count: 5, delay: 60 },
+            { type: 'SHOOTING_STANDARD', count: 20, delay: 340 },
+            { type: 'KAMIKAZE', count: 3, delay: 180 },
+            { type: 'WEAPON_DROP', count: 1, delay: 400 },
         ],
     },
     {
         name: "Wave 7: Mini Boss Encounter",
         enemies: [
-            { type: 'SCOUT', count: 10, delay: 120 },
+            { type: 'SHOOTING_STANDARD', count: 20, delay: 600 },
+            { type: 'SHIELDED_STANDARD', count: 20, delay: 120 },
+            { type: 'SCOUT', count: 20, delay: 360 },
             { type: 'KAMIKAZE', count: 5, delay: 180 },
-            { type: 'SHOOTING_STANDARD', count: 10, delay: 60 },
-            { type: 'SHIELDED_STANDARD', count: 5, delay: 300 },
+            { type: 'TANK', count: 5, delay: 300 },
             { type: 'SCOUT', count: 6, delay: 120 },
             { type: 'KAMIKAZE', count: 3, delay: 300 },
-            { type: 'TANK', count: 1, delay: 200 },
+            { type: 'WEAPON_DROP', count: 1, delay: 200 },
             { type: 'BOSS_MINI', count: 1, delay: 60 },
         ],
     },
@@ -90,7 +90,7 @@ const WAVES = [
     {
         name: "Wave 9: Heavy Metal",
         enemies: [
-            { type: 'MEGA_TANK', count: 4, delay: 200 },
+            { type: 'SHIELD_DROP', count: 4, delay: 200 },
             { type: 'PHANTOM_SCOUT', count: 10, delay: 120 }
         ],
     },
@@ -120,14 +120,14 @@ const WAVES = [
         name: "Wave 12: Elite Assault",
         enemies: [
             { type: 'ELITE_STANDARD', count: 15, delay: 100 },
-            { type: 'MEGA_TANK', count: 5, delay: 200 }
+            { type: 'SHIELD_DROP', count: 5, delay: 200 }
         ]
     },
     {
         name: "Wave 13: Tank Battalion",
         enemies: [
-            { type: 'MEGA_TANK', count: 8, delay: 150 },
-            { type: 'TANK', count: 15, delay: 120 },
+            { type: 'SHIELD_DROP', count: 8, delay: 150 },
+            { type: 'WEAPON_DROP', count: 15, delay: 120 },
             { type: 'BOSS_MINI', count: 5, delay: 200 }
         ]
     },
@@ -143,7 +143,7 @@ const WAVES = [
         name: "Wave 15: Final Confrontation",
         enemies: [
             { type: 'BOSS_MINI', count: 8, delay: 100 },
-            { type: 'MEGA_TANK', count: 10, delay: 150 },
+            { type: 'SHIELD_DROP', count: 10, delay: 150 },
             { type: 'ELITE_STANDARD', count: 15, delay: 120 },
             { type: 'SPECIAL', count: 10, delay: 120 }
         ]
@@ -153,7 +153,7 @@ const WAVES = [
         enemies: [
             { type: 'ELITE_SNIPER', count: 15, delay: 120 },
             { type: 'ELITE_STANDARD', count: 5, delay: 80 },
-            { type: 'MEGA_TANK', count: 6, delay: 180 }
+            { type: 'SHIELD_DROP', count: 6, delay: 180 }
         ]
     },
     {
@@ -167,8 +167,8 @@ const WAVES = [
     {
         name: "Wave 18: Mega Fortress",
         enemies: [
-            { type: 'MEGA_TANK', count: 20, delay: 100 },
-            { type: 'SHIELDED_STANDARD', count: 25, delay: 80 },
+            { type: 'SHIELD_DROP', count: 20, delay: 100 },
+            { type: 'TANK', count: 25, delay: 80 },
             { type: 'ELITE_SNIPER', count: 12, delay: 150 }
         ]
     },
@@ -183,7 +183,7 @@ const WAVES = [
     {
         name: "Wave 20: The Final Stand",
         enemies: [
-            { type: 'MEGA_TANK', count: 25, delay: 80 },
+            { type: 'SHIELD_DROP', count: 25, delay: 80 },
             { type: 'BOSS_MINI', count: 15, delay: 100 },
             { type: 'ELITE_SNIPER', count: 20, delay: 120 },
             { type: 'PHANTOM_SCOUT', count: 30, delay: 40 }
@@ -193,7 +193,7 @@ const WAVES = [
         name: "Wave 21: Endless Nightmare",
         enemies: [
             { type: 'ELITE_STANDARD', count: 30, delay: 50 },
-            { type: 'MEGA_TANK', count: 30, delay: 70 },
+            { type: 'SHIELD_DROP', count: 30, delay: 70 },
             { type: 'BOSS_MINI', count: 20, delay: 90 }
         ]
     },
@@ -210,13 +210,13 @@ const WAVES = [
         enemies: [
             { type: 'ELITE_SNIPER', count: 25, delay: 100 },
             { type: 'ELITE_STANDARD', count: 35, delay: 50 },
-            { type: 'SHIELDED_STANDARD', count: 30, delay: 70 }
+            { type: 'TANK', count: 30, delay: 70 }
         ]
     },
     {
         name: "Wave 24: Ultimate Chaos",
         enemies: [
-            { type: 'MEGA_TANK', count: 35, delay: 60 },
+            { type: 'SHIELD_DROP', count: 35, delay: 60 },
             { type: 'BOSS_MINI', count: 25, delay: 80 },
             { type: 'PHANTOM_SCOUT', count: 40, delay: 35 }
         ]
@@ -225,7 +225,7 @@ const WAVES = [
         name: "Wave 25: The Final Frontier",
         enemies: [
             { type: 'BOSS_MINI', count: 30, delay: 60 },
-            { type: 'MEGA_TANK', count: 40, delay: 50 },
+            { type: 'SHIELD_DROP', count: 40, delay: 50 },
             { type: 'ELITE_SNIPER', count: 30, delay: 100 },
             { type: 'ELITE_STANDARD', count: 40, delay: 40 }
         ]

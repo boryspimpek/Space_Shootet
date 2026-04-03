@@ -141,16 +141,16 @@ class SlowOscillatingMovement extends MovementStrategy {
 const MOVEMENT_STRATEGIES = {
     STANDARD: () => new StandardMovement(),
     ELITE_STANDARD: () => new StandardMovement(),
-    TANK: () => new StandardMovement(),
+    WEAPON_DROP: () => new StandardMovement(),
     SNIPER: () => new SniperMovement(),
     ELITE_SNIPER: () => new EliteSniperMovement(),
     KAMIKAZE: () => new HomingMovement(180),
     SHIELDED_KAMIKAZE: () => new HomingMovement(180),
     SPECIAL: () => new StandardMovement(),
-    MEGA_TANK: () => new StandardMovement(),
+    SHIELD_DROP: () => new StandardMovement(),
     PHANTOM_SCOUT: () => new OscillatingMovement(1, 10, 0.2, 3),
     SCOUT: () => new ZigZagMovement(6, 2, 0.15),
-    SHIELDED_STANDARD: () => new SlowOscillatingMovement(),
+    TANK: () => new SlowOscillatingMovement(),
     BOSS_MINI: () => new BossMiniMovement(),
     BOMBER: () => new BomberMovement()
 };
