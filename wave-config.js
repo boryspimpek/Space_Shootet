@@ -17,7 +17,7 @@ const WAVES = [
             { type: 'STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
             // { type: 'KAMIKAZE', count: 3, delay: 180 },
-            { type: 'WEAPON_DROP', count: 1, delay: 400 },
+            { type: 'WEAPON_DROP', count: 3, delay: 400 },
         ],
     },
     {
