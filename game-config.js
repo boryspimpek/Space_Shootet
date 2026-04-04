@@ -38,7 +38,7 @@ function getDynamicPowerUpChance(playerWeaponLevel, currentWave) {
     const waveLevel = currentWave + 1;
     
     // If player weapon level is lower than wave level, use higher chance
-    if (playerWeaponLevel < waveLevel) {
+    if (playerWeaponLevel < (waveLevel + 1)) {
         return DROP_CONFIG.DYNAMIC_POWER_UP_CHANCE;
     }
     

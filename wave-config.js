@@ -21,17 +21,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 3: Kamikaze Assault",
-        enemies: [
-            { type: 'KAMIKAZE', count: 4, delay: 120, batch: true },
-            { type: 'KAMIKAZE', count: 8, delay: 120, batch: true },
-            { type: 'KAMIKAZE', count: 12, delay: 120, batch: true },
-            { type: 'KAMIKAZE', count: 6, delay: 250 },
-            // { type: 'WEAPON_DROP', count: 1, delay: 400 }
-        ],
-    },
-    {
-        name: "Wave 4: Air strike",
+        name: "Wave 3: Air strike",
         enemies: [
             { type: 'SHOOTING_STANDARD', count: 15, delay: 400 },
             { type: 'TANK', count: 5, delay: 200 },
@@ -44,7 +34,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 5: Meet the Bomber",
+        name: "Wave 4: Meet the Bomber",
         enemies: [
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
             { type: 'KAMIKAZE', count: 12, delay: 400 },
@@ -57,7 +47,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 6: Tank Siege",
+        name: "Wave 5: Tank Siege",
         enemies: [
             { type: 'TANK', count: 15, delay: 300 },
             { type: 'SHIELDED_KAMIKAZE', count: 4, delay: 400 },
@@ -69,7 +59,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 7: Mini Boss Encounter",
+        name: "Wave 6: Mini Boss Encounter",
         enemies: [
             { type: 'TANK', count: 5, delay: 60 },
             { type: 'SHOOTING_STANDARD', count: 20, delay: 600 },
@@ -84,7 +74,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 8: The Swarm",
+        name: "Wave 7: The Swarm",
         enemies: [
             { type: 'SCOUT', count: 20, delay: 60 },
             { type: 'KAMIKAZE', count: 15, delay: 60 },
@@ -95,7 +85,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 9: Heavy Metal",
+        name: "Wave 8: Heavy Metal",
         enemies: [
             { type: 'SHIELDED_STANDARD', count: 25, delay: 600 },
             { type: 'BOMBER', count: 4, delay: 60 },
@@ -105,7 +95,7 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 10: Sniper Hell",
+        name: "Wave 9: Sniper Hell",
         enemies: [
             { type: 'ELITE_SNIPER', count: 8, delay: 140 },
             { type: 'SNIPER', count: 12, delay: 100 },
@@ -113,13 +103,13 @@ const WAVES = [
         ],
     },
     {
-        name: "Wave 11: Boss Rush",
+        name: "Wave 10: Boss Rush",
         enemies: [
             { type: 'BOSS_MINI', count: 4, delay: 120 }
         ]
     },
     {
-        name: "Wave 12: Kamikaze Storm",
+        name: "Wave 11: Kamikaze Storm",
         enemies: [
             { type: 'KAMIKAZE', count: 30, delay: 40 },
             { type: 'PHANTOM_SCOUT', count: 20, delay: 60 },
@@ -127,7 +117,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 13: Elite Assault",
+        name: "Wave 12: Elite Assault",
         enemies: [
             { type: 'ELITE_STANDARD', count: 15, delay: 100 },
             { type: 'SHIELD_DROP', count: 5, delay: 200 }
@@ -183,7 +173,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 19: Death From Above",
+        name: "Wave 20: Death From Above",
         enemies: [
             { type: 'BOSS_MINI', count: 12, delay: 80 },
             { type: 'SPECIAL', count: 20, delay: 100 },
@@ -191,7 +181,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 20: The Final Stand",
+        name: "Wave 21: The Final Stand",
         enemies: [
             { type: 'SHIELD_DROP', count: 25, delay: 80 },
             { type: 'BOSS_MINI', count: 15, delay: 100 },
@@ -200,7 +190,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 21: Endless Nightmare",
+        name: "Wave 22: Endless Nightmare",
         enemies: [
             { type: 'ELITE_STANDARD', count: 30, delay: 50 },
             { type: 'SHIELD_DROP', count: 30, delay: 70 },
@@ -208,7 +198,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 22: Phantom Apocalypse",
+        name: "Wave 23: Phantom Apocalypse",
         enemies: [
             { type: 'PHANTOM_SCOUT', count: 60, delay: 30 },
             { type: 'KAMIKAZE', count: 40, delay: 30 },
@@ -216,7 +206,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 23: Elite Dominion",
+        name: "Wave 24: Elite Dominion",
         enemies: [
             { type: 'ELITE_SNIPER', count: 25, delay: 100 },
             { type: 'ELITE_STANDARD', count: 35, delay: 50 },
@@ -224,7 +214,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 24: Ultimate Chaos",
+        name: "Wave 25: Ultimate Chaos",
         enemies: [
             { type: 'SHIELD_DROP', count: 35, delay: 60 },
             { type: 'BOSS_MINI', count: 25, delay: 80 },
@@ -232,7 +222,7 @@ const WAVES = [
         ]
     },
     {
-        name: "Wave 25: The Final Frontier",
+        name: "Wave 26: The Final Frontier",
         enemies: [
             { type: 'BOSS_MINI', count: 30, delay: 60 },
             { type: 'SHIELD_DROP', count: 40, delay: 50 },
