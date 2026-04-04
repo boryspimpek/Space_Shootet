@@ -5,7 +5,7 @@ const DROP_CONFIG = {
     // Base chance for power up
     POWER_UP_CHANCE: 0.01,
     // Dynamic power-up chance when player weapon level < wave level
-    DYNAMIC_POWER_UP_CHANCE: 0.15,
+    DYNAMIC_POWER_UP_CHANCE: 0.50,
 
     // Proporcje w dropie z powerupa
     SHIELD_CHANCE: 0.15,
