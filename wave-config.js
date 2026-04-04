@@ -16,18 +16,18 @@ const WAVES = [
         enemies: [
             { type: 'STANDARD', count: 8, delay: 60 },
             { type: 'SCOUT', count: 6, delay: 120 },
-            { type: 'KAMIKAZE', count: 3, delay: 180 },
+            // { type: 'KAMIKAZE', count: 3, delay: 180 },
             { type: 'WEAPON_DROP', count: 1, delay: 400 },
         ],
     },
     {
         name: "Wave 3: Kamikaze Assault",
         enemies: [
-            { type: 'KAMIKAZE', count: 4, delay: 120, batch: true },
-            { type: 'KAMIKAZE', count: 8, delay: 120, batch: true },
-            { type: 'KAMIKAZE', count: 12, delay: 120, batch: true },
-            { type: 'KAMIKAZE', count: 6, delay: 250 },
-            // { type: 'WEAPON_DROP', count: 1, delay: 400 }
+            // { type: 'KAMIKAZE', count: 4, delay: 120, batch: true },
+            // { type: 'KAMIKAZE', count: 8, delay: 120, batch: true },
+            // { type: 'KAMIKAZE', count: 12, delay: 120, batch: true },
+            // { type: 'KAMIKAZE', count: 6, delay: 250 },
+            { type: 'WEAPON_DROP', count: 1, delay: 400 }
         ],
     },
     {
@@ -47,7 +47,7 @@ const WAVES = [
         name: "Wave 5: Meet the Bomber",
         enemies: [
             { type: 'SHOOTING_STANDARD', count: 25, delay: 400 },
-            { type: 'KAMIKAZE', count: 12, delay: 400 },
+            // { type: 'KAMIKAZE', count: 12, delay: 400 },
             { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 180 },
             { type: 'SHOOTING_STANDARD', count: 8, delay: 120 },
             { type: 'SCOUT', count: 6, delay: 120 },
@@ -64,7 +64,7 @@ const WAVES = [
             { type: 'SCOUT', count: 30, delay: 360 },
             { type: 'BOMBER', count: 5, delay: 60 },
             { type: 'SHOOTING_STANDARD', count: 10, delay: 340 },
-            { type: 'KAMIKAZE', count: 3, delay: 180 },
+            // { type: 'KAMIKAZE', count: 3, delay: 180 },
             // { type: 'WEAPON_DROP', count: 1, delay: 400 },
         ],
     },
@@ -77,7 +77,7 @@ const WAVES = [
             { type: 'TANK', count: 10, delay: 600 },
             { type: 'SHIELDED_STANDARD', count: 10, delay: 120 },
             { type: 'SCOUT', count: 20, delay: 360 },
-            { type: 'KAMIKAZE', count: 5, delay: 180 },
+            // { type: 'KAMIKAZE', count: 5, delay: 180 },
             { type: 'SHIELDED_KAMIKAZE', count: 3, delay: 300 },
             // { type: 'WEAPON_DROP', count: 1, delay: 200 },
             { type: 'BOSS_MINI', count: 1, delay: 60 },
